@@ -4,7 +4,6 @@ namespace App\Http;
 
 use App\Http\Middleware\CheckAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Tymon\JWTAuth\Http\Middleware\Check;
 
 class Kernel extends HttpKernel
 {
