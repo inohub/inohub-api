@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Tymon\JWTAuth\Http\Middleware\Check;
 
 class Kernel extends HttpKernel
 {
@@ -62,5 +64,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'is_auth' => CheckAuth::class,
     ];
 }
