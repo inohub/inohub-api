@@ -1,0 +1,100 @@
+version: '3'
+
+services:
+  php:
+    container_name: inohub-php
+    build: ./docker/config/php
+    image: inohub_image
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ${PROJECT_VOLUME}:/application:cached
+      - ${SPA_VOLUME}:/spa:cached
+      - ${FILE_STORAGE_VOLUME}:/file-storage
+      - ./docker/config/php/php.ini:/usr/local/etc/php/php.ini
+    user: ${UID}
+    extra_hosts:
+      - ${EXTRA_HOST_1:-localhost1:127.0.0.1}
+      - ${EXTRA_HOST_2:-localhost2:127.0.0.1}
+      - ${EXTRA_HOST_3:-localhost3:127.0.0.1}
+      - ${EXTRA_HOST_4:-localhost4:127.0.0.1}
+    networks:
+      - inohub_network
+
+  horizon:
+    container_name: inohub-horizon
+    image: inohub_horizon
+    build: ./docker/config/supervisor
+    depends_on:
+      - php
+      - postgres
+      - redis
+    volumes:
+      - ${PROJECT_VOLUME}:/application:cached
+      - ${FILE_STORAGE_VOLUME}:/file-storage
+      - ./docker/config/supervisor/horizon.conf:/etc/supervisor/conf.d/horizon.conf
+      - ./docker/server/log/supervizor:/var/log/supervisor
+      - ./docker/config/php/php.ini:/usr/local/etc/php/php.ini
+    user: ${UID}
+    extra_hosts:
+      - ${EXTRA_HOST_1:-localhost1:127.0.0.1}
+      - ${EXTRA_HOST_2:-localhost2:127.0.0.1}
+      - ${EXTRA_HOST_3:-localhost3:127.0.0.1}
+      - ${EXTRA_HOST_4:-localhost4:127.0.0.1}
+    networks:
+      - inohub_network
+
+  postgres:
+    container_name: inohub-postgres
+    image: postgres:13.1
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      TZ: "Asia/Almaty"
+    volumes:
+      - ${POSTGRES_VOLUME}:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - inohub_network
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 8000:8000
+      - 8001:8001
+    volumes:
+      - ./docker/config/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:cached
+      - ${PROJECT_VOLUME}:/application:cached
+      - ${SPA_VOLUME}:/spa:cached
+      - ./docker/server/nginx/:/var/log/nginx
+      - ${FILE_STORAGE_VOLUME}:/file-storage
+    depends_on:
+      - php
+    networks:
+      - inohub_network
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    command:
+      - 'redis-server'
+      - '--databases 2'
+      - '--save 900 1'
+      - '--save 300 10'
+      - '--save 60 10000'
+    volumes:
+      - ${REDIS_VOLUME}:/data
+    networks:
+      - inohub_network
+
+volumes:
+  inohub_db_volume:
+    external: true
+
+networks:
+  inohub_network:
+    driver: bridge
