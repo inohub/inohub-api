@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegistrationRequest;
+use App\Http\Requests\User\UserRegistrationRequest;
+use App\Http\ResponseCodes;
+use App\Models\User\User;
+use App\Services\User\UserRegistrationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -21,19 +25,27 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return $this->respondWithToken($token);
     }
 
-    public function registration(RegistrationRequest $request)
+    public function registration(UserRegistrationRequest $request, User $user)
     {
-        $data = $request->all();
+        DB::beginTransaction();
 
+        try {
+            if ((new UserRegistrationService($user, $request))->run()) {
+                DB::commit();
+                return $this->response('Success', $user->refresh(), ResponseCodes::CREATED);
+            }
 
-
+            return $this->response('Error', null, ResponseCodes::FAILED_RESULT);
+        } catch (\Exception $e) {
+            return $this->response('Super error', $e->getMessage(), ResponseCodes::UNPROCESSABLE);
+        }
     }
 
     /**
@@ -71,7 +83,7 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param  string $token
+     * @param  string  $token
      *
      * @return \Illuminate\Http\JsonResponse
      */
