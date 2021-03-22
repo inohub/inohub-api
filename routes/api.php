@@ -18,3 +18,7 @@ Route::group([
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('me', [AuthController::class, 'me']);
 });
+
+Route::group(['prefix' => 'startups'], function () {
+    Route::get('/', [\App\Http\Controllers\Api\Startup\StartupController::class, 'index']);
+});
