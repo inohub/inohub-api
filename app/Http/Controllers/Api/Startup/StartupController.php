@@ -3,10 +3,17 @@
 namespace App\Http\Controllers\Api\Startup;
 
 use App\Http\Controllers\Controller;
+use App\Http\Fields\Startup\StartupFields;
 use App\Http\Requests\Startup\StartupCreateRequest;
+use App\Http\Requests\Startup\StartupUpdateRequest;
 use App\Models\Startup\Startup;
 use App\Repositories\Startup\StartupRepository;
+use App\ResponseCodes\ResponseCodes;
+use App\Services\Startup\StartupCreateService;
+use App\Services\Startup\StartupUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class StartupController
@@ -39,43 +46,88 @@ class StartupController extends Controller
         return $this->response($builder->query()->get());
     }
 
-
+    /**
+     * @param StartupCreateRequest $request
+     * @param Startup              $startup
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
     public function store(StartupCreateRequest $request, Startup $startup)
     {
-        dd($request->post(), $startup);
+        DB::beginTransaction();
+
+        try {
+
+            if ((new StartupCreateService($startup, $request))->run()) {
+
+                DB::commit();
+
+                $startup->setVisible(StartupFields::fields());
+
+                return $this->response($startup->refresh());
+            }
+
+            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+
+        } catch (\Throwable $exception) {
+
+            throw $exception;
+        }
     }
 
     /**
-     * Display the specified resource.
+     * @param Startup $startup
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Startup $startup)
     {
-        //
+        $startup->setVisible(StartupFields::fields())->setWithRelations(StartupFields::relations());
+
+        return $this->response($startup);
     }
 
     /**
-     * Update the specified resource in storage.
+     * @param StartupUpdateRequest $request
+     * @param Startup              $startup
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
      */
-    public function update(Request $request, $id)
+    public function update(StartupUpdateRequest $request, Startup $startup)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+
+            if ((new StartupUpdateService($startup, $request))->run()) {
+
+                DB::commit();
+
+                $startup->setVisible(StartupFields::fields());
+
+                return $this->response($startup->refresh());
+            }
+
+            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+
+        } catch (\Throwable $exception) {
+
+            throw $exception;
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param Startup $startup
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Startup $startup)
     {
-        //
+        $startup->delete();
+
+        return $this->response([]);
     }
 }

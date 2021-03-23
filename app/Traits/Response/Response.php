@@ -12,16 +12,16 @@ use Illuminate\Http\JsonResponse;
 trait Response
 {
     /**
-     * @param null $data
-     * @param int  $code
+     * @param     $data
+     * @param int $code
      *
      * @return JsonResponse
      */
-    public function response($data = null, $code = ResponseCodes::SUCCESS)
+    public function response($data, $code = 200)
     {
         return new JsonResponse([
-            'code' => $code,
-            'message' => ResponseCodes::getMessage()[$code],
+            'result_code' => $code,
+            'result_message' => ResponseCodes::getMessage()[$code],
             'data' => $data,
         ], $code);
     }

@@ -6,6 +6,7 @@ use App\Interfaces\Base\OwnerInterface;
 use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
+use App\Traits\SetWithRelations\SetWithRelations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,21 +15,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property           $id
  * @property           $owner_id
  * @property string    $name
- * @property           $text
+ * @property           $description
  * @property-read User $owner
  * @package App\Models\Startup
  */
 class Startup extends Model implements OwnerInterface
 {
-    use HasFactory, OwnerTrait, ScopeOfOwner;
+    use HasFactory, OwnerTrait, ScopeOfOwner, SetWithRelations;
 
     /**
      * @var string[]
      */
     protected $fillable = [
-        'user_id',
+        'owner_id',
         'name',
-        'text'
+        'description'
     ];
 
     /**
