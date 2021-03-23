@@ -19,6 +19,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/home';
 
+    private $integerRoute = [
+        'user',
+        'startup',
+    ];
+
     /**
      * The controller namespace for the application.
      *
@@ -47,6 +52,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
+
+        foreach ($this->integerRoute as $item) {
+            Route::pattern($item, '[0-9]+');
+        }
     }
 
     /**

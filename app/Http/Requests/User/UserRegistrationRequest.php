@@ -2,21 +2,16 @@
 
 namespace App\Http\Requests\User;
 
-use App\Http\Requests\BaseRequest\BaseRequest;
-use App\Http\Traits\Response;
+use App\Http\Requests\Base\BaseRequest;
 
+/**
+ * Class UserRegistrationRequest
+ * @package App\Http\Requests\User
+ */
 class UserRegistrationRequest extends BaseRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
+     * @return string[]
      */
     public function rules()
     {

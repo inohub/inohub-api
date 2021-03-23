@@ -21,4 +21,5 @@ Route::group([
 
 Route::group(['prefix' => 'startups'], function () {
     Route::get('/', [\App\Http\Controllers\Api\Startup\StartupController::class, 'index']);
+    Route::post('/', [\App\Http\Controllers\Api\Startup\StartupController::class, 'store']);
 });

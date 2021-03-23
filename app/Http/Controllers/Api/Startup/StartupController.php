@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Startup;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Startup\StartupCreateRequest;
+use App\Models\Startup\Startup;
 use App\Repositories\Startup\StartupRepository;
 use Illuminate\Http\Request;
 
@@ -15,27 +17,32 @@ class StartupController extends Controller
 {
     private StartupRepository $startupRepository;
 
+    /**
+     * StartupController constructor.
+     *
+     * @param StartupRepository $startupRepository
+     */
     public function __construct(StartupRepository $startupRepository)
     {
         $this->startupRepository = $startupRepository;
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $builder = $this->startupRepository->search($request);
 
-        return $this->response('Success', $builder->query()->get());
+        return $this->response($builder->query()->get());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store(StartupCreateRequest $request, Startup $startup)
     {
-        //
+        dd($request->post(), $startup);
     }
 
     /**
