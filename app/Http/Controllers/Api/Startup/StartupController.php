@@ -97,6 +97,7 @@ class StartupController extends Controller
      */
     public function update(StartupUpdateRequest $request, Startup $startup)
     {
+
         DB::beginTransaction();
 
         try {
