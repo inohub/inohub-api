@@ -4,8 +4,6 @@ namespace App\Repositories\Startup;
 
 use App\Models\Startup\Startup;
 use App\Repositories\Base\BaseRepository;
-use App\Search\Startup\StartupSearch;
-use Illuminate\Http\Request;
 
 /**
  * Class StartupRepository
@@ -13,21 +11,31 @@ use Illuminate\Http\Request;
  */
 class StartupRepository extends BaseRepository
 {
+    protected $fields = [
+        'id',
+        'owner_id',
+        'name',
+        'description',
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $serches = [
+        'owner_id'   => '=',
+        'name'       => 'LIKE',
+        'created_at' => '=',
+        'updated_at' => '=',
+    ];
+
+    protected $relations = [
+        'owner'    => 'owner_id',
+    ];
+
     /**
      * @return string
      */
     protected function getModelClass()
     {
         return Startup::class;
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return StartupSearch
-     */
-    public function search(Request $request)
-    {
-        return new StartupSearch($request);
     }
 }

@@ -35,15 +35,23 @@ class StartupController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getParams()
+    {
+        return $this->response([StartupFields::fields(), StartupFields::relations()]);
+    }
+
+    /**
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $builder = $this->startupRepository->search($request);
+        $builder = $this->startupRepository->filters($request);
 
-        return $this->response($builder->query()->get());
+        return $this->response($builder->get());
     }
 
     /**
@@ -81,9 +89,9 @@ class StartupController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Startup $startup)
+    public function show(Startup $startup, Request $request)
     {
-        $startup->setVisible(StartupFields::fields())->setWithRelations(StartupFields::relations());
+        $startup->setResponseFields($request);
 
         return $this->response($startup);
     }

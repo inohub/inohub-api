@@ -2,156 +2,117 @@
 
 namespace App\Repositories\Base;
 
-use App\Components\Rules\SearchValidateIntegerRule;
-use App\Http\ResponseCodes;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class BaseRepository
+ * @property Builder $builder
+ * @property array   $data
  * @package App\Repositories\Base
  */
 abstract class BaseRepository
 {
-    /**
-     * @var \Illuminate\Contracts\Foundation\Application|mixed
-     */
-    protected $model;
-
-    /**
-     * @var array
-     */
-    protected static $scopes = [];
+    protected Builder $builder;
+    private array $data;
 
     /**
      * BaseRepository constructor.
      */
     public function __construct()
     {
-        $this->model = app($this->getModelClass());
+        $this->builder = app($this->getModelClass())->query();
     }
 
     /**
-     * @param $id
+     * @param Request $request
      *
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
+     * @return Builder
      */
-    public function getById($id)
+    public function filters(Request $request)
     {
-        $this->checkId($id);
-        return $this->startConditions()->findOrFail($id);
-    }
+        $this->data = $request->all();
 
-    /**
-     * @param $id
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
-     */
-    public function resolveById($id)
-    {
-        if ($model = $this->getById($id)) {
-            app()->instance($this->getModelClass(), $model);
-        }
-        return $model;
-    }
-
-    /**
-     * @param $id
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getByIds($id)
-    {
-        if ($this->validateInteger($id)) {
-            return $this->startConditions()->ofId($id);
-        }
-        return collect([]);
-    }
-
-    /**
-     * @param $id
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model|null
-     */
-    public function getByIdWithoutScopes($id)
-    {
-        $this->checkId($id);
-        return $this->startConditions()->withoutGlobalScopes($this->getScopes())->findOrFail($id);
-    }
-
-    /**
-     * @param $id
-     *
-     * @return false
-     */
-    public function existsId($id)
-    {
-        if ($this->validateInteger($id)) {
-            return $this->getByIds($id)->exists();
-        }
-        return false;
-    }
-
-    /**
-     * @param $id
-     *
-     * @return false
-     */
-    public function existsIdWithoutScope($id)
-    {
-        if ($this->validateInteger($id)) {
-            return $this->getByIds($id)->withoutGlobalScopes($this->getScopes())->exists();
-        }
-        return false;
-    }
-
-    /**
-     * @return mixed
-     */
-    abstract protected function getModelClass();
-
-    /**
-     * @return mixed
-     */
-    protected function startConditions()
-    {
-        return clone $this->model::query();
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getScopes()
-    {
-        return static::$scopes ?: null;
-    }
-
-    /**
-     * @param $id
-     *
-     * @return bool
-     */
-    private function checkId($id)
-    {
-        if (!$this->validateInteger($id)) {
-            throw new HttpException(ResponseCodes::NOT_FOUND);
+        if (isset($this->data['searches'])) {
+            $this->search();
         }
 
-        return true;
+        if (isset($this->data['fields'])) {
+            $this->setFields();
+        }
+
+        if (isset($this->data['sorts'])) {
+            $this->sort();
+        }
+
+        if (isset($this->data['relations'])) {
+            $this->setRelations();
+        }
+
+        if (isset($this->data['relations_count'])) {
+            $this->setRelationsCount();
+        }
+
+        return $this->builder;
     }
 
-    /**
-     * @param $id
-     *
-     * @return bool
-     */
-    protected function validateInteger($id)
+    private function search()
     {
-        $validator = Validator::make(['id' => $id], [
-            'id' => ['required', new SearchValidateIntegerRule()]
-        ]);
+        $searches = $this->data['searches'];
 
-        return !$validator->fails();
+        foreach ($searches as $key => $value) {
+            if (isset($this->filters[$key])) {
+                $this->builder->where($key, $this->serches[$key], $value);
+            }
+        }
+    }
+
+    private function sort()
+    {
+        $sorts = $this->data['sorts'];
+
+        foreach ($sorts as $key => $value) {
+            if (in_array($key, $this->fields)) {
+                $this->builder->orderBy($key, $value);
+            }
+        }
+    }
+
+    private function setFields()
+    {
+        $fields = $this->data['fields'];
+
+        foreach ($fields as $field) {
+            if (in_array($field, $this->fields)) {
+                $this->builder->addSelect($field);
+            }
+        }
+    }
+
+    private function setRelations()
+    {
+        $relations = $this->data['relations'];
+
+        foreach ($relations as $key => $value) {
+            if (isset($this->relations[$key])) {
+                if (str_plural($key, 2) == $key) {
+                    $value[] = $this->relations[$key];
+                } else {
+                    $this->builder->addSelect($this->relations[$key]);
+                }
+                $this->builder->with($key . ':' . implode(',', $value));
+            }
+        }
+    }
+
+    private function setRelationsCount()
+    {
+        $relationsCount = $this->data['relations_count'];
+
+        foreach ($relationsCount as $item) {
+            if (isset($this->relations[$item])) {
+                $this->builder->withCount($item);
+            }
+        }
     }
 }

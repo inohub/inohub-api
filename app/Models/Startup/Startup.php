@@ -31,12 +31,4 @@ class Startup extends Model implements OwnerInterface
         'name',
         'description'
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function owner()
-    {
-        return $this->belongsTo(User::class, 'owner_id');
-    }
 }

@@ -19,7 +19,6 @@ class StartupFields
             'id',
             'name',
             'description',
-            'owner'
         ];
     }
 
