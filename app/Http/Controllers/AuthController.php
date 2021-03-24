@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UserRegistrationRequest;
-use App\Http\ResponseCodes;
 use App\Models\User\User;
+use App\ResponseCodes\ResponseCodes;
 use App\Services\User\UserRegistrationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -39,12 +39,12 @@ class AuthController extends Controller
         try {
             if ((new UserRegistrationService($user, $request))->run()) {
                 DB::commit();
-                return $this->response('Success', $user->refresh(), ResponseCodes::CREATED);
+                return $this->response($user->refresh(), ResponseCodes::CREATED);
             }
 
-            return $this->response('Error', null, ResponseCodes::FAILED_RESULT);
+            return $this->response(null, ResponseCodes::FAILED_RESULT);
         } catch (\Exception $e) {
-            return $this->response('Super error', $e->getMessage(), ResponseCodes::UNPROCESSABLE);
+            return $this->response( $e->getMessage(), ResponseCodes::UNPROCESSABLE);
         }
     }
 
@@ -89,10 +89,15 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        return response()->json([
+        return $this->response([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        ], ResponseCodes::SUCCESS);
+    }
+
+    public function unauthorized()
+    {
+        return $this->response('Unauthorized',ResponseCodes::UNAUTHORIZED);
     }
 }

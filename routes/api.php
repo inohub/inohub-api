@@ -5,9 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/unauthorized', function () {
-    return response()->json(['error' => 'Unauthorized']);
-})->name('unauthorized');
+Route::get('/unauthorized', [AuthController::class, 'unauthorized'])->name('unauthorized');
 
 Route::group([
     'prefix' => 'auth'
