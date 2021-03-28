@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Database\Seeders\Startup\StartupSeed;
+use Database\Seeders\Text\TextSeed;
 use Database\Seeders\User\UserSeed;
 use Illuminate\Database\Seeder;
 
@@ -21,5 +22,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UserSeed::class);
         $this->call(StartupSeed::class);
+        $this->call(TextSeed::class);
     }
 }

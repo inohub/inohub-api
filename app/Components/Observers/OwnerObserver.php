@@ -2,7 +2,7 @@
 
 namespace App\Components\Observers;
 
-use App\Interfaces\Base\OwnerInterface;
+use App\Interfaces\Owner\OwnerInterface;
 
 /**
  * Class OwnerObserver

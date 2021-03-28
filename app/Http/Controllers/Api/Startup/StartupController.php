@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Startup;
 
 use App\Http\Controllers\Controller;
-use App\Http\Fields\Startup\StartupFields;
 use App\Http\Requests\Startup\StartupCreateRequest;
 use App\Http\Requests\Startup\StartupUpdateRequest;
 use App\Models\Startup\Startup;
@@ -39,7 +38,10 @@ class StartupController extends Controller
      */
     public function getParams()
     {
-        return $this->response([StartupFields::fields(), StartupFields::relations()]);
+        return $this->response([
+            'fields' => $this->startupRepository->fields,
+            'relations' => $this->startupRepository->relations
+        ]);
     }
 
     /**
@@ -70,8 +72,6 @@ class StartupController extends Controller
             if ((new StartupCreateService($startup, $request))->run()) {
 
                 DB::commit();
-
-                $startup->setVisible(StartupFields::fields());
 
                 return $this->response($startup->refresh());
             }
@@ -113,8 +113,6 @@ class StartupController extends Controller
             if ((new StartupUpdateService($startup, $request))->run()) {
 
                 DB::commit();
-
-                $startup->setVisible(StartupFields::fields());
 
                 return $this->response($startup->refresh());
             }

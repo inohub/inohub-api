@@ -16,10 +16,18 @@ class CreateStartupsTable extends Migration
         Schema::create('startups', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('owner_id');
-            $table->string('name');
-            $table->text('description');
 
-            $table->foreign('owner_id')->on('users')->references('id')->onDelete('cascade');
+            $table->foreign('owner_id')
+                ->on('users')
+                ->references('id')
+                ->onDelete('cascade');
+
+            $table->string('name');
+            $table->string('subtitle');
+            $table->integer('donation_amount');
+
+            $table->boolean('is_publish')->default(false);
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }
