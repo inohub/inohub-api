@@ -22,9 +22,32 @@ class StartupCreateRequest extends BaseRequest
                 'min:3',
                 'max:255'
             ],
-            'description' => [
+            'subtitle' => [
                 'required',
                 'string',
+                'min:3',
+                'max:255',
+            ],
+            'donation_amount' => [
+                'required',
+                'integer',
+            ],
+            'is_publish' => [
+                'boolean',
+                'nullable',
+            ],
+            'texts' => [
+                'required',
+                'array',
+            ],
+            'texts.*.title' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+            ],
+            'text.*.content' => [
+                'required',
                 'min:3',
                 'max:500',
             ],

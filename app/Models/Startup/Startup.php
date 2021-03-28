@@ -2,26 +2,28 @@
 
 namespace App\Models\Startup;
 
-use App\Interfaces\Base\OwnerInterface;
-use App\Models\User\User;
+use App\Interfaces\Owner\OwnerInterface;
+use App\Models\Base\BaseModel;
+use App\Models\Text\Text;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
-use App\Traits\SetWithRelations\SetWithRelations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Startup
- * @property           $id
  * @property           $owner_id
- * @property string    $name
- * @property           $description
- * @property-read User $owner
+ * @property           $name
+ * @property           $subtitle
+ * @property           $donation_amount
+ * @property           $is_publish
+ * @property           $published_at
+ * @property-read      $owner
+ * @property-read      $texts
  * @package App\Models\Startup
  */
-class Startup extends Model implements OwnerInterface
+class Startup extends BaseModel implements OwnerInterface
 {
-    use HasFactory, OwnerTrait, ScopeOfOwner, SetWithRelations;
+    use HasFactory, OwnerTrait, ScopeOfOwner;
 
     /**
      * @var string[]
@@ -29,6 +31,29 @@ class Startup extends Model implements OwnerInterface
     protected $fillable = [
         'owner_id',
         'name',
-        'description'
+        'subtitle',
+        'donation_amount',
+        'is_publish',
+        'published_at',
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $dates = [
+        'published_at',
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function texts()
+    {
+        return $this->morphMany(Text::class, 'textable', 'target_class', 'target_id');
+    }
 }

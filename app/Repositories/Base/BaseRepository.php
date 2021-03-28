@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Builder;
  * Class BaseRepository
  * @property Builder $builder
  * @property array   $data
+ * @property array   $fields
  * @package App\Repositories\Base
  */
 abstract class BaseRepository
 {
     protected Builder $builder;
     private array $data;
+    public array $fields;
 
     /**
      * BaseRepository constructor.
@@ -22,6 +24,7 @@ abstract class BaseRepository
     public function __construct()
     {
         $this->builder = app($this->getModelClass())->query();
+        $this->fields = array_merge(app($this->getModelClass())->getFillable(), ['id', 'created_at', 'updated_at']);
     }
 
     /**
@@ -62,6 +65,9 @@ abstract class BaseRepository
 
         foreach ($searches as $key => $value) {
             if (isset($this->filters[$key])) {
+                if ($this->serches[$key] == 'LIKE') {
+                    $value = '%' . $value . '%';
+                }
                 $this->builder->where($key, $this->serches[$key], $value);
             }
         }

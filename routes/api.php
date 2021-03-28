@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/unauthorized', [AuthController::class, 'unauthorized'])->name('unauthorized');
 
+Route::get('/test', function () {
+    $startup = \App\Models\Startup\Startup::find(1);
+    dd($startup->texts);
+});
+
 Route::group([
     'prefix' => 'auth'
 ], function () {
