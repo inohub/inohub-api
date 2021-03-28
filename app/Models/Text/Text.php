@@ -2,8 +2,8 @@
 
 namespace App\Models\Text;
 
-use App\Models\Base\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Text
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property $target_id
  * @package App\Models\Text
  */
-class Text extends BaseModel
+class Text extends Model
 {
     use HasFactory;
 
@@ -23,6 +23,14 @@ class Text extends BaseModel
     protected $fillable = [
         'title',
         'content',
+        'target_class',
+        'target_id',
+    ];
+
+    protected $hidden = [
+        'id',
+        'created_at',
+        'updated_at',
         'target_class',
         'target_id',
     ];
