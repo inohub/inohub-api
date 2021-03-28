@@ -3,7 +3,7 @@
 namespace App\Services\Startup;
 
 use App\Models\Startup\Startup;
-use App\Services\Text\TextCreateService;
+use App\Services\Text\TextsCreateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -44,6 +44,6 @@ class StartupCreateService
         $this->startup->is_publish = Arr::get($data, 'is_publish', false);
         $this->startup->published_at = $this->startup->is_publish ? Carbon::now() : null;
 
-        return $this->startup->save() && (new TextCreateService($this->startup, $this->request))->run();
+        return $this->startup->save() && (new TextsCreateService($this->startup, $this->request))->run();
     }
 }

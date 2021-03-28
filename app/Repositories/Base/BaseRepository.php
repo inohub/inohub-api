@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @property Builder $builder
  * @property array   $data
  * @property array   $fields
+ * @property         $searches
+ * @property         $relations
  * @package App\Repositories\Base
  */
 abstract class BaseRepository

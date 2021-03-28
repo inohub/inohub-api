@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 /**
- * Class TextCreateService
+ * Class TextsCreateService
  * @property Model   $model
  * @property Request $request
  * @package App\Services\Text
  */
-class TextCreateService
+class TextsCreateService
 {
     private Model $model;
     private Request $request;
 
     /**
-     * TextCreateService constructor.
+     * TextsCreateService constructor.
      *
      * @param Model   $model
      * @param Request $request
@@ -34,17 +34,16 @@ class TextCreateService
      */
     public function run()
     {
-        $res = true;
-        $data = $this->request->post('texts');
-
-        $texts = $this->model->texts;
-        if (!is_null($texts)) {
-            foreach ($texts as $text) {
+        if (!is_null($this->model->texts)) {
+            foreach ($this->model->texts as $text) {
                 $text->delete();
             }
         }
 
-        foreach ($data as $item) {
+        $items = $this->request->post('texts');
+
+        $res = true;
+        foreach ($items as $item) {
             $text = new Text();
 
             $text->title = $item['title'];
