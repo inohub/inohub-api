@@ -5,6 +5,7 @@ namespace App\Repositories\Base;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 /**
  * Class BaseRepository
@@ -107,7 +108,7 @@ abstract class BaseRepository
 
         foreach ($relations as $key => $value) {
             if (isset($this->relations[$key])) {
-                if (str_plural($key, 2) == $key) {
+                if (Str::plural($key, 2) == $key) {
                     $value[] = $this->relations[$key];
                 } else {
                     $this->builder->addSelect($this->relations[$key]);
