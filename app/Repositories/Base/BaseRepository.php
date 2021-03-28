@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Base;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -24,17 +25,22 @@ abstract class BaseRepository
     public function __construct()
     {
         $this->builder = app($this->getModelClass())->query();
-        $this->fields = array_merge(app($this->getModelClass())->getFillable(), ['id', 'created_at', 'updated_at']);
+        $this->fields = array_merge(['id', 'created_at', 'updated_at'], app($this->getModelClass())->getFillable());
     }
 
     /**
-     * @param Request $request
+     * @param Request    $request
+     * @param Model|null $model
      *
      * @return Builder
      */
-    public function filters(Request $request)
+    public function filters(Request $request, Model $model = null)
     {
         $this->data = $request->all();
+
+        if ($model) {
+            $this->builder->where('id', $model->id);
+        }
 
         if (isset($this->data['searches'])) {
             $this->search();

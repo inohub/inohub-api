@@ -86,14 +86,15 @@ class StartupController extends Controller
 
     /**
      * @param Startup $startup
+     * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Startup $startup, Request $request)
     {
-        $startup->setResponseFields($request);
+        $builder = $this->startupRepository->filters($request, $startup);
 
-        return $this->response($startup);
+        return $this->response($builder->get());
     }
 
     /**

@@ -7,6 +7,8 @@ use App\Repositories\Base\BaseRepository;
 
 /**
  * Class StartupRepository
+ * @property $searches
+ * @property $relations
  * @package App\Repositories\Startup
  */
 class StartupRepository extends BaseRepository

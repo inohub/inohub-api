@@ -3,11 +3,11 @@
 namespace App\Models\Startup;
 
 use App\Interfaces\Owner\OwnerInterface;
-use App\Models\Base\BaseModel;
 use App\Models\Text\Text;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Startup
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read      $texts
  * @package App\Models\Startup
  */
-class Startup extends BaseModel implements OwnerInterface
+class Startup extends Model implements OwnerInterface
 {
     use HasFactory, OwnerTrait, ScopeOfOwner;
 
