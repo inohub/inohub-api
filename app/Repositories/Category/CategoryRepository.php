@@ -4,20 +4,14 @@
 namespace App\Repositories\Category;
 
 
-use App\Models\Startup\Startup;
+use App\Models\Category\Category;
 use App\Repositories\Base\BaseRepository;
 
 class CategoryRepository extends BaseRepository
 {
-    protected $fields = [
-        'id',
-        'parent_id',
-        'title',
-        'description',
-        'created_at',
-        'updated_at',
-    ];
-
+    /**
+     * @var string[]
+     */
     protected $serches = [
         'parent_id'   => '=',
         'title'       => 'LIKE',
@@ -25,8 +19,12 @@ class CategoryRepository extends BaseRepository
         'updated_at' => '=',
     ];
 
-    protected $relations = [
+    /**
+     * @var string[]
+     */
+    public $relations = [
         'parent'    => 'parent_id',
+        'children' => 'parent_id'
     ];
 
     /**
@@ -34,6 +32,6 @@ class CategoryRepository extends BaseRepository
      */
     protected function getModelClass()
     {
-        return Startup::class;
+        return Category::class;
     }
 }

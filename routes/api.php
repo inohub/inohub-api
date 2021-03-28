@@ -25,6 +25,15 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::put('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'update']);
         Route::delete('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'destroy']);
     });
+
+    Route::group(['prefix' => 'categories'], function () {
+        Route::get('/params', [\App\Http\Controllers\Api\Category\CategoryController::class, 'getParams']);
+        Route::get('/', [\App\Http\Controllers\Api\Category\CategoryController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\Category\CategoryController::class, 'store']);
+        Route::get('/{category}', [\App\Http\Controllers\Api\Category\CategoryController::class, 'show']);
+        Route::put('/{category}', [\App\Http\Controllers\Api\Category\CategoryController::class, 'update']);
+        Route::delete('/{category}', [\App\Http\Controllers\Api\Category\CategoryController::class, 'destroy']);
+    });
 });
 
 
