@@ -2,10 +2,9 @@
 
 namespace App\Models\Startup;
 
-use App\Interfaces\Base\OwnerInterface;
+use App\Interfaces\Owner\OwnerInterface;
 use App\Models\Base\BaseModel;
 use App\Models\Text\Text;
-use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,6 +35,11 @@ class Startup extends BaseModel implements OwnerInterface
         'donation_amount',
         'is_publish',
         'published_at',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
     ];
 
     /**

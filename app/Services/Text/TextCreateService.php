@@ -37,6 +37,9 @@ class TextCreateService
         $res = true;
         $data = $this->request->post('texts');
 
+        $texts = $this->model->text;
+//        if (is_null($texts))
+
         foreach ($data as $item) {
             $text = new Text();
 

@@ -11,24 +11,26 @@ use App\Repositories\Base\BaseRepository;
  */
 class StartupRepository extends BaseRepository
 {
-    protected $fields = [
-        'id',
-        'owner_id',
-        'name',
-        'description',
-        'created_at',
-        'updated_at',
-    ];
-
+    /**
+     * @var string[]
+     */
     protected $serches = [
-        'owner_id'   => '=',
-        'name'       => 'LIKE',
-        'created_at' => '=',
-        'updated_at' => '=',
+        'owner_id'        => '=',
+        'name'            => 'LIKE',
+        'subtitle'        => 'LIKE',
+        'donation_amount' => '=',
+        'is_publish'      => '=',
+        'published_at'    => '=',
+        'created_at'      => '=',
+        'updated_at'      => '=',
     ];
 
-    protected $relations = [
-        'owner'    => 'owner_id',
+    /**
+     * @var string[]
+     */
+    public $relations = [
+        'owner' => 'owner_id',
+        'texts' => 'target_id',
     ];
 
     /**
