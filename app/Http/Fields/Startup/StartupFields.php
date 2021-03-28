@@ -17,8 +17,12 @@ class StartupFields
     {
         return [
             'id',
+            'owner_id',
             'name',
-            'description',
+            'subtitle',
+            'donation_amount',
+            'is_publish',
+            'published_at',
         ];
     }
 
