@@ -2,6 +2,7 @@
 
 namespace App\Models\StartupNews;
 
+use App\Models\Comment\Comment;
 use App\Models\Like\Like;
 use App\Models\Startup\Startup;
 use App\Models\StartupNews\Checker\StartupNewsCheckers;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read  $startup
  * @property-read  $texts
  * @property-read  $likes
+ * @property-read  $comments
  * @package App\Models
  */
 class StartupNews extends Model
@@ -69,6 +71,14 @@ class StartupNews extends Model
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable', 'target_class', 'target_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable', 'target_class', 'target_id');
     }
 
     /**

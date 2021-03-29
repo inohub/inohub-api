@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Comment\CommentSeed;
 use Database\Seeders\Like\LikeSeed;
 use Database\Seeders\Startup\StartupSeed;
 use Database\Seeders\StartupNews\StartupNewsSeed;
@@ -27,5 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(StartupNewsSeed::class);
         $this->call(TextSeed::class);
         $this->call(LikeSeed::class);
+        $this->call(CommentSeed::class);
     }
 }
