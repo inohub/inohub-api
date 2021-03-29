@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Like\LikeSeed;
 use Database\Seeders\Startup\StartupSeed;
 use Database\Seeders\StartupNews\StartupNewsSeed;
 use Database\Seeders\Text\TextSeed;
@@ -25,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(StartupSeed::class);
         $this->call(StartupNewsSeed::class);
         $this->call(TextSeed::class);
+        $this->call(LikeSeed::class);
     }
 }

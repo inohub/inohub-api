@@ -31,6 +31,7 @@ class StartupRepository extends BaseRepository
     public $relations = [
         'owner' => 'owner_id',
         'texts' => 'target_id',
+        'likes' => 'target_id',
     ];
 
     /**

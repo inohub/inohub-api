@@ -23,7 +23,8 @@ class StartupNewsRepository extends BaseRepository
      */
     public $relations = [
         'startup' => 'startup_id',
-        'texts'    => 'target_id',
+        'texts'   => 'target_id',
+        'likes'   => 'target_id'
     ];
 
     /**
