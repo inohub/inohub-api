@@ -4,6 +4,7 @@ namespace App\Models\Startup;
 
 use App\Interfaces\Owner\OwnerInterface;
 use App\Models\Like\Like;
+use App\Models\Startup\Checker\StartupCheckers;
 use App\Models\Text\Text;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
@@ -65,5 +66,13 @@ class Startup extends Model implements OwnerInterface
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable', 'target_class', 'target_id');
+    }
+
+    /**
+     * @return StartupCheckers
+     */
+    public function getChecker()
+    {
+        return new StartupCheckers($this);
     }
 }

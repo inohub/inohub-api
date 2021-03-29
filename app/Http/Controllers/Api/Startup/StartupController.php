@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Api\Startup;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Startup\StartupCreateRequest;
 use App\Http\Requests\Startup\StartupUpdateRequest;
-use App\Models\Like\Like;
 use App\Models\Startup\Startup;
 use App\Repositories\Startup\StartupRepository;
 use App\ResponseCodes\ResponseCodes;
-use App\Services\Like\LikeCreateService;
+use App\Services\Like\LikeService;
 use App\Services\Startup\StartupCreateService;
 use App\Services\Startup\StartupUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -143,18 +143,17 @@ class StartupController extends Controller
 
     /**
      * @param Startup $startup
-     * @param Like    $like
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function like(Startup $startup, Like $like)
+    public function like(Startup $startup)
     {
         DB::beginTransaction();
 
         try {
 
-            if ((new LikeCreateService($startup, $like))->run()) {
+            if ((new LikeService($startup, Auth::user()))->run()) {
 
                 DB::commit();
 

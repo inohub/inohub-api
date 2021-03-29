@@ -5,14 +5,15 @@ namespace App\Http\Controllers\Api\StartupNews;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StartupNews\StartupNewsCreateRequest;
 use App\Http\Requests\StartupNews\StartupNewsUpdateRequest;
-use App\Models\Like\Like;
+use App\Models\Startup\Startup;
 use App\Models\StartupNews\StartupNews;
 use App\Repositories\StartupNews\StartupNewsRepository;
 use App\ResponseCodes\ResponseCodes;
-use App\Services\Like\LikeCreateService;
+use App\Services\Like\LikeService;
 use App\Services\StartupNews\StartupNewsCreateService;
 use App\Services\StartupNews\StartupNewsUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -142,18 +143,17 @@ class StartupNewsController extends Controller
 
     /**
      * @param StartupNews $startupNews
-     * @param Like        $like
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function like(StartupNews $startupNews, Like $like)
+    public function like(StartupNews $startupNews)
     {
         DB::beginTransaction();
 
         try {
 
-            if ((new LikeCreateService($startupNews, $like))->run()) {
+            if ((new LikeService($startupNews, Auth::user()))->run()) {
 
                 DB::commit();
 

@@ -4,6 +4,7 @@ namespace App\Models\StartupNews;
 
 use App\Models\Like\Like;
 use App\Models\Startup\Startup;
+use App\Models\StartupNews\Checker\StartupNewsCheckers;
 use App\Models\Text\Text;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -68,5 +69,13 @@ class StartupNews extends Model
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable', 'target_class', 'target_id');
+    }
+
+    /**
+     * @return StartupNewsCheckers
+     */
+    public function getChecker()
+    {
+        return new StartupNewsCheckers($this);
     }
 }
