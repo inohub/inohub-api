@@ -3,7 +3,7 @@
 namespace App\Services\StartupNews;
 
 use App\Models\StartupNews\StartupNews;
-use App\Services\Text\TextsCreateService;
+use App\Services\Text\TextCreateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -41,6 +41,6 @@ class StartupNewsUpdateService
         $this->startupNews->is_publish = Arr::get($data, 'is_publish', false);
         $this->startupNews->published_at = $this->startupNews->is_publish ? Carbon::now() : null;
 
-        return $this->startupNews->save() && (new TextsCreateService($this->startupNews, $this->request))->run();
+        return $this->startupNews->save() && (new TextCreateService($this->startupNews, $this->request))->run();
     }
 }

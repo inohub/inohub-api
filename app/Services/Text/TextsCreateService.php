@@ -2,7 +2,6 @@
 
 namespace App\Services\Text;
 
-use App\Models\Text\Text;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -44,14 +43,13 @@ class TextsCreateService
 
         $res = true;
         foreach ($items as $item) {
-            $text = new Text();
 
-            $text->title = $item['title'];
-            $text->content = $item['content'];
-            $text->target_class = $this->model->getMorphClass();
-            $text->target_id = $this->model->id;
+            $this->request->request->replace([
+                'title' => $item['title'],
+                'content' => $item['content'],
+            ]);
 
-            $res = $res && $text->save();
+            $res = $res && (new TextCreateService($this->model, $this->request))->run();
         }
 
         return $res;
