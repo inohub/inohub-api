@@ -34,6 +34,10 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::put('/{category}', [\App\Http\Controllers\Api\Category\CategoryController::class, 'update']);
         Route::delete('/{category}', [\App\Http\Controllers\Api\Category\CategoryController::class, 'destroy']);
     });
+
+    Route::group(['prefix' => 'faqs'], function () {
+       Route::get('/params', [\App\Http\Controllers\Api\Faq\FaqController::class, 'getParams']);
+    });
 });
 
 
