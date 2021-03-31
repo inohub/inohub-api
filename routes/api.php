@@ -37,6 +37,13 @@ Route::group(['middleware' => ['auth:api']], function () {
         });
     });
 
+    Route::group(['prefix' => 'donates'], function () {
+        Route::get('/params', [\App\Http\Controllers\Api\Donate\DonateController::class, 'getParams']);
+        Route::get('/', [\App\Http\Controllers\Api\Donate\DonateController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\Donate\DonateController::class, 'store']);
+        Route::get('/{donate}', [\App\Http\Controllers\Api\Donate\DonateController::class, 'show']);
+    });
+
     Route::group(['prefix' => 'startup-news'], function () {
         Route::get('/params', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'index']);

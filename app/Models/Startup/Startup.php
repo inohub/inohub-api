@@ -4,6 +4,7 @@ namespace App\Models\Startup;
 
 use App\Interfaces\Owner\OwnerInterface;
 use App\Models\Comment\Comment;
+use App\Models\Donate\Donate;
 use App\Models\Like\Like;
 use App\Models\Startup\Checker\StartupChecker;
 use App\Models\Text\Text;
@@ -76,6 +77,11 @@ class Startup extends Model implements OwnerInterface
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable', 'target_class', 'target_id');
+    }
+
+    public function donates()
+    {
+        return $this->hasMany(Donate::class, 'startup_id');
     }
 
     /**
