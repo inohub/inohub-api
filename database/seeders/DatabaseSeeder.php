@@ -8,6 +8,7 @@ use Database\Seeders\Startup\StartupSeed;
 use Database\Seeders\StartupNews\StartupNewsSeed;
 use Database\Seeders\Text\TextSeed;
 use Database\Seeders\User\UserSeed;
+use Database\Seeders\Category\CategorySeed;
 use Illuminate\Database\Seeder;
 
 /**
@@ -29,5 +30,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TextSeed::class);
         $this->call(LikeSeed::class);
         $this->call(CommentSeed::class);
+        $this->call(CategorySeed::class);
     }
 }
