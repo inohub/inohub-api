@@ -16,7 +16,7 @@ class CommentRepository extends BaseRepository
     /**
      * @var string[]
      */
-    protected $serches = [
+    protected $searches = [
         'owner_id' => '='
     ];
 

@@ -133,8 +133,10 @@ class StartupCommentController extends Controller
         if ($comment->getChecker()->isOwner(Auth::user()) &&
             $comment->getChecker()->isParent($startup)) {
             $comment->delete();
+
+            return $this->response([]);
         }
 
-        return $this->response([]);
+        return $this->response(['Не удалось удалить'], ResponseCodes::BAD_REQUEST);
     }
 }

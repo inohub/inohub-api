@@ -14,7 +14,7 @@ class StartupRepository extends BaseRepository
     /**
      * @var string[]
      */
-    protected $serches = [
+    protected $searches = [
         'owner_id'        => '=',
         'name'            => 'LIKE',
         'subtitle'        => 'LIKE',

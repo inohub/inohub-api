@@ -18,6 +18,8 @@ Route::group([
 });
 Route::group(['middleware' => ['auth:api']], function () {
 
+    Route::get('/comments/params', [\App\Http\Controllers\Api\Comment\CommentController::class, 'getParams']);
+
     Route::group(['prefix' => 'startups'], function () {
         Route::get('/params', [\App\Http\Controllers\Api\Startup\StartupController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Startup\StartupController::class, 'index']);
@@ -43,6 +45,13 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::put('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'update']);
         Route::delete('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'destroy']);
         Route::post('/{startupNews}/like', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'like']);
+        Route::group(['prefix' => '/{startupNews}/comments'], function () {
+            Route::get('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'index']);
+            Route::post('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'store']);
+            Route::get('/{comment}', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'show']);
+            Route::put('/{comment}', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'update']);
+            Route::delete('/{comment}', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'destroy']);
+        });
     });
 
     Route::group(['prefix' => 'categories'], function () {
