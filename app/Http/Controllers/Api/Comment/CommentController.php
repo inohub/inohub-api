@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Comment;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\Comment\CommentRepository;
-use Illuminate\Http\Request;
 
 /**
  * Class CommentController
