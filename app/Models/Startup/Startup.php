@@ -4,6 +4,9 @@ namespace App\Models\Startup;
 
 use App\Interfaces\Owner\OwnerInterface;
 use App\Models\Faq\Faq;
+use App\Models\Comment\Comment;
+use App\Models\Like\Like;
+use App\Models\Startup\Checker\StartupCheckers;
 use App\Models\Text\Text;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
@@ -20,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property           $published_at
  * @property-read      $owner
  * @property-read      $texts
+ * @property-read      $likes
+ * @property-read      $comments
  * @package App\Models\Startup
  */
 class Startup extends Model implements OwnerInterface
@@ -61,5 +66,29 @@ class Startup extends Model implements OwnerInterface
     public function faqs()
     {
         return $this->hasMany(Faq::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable', 'target_class', 'target_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable', 'target_class', 'target_id');
+    }
+
+    /**
+     * @return StartupCheckers
+     */
+    public function getChecker()
+    {
+        return new StartupCheckers($this);
     }
 }

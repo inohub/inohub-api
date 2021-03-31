@@ -7,8 +7,6 @@ use App\Repositories\Base\BaseRepository;
 
 /**
  * Class StartupRepository
- * @property $searches
- * @property $relations
  * @package App\Repositories\Startup
  */
 class StartupRepository extends BaseRepository
@@ -33,6 +31,7 @@ class StartupRepository extends BaseRepository
     public $relations = [
         'owner' => 'owner_id',
         'texts' => 'target_id',
+        'likes' => 'target_id',
     ];
 
     /**

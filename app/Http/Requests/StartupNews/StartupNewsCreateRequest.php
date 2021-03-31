@@ -1,40 +1,31 @@
 <?php
 
-namespace App\Http\Requests\Startup;
+namespace App\Http\Requests\StartupNews;
 
 use App\Http\Requests\Base\BaseRequest;
+use Illuminate\Validation\Rule;
 
 /**
- * Class StartupCreateRequest
- * @package App\Http\Requests\Startup
+ * Class StartupNewsCreateRequest
+ * @package App\Http\Requests\StartupNews
  */
-class StartupCreateRequest extends BaseRequest
+class StartupNewsCreateRequest extends BaseRequest
 {
     /**
-     * @return \string[][]
+     * @return array
      */
     public function rules()
     {
         return [
-            'name' => [
-                'required',
-                'string',
-                'min:3',
-                'max:255'
-            ],
-            'subtitle' => [
-                'required',
-                'string',
-                'min:3',
-                'max:255',
-            ],
-            'donation_amount' => [
+            'startup_id'      => [
+                'bail',
                 'required',
                 'integer',
+                Rule::exists('startups', 'id'),
+                Rule::unique('startup_news', 'startup_id'),
             ],
-            'is_publish' => [
+            'is_publish'      => [
                 'boolean',
-                'nullable',
             ],
             'texts'           => [
                 'required',

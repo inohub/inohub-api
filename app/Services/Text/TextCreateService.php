@@ -5,6 +5,7 @@ namespace App\Services\Text;
 use App\Models\Text\Text;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 /**
  * Class TextCreateService
@@ -34,27 +35,14 @@ class TextCreateService
      */
     public function run()
     {
-        $res = true;
-        $data = $this->request->post('texts');
+        $text = new Text();
+        $data = $this->request->post();
 
-        $texts = $this->model->texts;
-        if (!is_null($texts)) {
-            foreach ($texts as $text) {
-                $text->delete();
-            }
-        }
+        $text->title = Arr::get($data, 'title');
+        $text->content = Arr::get($data, 'content');
+        $text->target_class = $this->model->getMorphClass();
+        $text->target_id = $this->model->id;
 
-        foreach ($data as $item) {
-            $text = new Text();
-
-            $text->title = $item['title'];
-            $text->content = $item['content'];
-            $text->target_class = $this->model->getMorphClass();
-            $text->target_id = $this->model->id;
-
-            $res = $res && $text->save();
-        }
-
-        return $res;
+        return $text->save();
     }
 }
