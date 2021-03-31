@@ -17,7 +17,6 @@ Route::group([
     Route::get('me', [AuthController::class, 'me']);
 });
 Route::group(['middleware' => ['auth:api']], function () {
-
     Route::group(['prefix' => 'startups'], function () {
         Route::get('/params', [\App\Http\Controllers\Api\Startup\StartupController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Startup\StartupController::class, 'index']);
@@ -34,8 +33,10 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::post('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'store']);
         Route::get('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'show']);
         Route::put('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'update']);
-        Route::delete('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'destroy']);
-        Route::post('/{startupNews}/like', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'like']);
+        Route::delete('/{startupNews}',
+            [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'destroy']);
+        Route::post('/{startupNews}/like',
+            [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'like']);
     });
 
     Route::group(['prefix' => 'categories'], function () {
@@ -48,9 +49,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'faqs'], function () {
-       Route::get('/params', [\App\Http\Controllers\Api\Faq\FaqController::class, 'getParams']);
-       Route::get('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'index']);
-       Route::post('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'store']);
+        Route::get('/params', [\App\Http\Controllers\Api\Faq\FaqController::class, 'getParams']);
+        Route::get('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'store']);
+        Route::get('/{faq}', [\App\Http\Controllers\Api\Faq\FaqController::class, 'show']);
+        Route::put('/{faq}', [\App\Http\Controllers\Api\Faq\FaqController::class, 'update']);
+        Route::delete('/{faq}', [\App\Http\Controllers\Api\Faq\FaqController::class, 'destroy']);
     });
 });
 
