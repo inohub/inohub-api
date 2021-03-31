@@ -1,34 +1,23 @@
 <?php
 
-namespace App\Http\Requests\Startup;
+namespace App\Http\Requests\StartupNews;
 
 use App\Http\Requests\Base\BaseRequest;
 
 /**
- * Class StartupUpdateRequest
- * @package App\Http\Requests\Startup
+ * Class StartupNewsUpdateRequest
+ * @package App\Http\Requests\StartupNews
  */
-class StartupUpdateRequest extends BaseRequest
+class StartupNewsUpdateRequest extends BaseRequest
 {
     /**
-     * @return \string[][]
+     * @return array
      */
     public function rules()
     {
         return [
-            'subtitle'        => [
-                'required',
-                'string',
-                'min:3',
-                'max:255',
-            ],
-            'donation_amount' => [
-                'required',
-                'integer',
-            ],
             'is_publish'      => [
                 'boolean',
-                'nullable',
             ],
             'texts'           => [
                 'required',

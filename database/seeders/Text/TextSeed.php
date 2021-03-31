@@ -3,7 +3,9 @@
 namespace Database\Seeders\Text;
 
 use App\Models\Startup\Startup;
+use App\Models\StartupNews\StartupNews;
 use App\Models\Text\Text;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
 /**
@@ -17,19 +19,23 @@ class TextSeed extends Seeder
         Startup::all()->each(function (Startup $startup) {
             self::createText($startup, 3);
         });
+
+        StartupNews::all()->each(function (StartupNews $startupNews) {
+            self::createText($startupNews, 3);
+        });
     }
 
     /**
-     * @param Startup $startup
-     * @param         $num
+     * @param Model $model
+     * @param       $num
      *
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     * @return \Illuminate\Database\Eloquent\Collection|Model|mixed
      */
-    public static function createText(Startup $startup, $num)
+    public static function createText(Model $model, $num)
     {
-        return Text::factory($num)->make()->each(function (Text $text) use ($startup) {
-            $text->target_class = $startup->getMorphClass();
-            $text->target_id = $startup->id;
+        return Text::factory($num)->make()->each(function (Text $text) use ($model) {
+            $text->target_class = $model->getMorphClass();
+            $text->target_id = $model->id;
             $text->save();
         });
     }

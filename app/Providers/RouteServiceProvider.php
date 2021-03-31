@@ -22,6 +22,7 @@ class RouteServiceProvider extends ServiceProvider
     private $integerRoute = [
         'user',
         'startup',
+        'startupNews',
     ];
 
     /**

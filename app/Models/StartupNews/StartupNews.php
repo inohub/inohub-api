@@ -1,47 +1,42 @@
 <?php
 
-namespace App\Models\Startup;
+namespace App\Models\StartupNews;
 
-use App\Interfaces\Owner\OwnerInterface;
 use App\Models\Comment\Comment;
 use App\Models\Like\Like;
-use App\Models\Startup\Checker\StartupCheckers;
+use App\Models\Startup\Startup;
+use App\Models\StartupNews\Checker\StartupNewsCheckers;
 use App\Models\Text\Text;
-use App\Traits\Owner\OwnerTrait;
-use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Startup
- * @property           $owner_id
- * @property           $name
- * @property           $subtitle
- * @property           $donation_amount
- * @property           $is_publish
- * @property           $published_at
- * @property-read      $owner
- * @property-read      $texts
- * @property-read      $likes
- * @property-read      $comments
- * @package App\Models\Startup
+ * Class StartupNews
+ * @property       $startup_id
+ * @property       $is_publish
+ * @property       $published_at
+ * @property-read  $startup
+ * @property-read  $texts
+ * @property-read  $likes
+ * @property-read  $comments
+ * @package App\Models
  */
-class Startup extends Model implements OwnerInterface
+class StartupNews extends Model
 {
-    use HasFactory, OwnerTrait, ScopeOfOwner;
+    use HasFactory;
 
     /**
      * @var string[]
      */
     protected $fillable = [
-        'owner_id',
-        'name',
-        'subtitle',
-        'donation_amount',
+        'startup_id',
         'is_publish',
         'published_at',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $hidden = [
         'created_at',
         'updated_at',
@@ -53,6 +48,14 @@ class Startup extends Model implements OwnerInterface
     protected $dates = [
         'published_at',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function startup()
+    {
+        return $this->belongsTo(Startup::class, 'startup_id');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -79,10 +82,10 @@ class Startup extends Model implements OwnerInterface
     }
 
     /**
-     * @return StartupCheckers
+     * @return StartupNewsCheckers
      */
     public function getChecker()
     {
-        return new StartupCheckers($this);
+        return new StartupNewsCheckers($this);
     }
 }

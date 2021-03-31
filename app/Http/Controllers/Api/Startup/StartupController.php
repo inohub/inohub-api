@@ -8,9 +8,11 @@ use App\Http\Requests\Startup\StartupUpdateRequest;
 use App\Models\Startup\Startup;
 use App\Repositories\Startup\StartupRepository;
 use App\ResponseCodes\ResponseCodes;
+use App\Services\Like\LikeService;
 use App\Services\Startup\StartupCreateService;
 use App\Services\Startup\StartupUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -85,12 +87,12 @@ class StartupController extends Controller
     }
 
     /**
-     * @param Startup $startup
      * @param Request $request
+     * @param Startup $startup
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Startup $startup, Request $request)
+    public function show(Request $request, Startup $startup)
     {
         $builder = $this->startupRepository->filters($request, $startup);
 
@@ -137,5 +139,32 @@ class StartupController extends Controller
         $startup->delete();
 
         return $this->response([]);
+    }
+
+    /**
+     * @param Startup $startup
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function like(Startup $startup)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if ((new LikeService($startup, Auth::user()))->run()) {
+
+                DB::commit();
+
+                return $this->response($startup->likes()->count());
+            }
+
+            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+
+        } catch (\Throwable $exception) {
+
+            throw $exception;
+        }
     }
 }
