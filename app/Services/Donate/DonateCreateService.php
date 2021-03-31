@@ -39,6 +39,6 @@ class DonateCreateService
         $this->donate->startup_id = Arr::get($data, 'startup_id');
         $this->donate->amount = Arr::get($data, 'amount');
 
-        return $this->donate->save();
+        return $this->donate->save(); //TODO: нужно реализовать снятие денег с карты
     }
 }
