@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(['prefix' => 'faqs'], function () {
        Route::get('/params', [\App\Http\Controllers\Api\Faq\FaqController::class, 'getParams']);
        Route::get('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'index']);
+       Route::post('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'store']);
     });
 });
 

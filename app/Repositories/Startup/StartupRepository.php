@@ -32,6 +32,7 @@ class StartupRepository extends BaseRepository
         'owner' => 'owner_id',
         'texts' => 'target_id',
         'likes' => 'target_id',
+        'faqs' => 'startup_id'
     ];
 
     /**

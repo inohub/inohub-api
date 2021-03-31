@@ -5,6 +5,7 @@ namespace App\Services\Faq;
 
 
 use App\Models\Faq\Faq;
+use App\Services\Text\TextCreateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -34,6 +35,6 @@ class FaqCreateService
 
         $this->faq->startup_id = Arr::get($data, 'startup_id');
 
-        return $this->faq->save();
+        return $this->faq->save() && (new TextCreateService($this->faq, $this->request))->run();
     }
 }

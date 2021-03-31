@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\Faq;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Faq\FaqCreateRequest;
 use App\Models\Faq\Faq;
 use App\Repositories\Faq\FaqRepository;
 use App\ResponseCodes\ResponseCodes;
+use App\Services\Faq\FaqCreateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\HttpException;
