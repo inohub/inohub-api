@@ -5,7 +5,7 @@ namespace App\Models\Startup;
 use App\Interfaces\Owner\OwnerInterface;
 use App\Models\Comment\Comment;
 use App\Models\Like\Like;
-use App\Models\Startup\Checker\StartupCheckers;
+use App\Models\Startup\Checker\StartupChecker;
 use App\Models\Text\Text;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
@@ -79,10 +79,10 @@ class Startup extends Model implements OwnerInterface
     }
 
     /**
-     * @return StartupCheckers
+     * @return StartupChecker
      */
     public function getChecker()
     {
-        return new StartupCheckers($this);
+        return new StartupChecker($this);
     }
 }

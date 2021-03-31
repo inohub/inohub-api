@@ -78,7 +78,7 @@ class StartupController extends Controller
                 return $this->response($startup->refresh());
             }
 
-            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+            return $this->response(['Не удалось сохранить'], ResponseCodes::BAD_REQUEST);
 
         } catch (\Throwable $exception) {
 
@@ -120,7 +120,7 @@ class StartupController extends Controller
                 return $this->response($startup->refresh());
             }
 
-            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+            return $this->response(['Не удалось обновить'], ResponseCodes::BAD_REQUEST);
 
         } catch (\Throwable $exception) {
 

@@ -3,6 +3,7 @@
 namespace App\Models\Comment;
 
 use App\Interfaces\Owner\OwnerInterface;
+use App\Models\Comment\Checker\CommentChecker;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,7 +37,6 @@ class Comment extends Model implements OwnerInterface
      * @var string[]
      */
     protected $hidden = [
-        'id',
         'created_at',
         'updated_at',
         'target_class',
@@ -54,5 +54,13 @@ class Comment extends Model implements OwnerInterface
             'target_id',
             'id'
         );
+    }
+
+    /**
+     * @return CommentChecker
+     */
+    public function getChecker()
+    {
+        return new CommentChecker($this);
     }
 }
