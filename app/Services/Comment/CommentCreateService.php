@@ -42,6 +42,7 @@ class CommentCreateService
         $data = $this->request->post();
 
         $this->comment->text = Arr::get($data, 'text');
+        $this->comment->parent_id = Arr::get($data, 'parent_id');
         $this->comment->target_class = $this->model->getMorphClass();
         $this->comment->target_id = $this->model->id;
 

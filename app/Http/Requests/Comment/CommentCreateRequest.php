@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Comment;
 
 use App\Http\Requests\Base\BaseRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * Class CommentCreateRequest
@@ -21,6 +22,11 @@ class CommentCreateRequest extends BaseRequest
                 'string',
                 'min:3',
                 'max:500',
+            ],
+            'parent_id' => [
+                'bail',
+                'integer',
+                Rule::exists('comments', 'id')->whereNull('parent_id'),
             ],
         ];
     }

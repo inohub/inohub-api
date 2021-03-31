@@ -17,14 +17,17 @@ class CommentRepository extends BaseRepository
      * @var string[]
      */
     protected $searches = [
-        'owner_id' => '='
+        'owner_id'  => '=',
+        'parent_id' => '='
     ];
 
     /**
      * @var string[]
      */
     public $relations = [
-        'owner' => 'owner_id',
+        'owner'    => 'owner_id',
+        'parent'   => 'parent_id',
+        'childrens' => 'parent_id',
     ];
 
     /**
