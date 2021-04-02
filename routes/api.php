@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::put('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'update']);
         Route::delete('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'destroy']);
         Route::post('/{startup}/like', [\App\Http\Controllers\Api\Startup\StartupController::class, 'like']);
+        Route::post('/{startup}/comment', [\App\Http\Controllers\Api\Startup\StartupController::class, 'storeComment']);
         Route::group(['prefix' => '/{startup}/comments'], function () {
             Route::get('/', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'index']);
             Route::post('/', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'store']);
