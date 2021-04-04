@@ -71,7 +71,7 @@ class DonateController extends Controller
                 return $this->response($donate->refresh());
             }
 
-            return $this->response(['Не удалось сохранить'], ResponseCodes::BAD_REQUEST);
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 

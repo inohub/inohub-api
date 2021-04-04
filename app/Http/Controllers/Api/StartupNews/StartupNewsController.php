@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\StartupNews;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StartupNews\StartupNewsCreateRequest;
 use App\Http\Requests\StartupNews\StartupNewsUpdateRequest;
-use App\Models\Startup\Startup;
 use App\Models\StartupNews\StartupNews;
 use App\Repositories\StartupNews\StartupNewsRepository;
 use App\ResponseCodes\ResponseCodes;
@@ -79,7 +78,7 @@ class StartupNewsController extends Controller
                 return $this->response($startupNews->refresh());
             }
 
-            return $this->response(['Не удалось сохранить'], ResponseCodes::BAD_REQUEST);
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 
@@ -120,7 +119,7 @@ class StartupNewsController extends Controller
                 return $this->response($startupNews->refresh());
             }
 
-            return $this->response(['Не удалось обновить'], ResponseCodes::BAD_REQUEST);
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 
@@ -160,7 +159,7 @@ class StartupNewsController extends Controller
                 return $this->response($startupNews->likes()->count());
             }
 
-            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 

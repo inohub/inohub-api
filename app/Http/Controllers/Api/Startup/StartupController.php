@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Api\Startup;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Startup\StartupCreateRequest;
 use App\Http\Requests\Startup\StartupUpdateRequest;
-use App\Models\Comment\Comment;
 use App\Models\Startup\Startup;
 use App\Repositories\Startup\StartupRepository;
 use App\ResponseCodes\ResponseCodes;
 use App\Services\Like\LikeService;
 use App\Services\Startup\StartupCreateService;
 use App\Services\Startup\StartupUpdateService;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -80,7 +78,7 @@ class StartupController extends Controller
                 return $this->response($startup->refresh());
             }
 
-            return $this->response(['Не удалось сохранить'], ResponseCodes::BAD_REQUEST);
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 
@@ -122,7 +120,7 @@ class StartupController extends Controller
                 return $this->response($startup->refresh());
             }
 
-            return $this->response(['Не удалось обновить'], ResponseCodes::BAD_REQUEST);
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 
@@ -162,7 +160,7 @@ class StartupController extends Controller
                 return $this->response($startup->likes()->count());
             }
 
-            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 
