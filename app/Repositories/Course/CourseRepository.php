@@ -27,7 +27,8 @@ class CourseRepository extends BaseRepository
      * @var string[]
      */
     public $relations = [
-        'owner' => 'owner_id',
+        'owner'   => 'owner_id',
+        'lessons' => 'course_id',
     ];
 
     /**

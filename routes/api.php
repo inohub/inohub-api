@@ -81,12 +81,21 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'courses'], function () {
-        Route::get('params', [\App\Http\Controllers\Api\Course\CourseController::class, 'getParams']);
+        Route::get('/params', [\App\Http\Controllers\Api\Course\CourseController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Course\CourseController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\Course\CourseController::class, 'store']);
         Route::get('/{course}', [\App\Http\Controllers\Api\Course\CourseController::class, 'show']);
         Route::put('/{course}', [\App\Http\Controllers\Api\Course\CourseController::class, 'update']);
         Route::delete('/{course}', [\App\Http\Controllers\Api\Course\CourseController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'lessons'], function () {
+        Route::get('/params', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'getParams']);
+        Route::get('/', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'store']);
+        Route::get('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'show']);
+        Route::put('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'update']);
+        Route::delete('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'destroy']);
     });
 });
 

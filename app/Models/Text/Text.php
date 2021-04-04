@@ -32,6 +32,8 @@ class Text extends Model
      */
     protected $hidden = [
         'id',
+        'created_at',
+        'updated_at',
         'target_class',
         'target_id',
     ];

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Text;
 
+use App\Models\Lesson\Lesson;
 use App\Models\Startup\Startup;
 use App\Models\StartupNews\StartupNews;
 use App\Models\Text\Text;
@@ -22,6 +23,10 @@ class TextSeed extends Seeder
 
         StartupNews::all()->each(function (StartupNews $startupNews) {
             self::createText($startupNews, 3);
+        });
+
+        Lesson::all()->each(function (Lesson $lesson) {
+            self::createText($lesson, 3);
         });
     }
 
