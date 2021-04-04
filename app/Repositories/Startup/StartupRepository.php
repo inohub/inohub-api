@@ -33,6 +33,7 @@ class StartupRepository extends BaseRepository
         'texts'   => 'target_id',
         'likes'   => 'target_id',
         'donates' => 'startup_id',
+        'faqs' => 'startup_id'
     ];
 
     /**

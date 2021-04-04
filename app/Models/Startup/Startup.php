@@ -3,6 +3,7 @@
 namespace App\Models\Startup;
 
 use App\Interfaces\Owner\OwnerInterface;
+use App\Models\Faq\Faq;
 use App\Models\Comment\Comment;
 use App\Models\Donate\Donate;
 use App\Models\Like\Like;
@@ -61,6 +62,11 @@ class Startup extends Model implements OwnerInterface
     public function texts()
     {
         return $this->morphMany(Text::class, 'textable', 'target_class', 'target_id');
+    }
+
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class);
     }
 
     /**

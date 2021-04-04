@@ -73,7 +73,7 @@ abstract class BaseRepository
         $searches = $this->data['searches'];
 
         foreach ($searches as $key => $value) {
-            if (isset($this->filters[$key])) {
+            if (isset($this->serches[$key])) {
                 if ($this->searches[$key] == 'LIKE') {
                     $value = '%' . $value . '%';
                 }

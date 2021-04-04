@@ -71,6 +71,15 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::delete('/{category}', [\App\Http\Controllers\Api\Category\CategoryController::class, 'destroy']);
     });
 
+    Route::group(['prefix' => 'faqs'], function () {
+        Route::get('/params', [\App\Http\Controllers\Api\Faq\FaqController::class, 'getParams']);
+        Route::get('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'store']);
+        Route::get('/{faq}', [\App\Http\Controllers\Api\Faq\FaqController::class, 'show']);
+        Route::put('/{faq}', [\App\Http\Controllers\Api\Faq\FaqController::class, 'update']);
+        Route::delete('/{faq}', [\App\Http\Controllers\Api\Faq\FaqController::class, 'destroy']);
+    });
+
     Route::group(['prefix' => 'courses'], function () {
         Route::get('params', [\App\Http\Controllers\Api\Course\CourseController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Course\CourseController::class, 'index']);
