@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Database\Seeders\Comment\CommentSeed;
+use Database\Seeders\Course\CourseSeed;
 use Database\Seeders\Donate\DonateSeed;
 use Database\Seeders\Like\LikeSeed;
 use Database\Seeders\Startup\StartupSeed;
@@ -33,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CommentSeed::class);
         $this->call(CategorySeed::class);
         $this->call(DonateSeed::class);
+        $this->call(CourseSeed::class);
     }
 }

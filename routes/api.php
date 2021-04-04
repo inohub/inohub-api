@@ -70,6 +70,15 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::put('/{category}', [\App\Http\Controllers\Api\Category\CategoryController::class, 'update']);
         Route::delete('/{category}', [\App\Http\Controllers\Api\Category\CategoryController::class, 'destroy']);
     });
+
+    Route::group(['prefix' => 'courses'], function () {
+        Route::get('params', [\App\Http\Controllers\Api\Course\CourseController::class, 'getParams']);
+        Route::get('/', [\App\Http\Controllers\Api\Course\CourseController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\Course\CourseController::class, 'store']);
+        Route::get('/{course}', [\App\Http\Controllers\Api\Course\CourseController::class, 'show']);
+        Route::put('/{course}', [\App\Http\Controllers\Api\Course\CourseController::class, 'update']);
+        Route::delete('/{course}', [\App\Http\Controllers\Api\Course\CourseController::class, 'destroy']);
+    });
 });
 
 

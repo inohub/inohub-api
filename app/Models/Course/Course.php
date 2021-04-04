@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Models\Course;
+
+use App\Interfaces\Owner\OwnerInterface;
+use App\Traits\Owner\OwnerTrait;
+use App\Traits\Owner\ScopeOfOwner;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Class Course
+ * @property      $name
+ * @property      $description
+ * @property      $is_publish
+ * @property      $published_at
+ * @property-read $owner
+ * @package App\Models\Course
+ */
+class Course extends Model implements OwnerInterface
+{
+    use HasFactory, OwnerTrait, ScopeOfOwner;
+
+    /**
+     * @var string[]
+     */
+    protected $fillable = [
+        'owner_id',
+        'name',
+        'description',
+        'is_publish',
+        'published_at',
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $dates = [
+        'published_at',
+    ];
+}
