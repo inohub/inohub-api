@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Category;
 
 use App\Http\Requests\Base\BaseRequest;
+use Illuminate\Validation\Rule;
 
 class CategoryCreateRequest extends BaseRequest
 {
@@ -14,9 +15,23 @@ class CategoryCreateRequest extends BaseRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:255|string',
-            'description' => 'required|max:255|string',
-            'parent_id' => 'nullable|exists:categories,id|integer'
+            'title'       => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+            ],
+            'description' => [
+                'required',
+                'string',
+                'min:3',
+                'max:500',
+            ],
+            'parent_id'   => [
+                'bail',
+                'integer',
+                Rule::exists('categories', 'id'),
+            ],
         ];
     }
 }
