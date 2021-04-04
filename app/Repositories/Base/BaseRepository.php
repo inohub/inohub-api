@@ -77,7 +77,7 @@ abstract class BaseRepository
                 if ($this->searches[$key] == 'LIKE') {
                     $value = '%' . $value . '%';
                 }
-                $this->builder->where($key, $this->serches[$key], $value);
+                $this->builder->where($key, $this->searches[$key], $value);
             }
         }
     }

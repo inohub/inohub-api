@@ -12,7 +12,7 @@ class FaqRepository extends BaseRepository
     /**
      * @var string[]
      */
-    protected $serches = [
+    protected $searches = [
         'startup_id' => '='
     ];
 
