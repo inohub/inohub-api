@@ -8,6 +8,7 @@ use App\Models\Comment\Comment;
 use App\Models\Donate\Donate;
 use App\Models\Like\Like;
 use App\Models\Startup\Checker\StartupChecker;
+use App\Models\StartupNews\StartupNews;
 use App\Models\Text\Text;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
@@ -26,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read      $texts
  * @property-read      $likes
  * @property-read      $comments
+ * @property-read      $startupNews
+ * @property-read      $fags
  * @package App\Models\Startup
  */
 class Startup extends Model implements OwnerInterface
@@ -44,11 +47,6 @@ class Startup extends Model implements OwnerInterface
         'published_at',
     ];
 
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
-
     /**
      * @var string[]
      */
@@ -64,9 +62,12 @@ class Startup extends Model implements OwnerInterface
         return $this->morphMany(Text::class, 'textable', 'target_class', 'target_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function faqs()
     {
-        return $this->hasMany(Faq::class);
+        return $this->hasMany(Faq::class, 'startup_id');
     }
 
     /**
@@ -85,9 +86,20 @@ class Startup extends Model implements OwnerInterface
         return $this->morphMany(Comment::class, 'commentable', 'target_class', 'target_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function donates()
     {
         return $this->hasMany(Donate::class, 'startup_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function startupNews()
+    {
+        return $this->hasMany(StartupNews::class, 'startup_id');
     }
 
     /**

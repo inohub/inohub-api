@@ -17,6 +17,8 @@ class DonateRepository extends BaseRepository
     public $searches = [
         'owner_id' => '=',
         'startup_id' => '=',
+        'created_at' => '=',
+        'updated_at' => '=',
     ];
 
     /**

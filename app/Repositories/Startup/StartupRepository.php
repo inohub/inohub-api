@@ -29,11 +29,13 @@ class StartupRepository extends BaseRepository
      * @var string[]
      */
     public $relations = [
-        'owner'   => 'owner_id',
-        'texts'   => 'target_id',
-        'likes'   => 'target_id',
-        'donates' => 'startup_id',
-        'faqs' => 'startup_id'
+        'owner'       => 'owner_id',
+        'texts'       => 'target_id',
+        'faqs'        => 'startup_id',
+        'likes'       => 'target_id',
+        'comments'    => 'target_id',
+        'donates'     => 'startup_id',
+        'startupNews' => 'startup_id',
     ];
 
     /**

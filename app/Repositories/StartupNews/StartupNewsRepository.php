@@ -16,15 +16,18 @@ class StartupNewsRepository extends BaseRepository
      */
     protected $searches = [
         'startup_id' => '=',
+        'created_at' => '=',
+        'updated_at' => '=',
     ];
 
     /**
      * @var string[]
      */
     public $relations = [
-        'startup' => 'startup_id',
-        'texts'   => 'target_id',
-        'likes'   => 'target_id'
+        'startup'  => 'startup_id',
+        'texts'    => 'target_id',
+        'likes'    => 'target_id',
+        'comments' => 'target_id',
     ];
 
     /**

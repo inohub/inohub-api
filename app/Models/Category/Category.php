@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Category
- * @package App\Models\Category
- * @property $title
- * @property $description
- * @property $parent_id
+ * @property      $title
+ * @property      $description
+ * @property      $parent_id
  * @property-read $parent
+ * @property-read $childrens
+ * @package App\Models\Category
  */
 class Category extends Model
 {
@@ -34,7 +35,10 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    public function children()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function childrens()
     {
         return $this->hasMany(Category::class, 'parent_id');
     }

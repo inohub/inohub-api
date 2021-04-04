@@ -3,6 +3,7 @@
 namespace App\Http\Requests\StartupNews;
 
 use App\Http\Requests\Base\BaseRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 /**
@@ -21,8 +22,7 @@ class StartupNewsCreateRequest extends BaseRequest
                 'bail',
                 'required',
                 'integer',
-                Rule::exists('startups', 'id'),
-                Rule::unique('startup_news', 'startup_id'),
+                Rule::exists('startups', 'id')->where('owner_id', Auth::id()),
             ],
             'is_publish'      => [
                 'boolean',

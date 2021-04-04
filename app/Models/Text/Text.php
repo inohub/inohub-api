@@ -27,10 +27,11 @@ class Text extends Model
         'target_id',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $hidden = [
         'id',
-        'created_at',
-        'updated_at',
         'target_class',
         'target_id',
     ];

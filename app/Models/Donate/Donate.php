@@ -33,13 +33,6 @@ class Donate extends Model implements OwnerInterface
     ];
 
     /**
-     * @var string[]
-     */
-    protected $hidden = [
-        'updated_at',
-    ];
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function startup()

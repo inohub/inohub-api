@@ -41,8 +41,6 @@ class Comment extends Model implements OwnerInterface
      * @var string[]
      */
     protected $hidden = [
-        'created_at',
-        'updated_at',
         'target_class',
         'target_id',
     ];

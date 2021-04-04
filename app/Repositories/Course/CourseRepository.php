@@ -19,6 +19,8 @@ class CourseRepository extends BaseRepository
         'name'         => 'LIKE',
         'is_publish'   => '=',
         'published_at' => '=',
+        'created_at'   => '=',
+        'updated_at'   => '='
     ];
 
     /**
