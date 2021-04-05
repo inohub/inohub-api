@@ -13,10 +13,8 @@ class StartupMediaController extends Controller
 {
     public function storeStartupPreviewImage(Startup $startup, Request $request, $collectionName = 'preview-image')
     {
-        DB::beginTransaction();
         try {
             if ((new MediaChunkUploadService($startup, $request, $collectionName))->run()) {
-                DB::commit();
 
                 return $this->response($startup->getFirstMediaUrl($collectionName));
             }
@@ -34,10 +32,8 @@ class StartupMediaController extends Controller
 
     public function storeStartupPreviewVideo(Startup $startup, Request $request, $collectionName = 'preview-video')
     {
-        DB::beginTransaction();
         try {
             if ((new MediaChunkUploadService($startup, $request, $collectionName))->run()) {
-                DB::commit();
 
                 return $this->response($startup->getFirstMediaUrl($collectionName));
             }
