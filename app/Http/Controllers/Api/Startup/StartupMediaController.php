@@ -5,26 +5,24 @@ namespace App\Http\Controllers\Api\Startup;
 use App\Http\Controllers\Controller;
 use App\Models\Startup\Startup;
 use App\ResponseCodes\ResponseCodes;
+use App\Services\Media\MediaChunkUploadService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class StartupMediaController extends Controller
 {
-    public function storeStartupPreviewImage(Startup $startup)
+    public function storeStartupPreviewImage(Startup $startup, Request $request, $collectionName = 'preview-image')
     {
+        DB::beginTransaction();
         try {
-            if ($startup->getFirstMediaUrl('preview-image') != null) {
-                $startup->clearMediaCollection('preview-image');
-            }
+            if ((new MediaChunkUploadService($startup, $request, $collectionName))->run()) {
+                DB::commit();
 
-            $startup->addMediaFromRequest('file')
-                ->toMediaCollection('preview-image');
-        } catch (\Exception $exception) {
+                return $this->response($startup->getFirstMediaUrl($collectionName));
+            }
+        } catch (\Throwable $exception) {
             return $this->response($exception->getMessage(), ResponseCodes::FAILED_RESULT);
         }
-
-        return $this->response($startup->preview_image_url);
     }
 
     public function deleteStartupPreviewImage(Startup $startup)
@@ -34,25 +32,18 @@ class StartupMediaController extends Controller
         $this->response(null);
     }
 
-    public function storeStartupPreviewVideo(Startup $startup, Request $request)
+    public function storeStartupPreviewVideo(Startup $startup, Request $request, $collectionName = 'preview-video')
     {
-        $file = $request->file('file');
+        DB::beginTransaction();
+        try {
+            if ((new MediaChunkUploadService($startup, $request, $collectionName))->run()) {
+                DB::commit();
 
-        $path = 'chunks/'.$file->getClientOriginalName();
-
-        Storage::disk('public')->append($path, $file->get());
-
-        if ($request->has('is_last') && $request->boolean('is_last')) {
-
-            if ($startup->getFirstMediaUrl('preview-video') != null) {
-                $startup->clearMediaCollection('preview-video');
+                return $this->response($startup->getFirstMediaUrl($collectionName));
             }
-
-            $startup->addMediaFromDisk($path, 'public')
-                ->toMediaCollection('preview-video');
+        } catch (\Throwable $exception) {
+            return $this->response($exception->getMessage(), ResponseCodes::FAILED_RESULT);
         }
-
-        return $this->response($startup->getFirstMediaUrl('preview-video'));
     }
 
     public function deleteStartupPreviewVideo(Startup $startup)
