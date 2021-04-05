@@ -14,7 +14,7 @@ class StartupRepository extends BaseRepository
     /**
      * @var string[]
      */
-    protected $serches = [
+    protected $searches = [
         'owner_id'        => '=',
         'name'            => 'LIKE',
         'subtitle'        => 'LIKE',
@@ -29,10 +29,13 @@ class StartupRepository extends BaseRepository
      * @var string[]
      */
     public $relations = [
-        'owner' => 'owner_id',
-        'texts' => 'target_id',
-        'likes' => 'target_id',
-        'faqs' => 'startup_id'
+        'owner'       => 'owner_id',
+        'texts'       => 'target_id',
+        'faqs'        => 'startup_id',
+        'likes'       => 'target_id',
+        'comments'    => 'target_id',
+        'donates'     => 'startup_id',
+        'startupNews' => 'startup_id',
     ];
 
     /**

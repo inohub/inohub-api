@@ -5,7 +5,7 @@ namespace App\Models\StartupNews;
 use App\Models\Comment\Comment;
 use App\Models\Like\Like;
 use App\Models\Startup\Startup;
-use App\Models\StartupNews\Checker\StartupNewsCheckers;
+use App\Models\StartupNews\Checker\StartupNewsChecker;
 use App\Models\Text\Text;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,14 +32,6 @@ class StartupNews extends Model
         'startup_id',
         'is_publish',
         'published_at',
-    ];
-
-    /**
-     * @var string[]
-     */
-    protected $hidden = [
-        'created_at',
-        'updated_at',
     ];
 
     /**
@@ -82,10 +74,10 @@ class StartupNews extends Model
     }
 
     /**
-     * @return StartupNewsCheckers
+     * @return StartupNewsChecker
      */
     public function getChecker()
     {
-        return new StartupNewsCheckers($this);
+        return new StartupNewsChecker($this);
     }
 }

@@ -78,7 +78,7 @@ class StartupController extends Controller
                 return $this->response($startup->refresh());
             }
 
-            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 
@@ -120,7 +120,7 @@ class StartupController extends Controller
                 return $this->response($startup->refresh());
             }
 
-            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 
@@ -160,7 +160,7 @@ class StartupController extends Controller
                 return $this->response($startup->likes()->count());
             }
 
-            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 

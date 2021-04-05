@@ -12,7 +12,6 @@ use App\Services\Category\CategoryCreateService;
 use App\Services\Category\CategoryUpdateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class CategoryController
@@ -74,7 +73,7 @@ class CategoryController extends Controller
                 return $this->response($category->refresh());
             }
 
-            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 
@@ -116,7 +115,7 @@ class CategoryController extends Controller
                 return $this->response($category->refresh());
             }
 
-            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+            return $this->response([], ResponseCodes::FAILED_RESULT);
 
         } catch (\Throwable $exception) {
 

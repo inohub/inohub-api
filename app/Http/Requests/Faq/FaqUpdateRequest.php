@@ -16,8 +16,18 @@ class FaqUpdateRequest extends BaseRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|min:3|max:255',
-            'content' => 'required|string|min:3|max:255'
+            'title'   => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+            ],
+            'content' => [
+                'required',
+                'string',
+                'min:3',
+                'max:500',
+            ]
         ];
     }
 }

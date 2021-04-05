@@ -23,6 +23,10 @@ class RouteServiceProvider extends ServiceProvider
         'user',
         'startup',
         'startupNews',
+        'comment',
+        'donate',
+        'course',
+        'lesson',
     ];
 
     /**

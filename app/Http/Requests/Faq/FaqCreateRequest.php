@@ -4,6 +4,8 @@ namespace App\Http\Requests\Faq;
 
 use App\Http\Requests\Base\BaseRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class FaqCreateRequest extends BaseRequest
 {
@@ -15,9 +17,24 @@ class FaqCreateRequest extends BaseRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|min:3|max:255',
-            'content' => 'required|string|min:3|max:255',
-            'startup_id' => 'required|integer|exists:startups,id'
+            'title'      => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+            ],
+            'content'    => [
+                'required',
+                'string',
+                'min:3',
+                'max:500'
+            ],
+            'startup_id' => [
+                'bail',
+                'required',
+                'integer',
+                Rule::exists('startups', 'id')->where('owner_id', Auth::id()),
+            ]
         ];
     }
 }

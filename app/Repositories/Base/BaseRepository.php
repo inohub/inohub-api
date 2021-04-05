@@ -74,10 +74,10 @@ abstract class BaseRepository
 
         foreach ($searches as $key => $value) {
             if (isset($this->serches[$key])) {
-                if ($this->serches[$key] == 'LIKE') {
+                if ($this->searches[$key] == 'LIKE') {
                     $value = '%' . $value . '%';
                 }
-                $this->builder->where($key, $this->serches[$key], $value);
+                $this->builder->where($key, $this->searches[$key], $value);
             }
         }
     }

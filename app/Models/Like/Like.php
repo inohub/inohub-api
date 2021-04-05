@@ -34,8 +34,6 @@ class Like extends Model implements OwnerInterface
      */
     protected $hidden = [
         'id',
-        'created_at',
-        'updated_at',
         'target_class',
         'target_id',
     ];

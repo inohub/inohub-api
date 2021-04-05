@@ -6,16 +6,16 @@ use App\Models\Startup\Startup;
 use App\Models\User\User;
 
 /**
- * Class StartupCheckers
+ * Class StartupChecker
  * @property Startup $startup
  * @package App\Models\Startup\Checker
  */
-class StartupCheckers
+class StartupChecker
 {
     private Startup $startup;
 
     /**
-     * StartupCheckers constructor.
+     * StartupChecker constructor.
      *
      * @param Startup $startup
      */

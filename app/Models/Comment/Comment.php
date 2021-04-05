@@ -3,6 +3,7 @@
 namespace App\Models\Comment;
 
 use App\Interfaces\Owner\OwnerInterface;
+use App\Models\Comment\Checker\CommentChecker;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,10 +13,13 @@ use Illuminate\Database\Eloquent\Model;
  * Class Comment
  * @property      $id
  * @property      $owner_id
+ * @property      $parent_id
  * @property      $text
  * @property      $target_class
  * @property      $target_id
  * @property-read $owner
+ * @property-read $childrens
+ * @property-read $parent
  * @package App\Models\Comment
  */
 class Comment extends Model implements OwnerInterface
@@ -27,6 +31,7 @@ class Comment extends Model implements OwnerInterface
      */
     protected $fillable = [
         'owner_id',
+        'parent_id',
         'text',
         'target_class',
         'target_id',
@@ -36,9 +41,6 @@ class Comment extends Model implements OwnerInterface
      * @var string[]
      */
     protected $hidden = [
-        'id',
-        'created_at',
-        'updated_at',
         'target_class',
         'target_id',
     ];
@@ -54,5 +56,29 @@ class Comment extends Model implements OwnerInterface
             'target_id',
             'id'
         );
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function childrens()
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
+    }
+
+    /**
+     * @return CommentChecker
+     */
+    public function getChecker()
+    {
+        return new CommentChecker($this);
     }
 }

@@ -6,16 +6,16 @@ use App\Models\StartupNews\StartupNews;
 use App\Models\User\User;
 
 /**
- * Class StartupNewsCheckers
+ * Class StartupNewsChecker
  * @property StartupNews $startupNews
  * @package App\Models\StartupNews\Checker
  */
-class StartupNewsCheckers
+class StartupNewsChecker
 {
     private StartupNews $startupNews;
 
     /**
-     * StartupNewsCheckers constructor.
+     * StartupNewsChecker constructor.
      *
      * @param StartupNews $startupNews
      */

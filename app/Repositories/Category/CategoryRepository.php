@@ -12,9 +12,9 @@ class CategoryRepository extends BaseRepository
     /**
      * @var string[]
      */
-    protected $serches = [
-        'parent_id'   => '=',
-        'title'       => 'LIKE',
+    protected $searches = [
+        'parent_id'  => '=',
+        'title'      => 'LIKE',
         'created_at' => '=',
         'updated_at' => '=',
     ];
@@ -24,7 +24,7 @@ class CategoryRepository extends BaseRepository
      */
     public $relations = [
         'parent'    => 'parent_id',
-        'children' => 'parent_id'
+        'childrens' => 'parent_id'
     ];
 
     /**

@@ -12,8 +12,10 @@ class FaqRepository extends BaseRepository
     /**
      * @var string[]
      */
-    protected $serches = [
-        'startup_id' => '='
+    protected $searches = [
+        'startup_id' => '=',
+        'created_at' => '=',
+        'updated_at' => '=',
     ];
 
     /**
@@ -21,7 +23,7 @@ class FaqRepository extends BaseRepository
      */
     public $relations = [
         'startup' => 'startup_id',
-        'text' => 'target_id'
+        'text'    => 'target_id'
     ];
 
     protected function getModelClass()

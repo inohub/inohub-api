@@ -5,8 +5,10 @@ namespace App\Models\Startup;
 use App\Interfaces\Owner\OwnerInterface;
 use App\Models\Faq\Faq;
 use App\Models\Comment\Comment;
+use App\Models\Donate\Donate;
 use App\Models\Like\Like;
-use App\Models\Startup\Checker\StartupCheckers;
+use App\Models\Startup\Checker\StartupChecker;
+use App\Models\StartupNews\StartupNews;
 use App\Models\Text\Text;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
@@ -27,6 +29,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read      $texts
  * @property-read      $likes
  * @property-read      $comments
+ * @property-read      $startupNews
+ * @property-read      $fags
  * @package App\Models\Startup
  */
 class Startup extends Model implements OwnerInterface, HasMedia
@@ -45,11 +49,6 @@ class Startup extends Model implements OwnerInterface, HasMedia
         'published_at',
     ];
 
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
-
     /**
      * @var string[]
      */
@@ -65,9 +64,12 @@ class Startup extends Model implements OwnerInterface, HasMedia
         return $this->morphMany(Text::class, 'textable', 'target_class', 'target_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function faqs()
     {
-        return $this->hasMany(Faq::class);
+        return $this->hasMany(Faq::class, 'startup_id');
     }
 
     /**
@@ -87,11 +89,27 @@ class Startup extends Model implements OwnerInterface, HasMedia
     }
 
     /**
-     * @return StartupCheckers
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function donates()
+    {
+        return $this->hasMany(Donate::class, 'startup_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function startupNews()
+    {
+        return $this->hasMany(StartupNews::class, 'startup_id');
+    }
+
+    /**
+     * @return StartupChecker
      */
     public function getChecker()
     {
-        return new StartupCheckers($this);
+        return new StartupChecker($this);
     }
 
     public function getPreviewImageUrlAttribute()
