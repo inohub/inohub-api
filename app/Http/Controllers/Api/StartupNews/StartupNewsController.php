@@ -40,10 +40,7 @@ class StartupNewsController extends Controller
      */
     public function getParams()
     {
-        return $this->response([
-            'fields'    => $this->startupNewsRepository->fields,
-            'relations' => $this->startupNewsRepository->relations,
-        ]);
+        return $this->response($this->startupNewsRepository->getParams());
     }
 
     /**
@@ -94,7 +91,7 @@ class StartupNewsController extends Controller
      */
     public function show(Request $request, StartupNews $startupNews)
     {
-        $builder = $this->startupNewsRepository->filters($request, $startupNews);
+        $builder = $this->startupNewsRepository->findOne($request, $startupNews);
 
         return $this->response($builder->get());
     }

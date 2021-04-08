@@ -37,10 +37,7 @@ class LessonController extends Controller
      */
     public function getParams()
     {
-        return $this->response([
-            'fields' => $this->lessonRepository->fields,
-            'relations' => $this->lessonRepository->relations,
-        ]);
+        return $this->response($this->lessonRepository->getParams());
     }
 
     /**
@@ -91,7 +88,7 @@ class LessonController extends Controller
      */
     public function show(Request $request, Lesson $lesson)
     {
-        $builder = $this->lessonRepository->filters($request, $lesson);
+        $builder = $this->lessonRepository->findOne($request, $lesson);
 
         return $this->response($builder->get());
     }

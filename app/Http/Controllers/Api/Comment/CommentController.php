@@ -37,10 +37,7 @@ class CommentController extends Controller
      */
     public function getParams()
     {
-        return $this->response([
-            'fields' => $this->commentRepository->fields,
-            'relations' => $this->commentRepository->relations,
-        ]);
+        return $this->response($this->commentRepository->getParams());
     }
 
     /**
@@ -94,7 +91,7 @@ class CommentController extends Controller
      */
     protected function showComment(Request $request, Model $model, Comment $comment)
     {
-        $builder = $this->commentRepository->filters($request, $model, $comment);
+        $builder = $this->commentRepository->findOne($request, $comment, $model);
 
         return $this->response($builder->get());
     }

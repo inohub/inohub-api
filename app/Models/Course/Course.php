@@ -41,6 +41,13 @@ class Course extends Model implements OwnerInterface
         'published_at',
     ];
 
+    protected $relations = [
+        'lessons' => [
+            'hasMany',
+            'course_id',
+        ],
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

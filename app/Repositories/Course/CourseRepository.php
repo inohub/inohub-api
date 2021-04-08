@@ -12,30 +12,25 @@ use App\Repositories\Base\BaseRepository;
 class CourseRepository extends BaseRepository
 {
     /**
-     * @var string[]
-     */
-    public $searches = [
-        'owner_id'     => '=',
-        'name'         => 'LIKE',
-        'is_publish'   => '=',
-        'published_at' => '=',
-        'created_at'   => '=',
-        'updated_at'   => '='
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'owner'   => 'owner_id',
-        'lessons' => 'course_id',
-    ];
-
-    /**
      * @return string
      */
-    public function getModelClass()
+    public function getModelClass(): string
     {
         return Course::class;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSearchFields(): array
+    {
+        return [
+            'owner_id'     => '=',
+            'name'         => 'LIKE',
+            'is_publish'   => '=',
+            'published_at' => '=',
+            'created_at'   => '=',
+            'updated_at'   => '='
+        ];
     }
 }

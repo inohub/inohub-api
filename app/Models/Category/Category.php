@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property      $description
  * @property      $parent_id
  * @property-read $parent
- * @property-read $childrens
+ * @property-read $children
  * @package App\Models\Category
  */
 class Category extends Model
@@ -27,6 +27,17 @@ class Category extends Model
         'parent_id'
     ];
 
+    protected $relations = [
+        'parent'   => [
+            'belongsTo',
+            'parent_id',
+        ],
+        'children' => [
+            'hasMany',
+            'parent_id',
+        ]
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -38,7 +49,7 @@ class Category extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function childrens()
+    public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');
     }

@@ -32,6 +32,17 @@ class Faq extends Model
         'text'
     ];
 
+    protected $relations = [
+        'startup' => [
+            'belongsTo',
+            'startup_id',
+        ],
+        'text'    => [
+            'morphOne',
+            'target_class',
+        ]
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

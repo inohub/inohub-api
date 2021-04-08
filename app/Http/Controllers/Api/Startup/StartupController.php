@@ -40,10 +40,7 @@ class StartupController extends Controller
      */
     public function getParams()
     {
-        return $this->response([
-            'fields' => $this->startupRepository->fields,
-            'relations' => $this->startupRepository->relations
-        ]);
+        return $this->response($this->startupRepository->getParams());
     }
 
     /**
@@ -94,7 +91,7 @@ class StartupController extends Controller
      */
     public function show(Request $request, Startup $startup)
     {
-        $builder = $this->startupRepository->filters($request, $startup);
+        $builder = $this->startupRepository->findOne($request, $startup);
 
         return $this->response($builder->get());
     }

@@ -32,6 +32,13 @@ class Donate extends Model implements OwnerInterface
         'startup_id',
     ];
 
+    protected $relations = [
+        'startup' => [
+            'belongsTo',
+            'startup_id',
+        ],
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

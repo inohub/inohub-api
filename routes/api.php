@@ -4,6 +4,10 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::get('test', function () {
+    $model = new App\Models\Startup\Startup();
+//    $model->getRelations()
+});
 
 Route::get('/unauthorized', [AuthController::class, 'unauthorized'])->name('unauthorized');
 

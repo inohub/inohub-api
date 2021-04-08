@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property      $target_class
  * @property      $target_id
  * @property-read $owner
- * @property-read $childrens
+ * @property-read $children
  * @property-read $parent
  * @package App\Models\Comment
  */
@@ -45,6 +45,17 @@ class Comment extends Model implements OwnerInterface
         'target_id',
     ];
 
+    protected $relations = [
+        'parent' => [
+            'belongsTo',
+            'parent_id',
+        ],
+        'children' => [
+            'hasMany',
+            'parent_id',
+        ],
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
@@ -69,7 +80,7 @@ class Comment extends Model implements OwnerInterface
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function childrens()
+    public function children()
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }

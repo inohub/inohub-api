@@ -12,28 +12,23 @@ use App\Repositories\Base\BaseRepository;
 class DonateRepository extends BaseRepository
 {
     /**
-     * @var string[]
-     */
-    public $searches = [
-        'owner_id' => '=',
-        'startup_id' => '=',
-        'created_at' => '=',
-        'updated_at' => '=',
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'owner' => 'owner_id',
-        'startup' => 'startup_id',
-    ];
-
-    /**
      * @return string
      */
-    public function getModelClass()
+    public function getModelClass(): string
     {
         return Donate::class;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSearchFields(): array
+    {
+        return [
+            'owner_id'   => '=',
+            'startup_id' => '=',
+            'created_at' => '=',
+            'updated_at' => '=',
+        ];
     }
 }

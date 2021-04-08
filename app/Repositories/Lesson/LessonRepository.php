@@ -12,28 +12,23 @@ use App\Repositories\Base\BaseRepository;
 class LessonRepository extends BaseRepository
 {
     /**
-     * @var string[]
-     */
-    public $searches = [
-        'course_id'  => '=',
-        'name'       => 'LIKE',
-        'created_at' => '=',
-        'updated_at' => '=',
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'course' => 'course_id',
-        'texts' => 'target_id',
-    ];
-
-    /**
      * @return string
      */
-    public function getModelClass()
+    public function getModelClass(): string
     {
         return Lesson::class;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSearchFields(): array
+    {
+        return [
+            'course_id'  => '=',
+            'name'       => 'LIKE',
+            'created_at' => '=',
+            'updated_at' => '=',
+        ];
     }
 }

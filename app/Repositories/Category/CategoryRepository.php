@@ -9,29 +9,18 @@ use App\Repositories\Base\BaseRepository;
 
 class CategoryRepository extends BaseRepository
 {
-    /**
-     * @var string[]
-     */
-    protected $searches = [
-        'parent_id'  => '=',
-        'title'      => 'LIKE',
-        'created_at' => '=',
-        'updated_at' => '=',
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'parent'    => 'parent_id',
-        'childrens' => 'parent_id'
-    ];
-
-    /**
-     * @return string
-     */
-    protected function getModelClass()
+    public function getModelClass(): string
     {
         return Category::class;
+    }
+
+    public function getSearchFields(): array
+    {
+        return [
+            'parent_id'  => '=',
+            'title'      => 'LIKE',
+            'created_at' => '=',
+            'updated_at' => '=',
+        ];
     }
 }

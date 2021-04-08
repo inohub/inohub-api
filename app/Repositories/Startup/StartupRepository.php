@@ -12,37 +12,27 @@ use App\Repositories\Base\BaseRepository;
 class StartupRepository extends BaseRepository
 {
     /**
-     * @var string[]
-     */
-    protected $searches = [
-        'owner_id'        => '=',
-        'name'            => 'LIKE',
-        'subtitle'        => 'LIKE',
-        'donation_amount' => '=',
-        'is_publish'      => '=',
-        'published_at'    => '=',
-        'created_at'      => '=',
-        'updated_at'      => '=',
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'owner'       => 'owner_id',
-        'texts'       => 'target_id',
-        'faqs'        => 'startup_id',
-        'likes'       => 'target_id',
-        'comments'    => 'target_id',
-        'donates'     => 'startup_id',
-        'startupNews' => 'startup_id',
-    ];
-
-    /**
      * @return string
      */
-    protected function getModelClass()
+    public function getModelClass(): string
     {
         return Startup::class;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSearchFields(): array
+    {
+        return [
+            'owner_id'        => '=',
+            'name'            => 'LIKE',
+            'subtitle'        => 'LIKE',
+            'donation_amount' => '=',
+            'is_publish'      => '=',
+            'published_at'    => '=',
+            'created_at'      => '=',
+            'updated_at'      => '=',
+        ];
     }
 }

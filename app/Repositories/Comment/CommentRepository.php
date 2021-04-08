@@ -14,41 +14,46 @@ use Illuminate\Http\Request;
 class CommentRepository extends BaseRepository
 {
     /**
-     * @var string[]
-     */
-    protected $searches = [
-        'owner_id'   => '=',
-        'parent_id'  => '=',
-        'created_at' => '=',
-        'updated_at' => '='
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'owner'     => 'owner_id',
-        'parent'    => 'parent_id',
-        'childrens' => 'parent_id',
-    ];
-
-    /**
      * @return string
      */
-    public function getModelClass()
+    public function getModelClass(): string
     {
         return Comment::class;
     }
 
     /**
-     * @param Request      $request
-     * @param Model|null   $model
-     * @param Comment|null $comment
+     * @return string[]
+     */
+    public function getSearchFields(): array
+    {
+        return [
+            'owner_id'   => '=',
+            'parent_id'  => '=',
+            'created_at' => '=',
+            'updated_at' => '='
+        ];
+    }
+
+    /**
+     * @param Request    $request
+     * @param Model|null $parentClass
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function filters(Request $request, Model $model = null, Comment $comment = null)
+    public function filters(Request $request, Model $parentClass = null)
     {
-        return parent::filters($request, $comment)->where('target_class', $model->getMorphClass());
+        return parent::filters($request)->where('target_class', $parentClass->getMorphClass());
+    }
+
+    /**
+     * @param Request    $request
+     * @param Model      $model
+     * @param Model|null $parentClass
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function findOne(Request $request, Model $model, Model $parentClass = null)
+    {
+        return parent::findOne($request, $model)->where('target_class', $parentClass->getMorphClass());
     }
 }
