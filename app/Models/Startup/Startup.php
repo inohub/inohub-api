@@ -14,6 +14,8 @@ use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Class Startup
@@ -31,9 +33,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read      $fags
  * @package App\Models\Startup
  */
-class Startup extends Model implements OwnerInterface
+class Startup extends Model implements OwnerInterface, HasMedia
 {
-    use HasFactory, OwnerTrait, ScopeOfOwner;
+    use HasFactory, OwnerTrait, ScopeOfOwner, InteractsWithMedia;
 
     /**
      * @var string[]
@@ -108,5 +110,10 @@ class Startup extends Model implements OwnerInterface
     public function getChecker()
     {
         return new StartupChecker($this);
+    }
+
+    public function getPreviewImageUrlAttribute()
+    {
+        return $this->getFirstMediaUrl('preview-image');
     }
 }
