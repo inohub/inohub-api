@@ -9,6 +9,7 @@ use Database\Seeders\Lesson\LessonSeed;
 use Database\Seeders\Like\LikeSeed;
 use Database\Seeders\Startup\StartupSeed;
 use Database\Seeders\StartupNews\StartupNewsSeed;
+use Database\Seeders\Test\TestFullSeed;
 use Database\Seeders\Text\TextSeed;
 use Database\Seeders\User\UserSeed;
 use Database\Seeders\Category\CategorySeed;
@@ -36,6 +37,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DonateSeed::class);
         $this->call(CourseSeed::class);
         $this->call(LessonSeed::class);
+        $this->call(TestFullSeed::class);
 
         $this->call(TextSeed::class);
     }
