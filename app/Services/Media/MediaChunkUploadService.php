@@ -32,16 +32,19 @@ class MediaChunkUploadService
     {
         $file = $this->request->file('file');
 
-        $path = 'chunks/user_'.auth()->user()->id.'/'.$file->getClientOriginalName();
+        $path = 'chunks/user_'.'1'.'/'.$file->getClientOriginalName();
 
         Storage::disk('public')->append($path, $file->get());
 
         if ($this->request->has('is_last') && $this->request->boolean('is_last')) {
+            $name = basename($path, '.part');
+
             if ($this->model->getFirstMediaUrl($this->collectionName) != null) {
                 $this->model->clearMediaCollection($this->collectionName);
             }
 
             $this->model->addMediaFromDisk($path, 'public')
+                ->usingFileName($name)
                 ->toMediaCollection($this->collectionName);
         }
 
