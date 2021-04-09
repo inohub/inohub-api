@@ -27,6 +27,9 @@ abstract class BaseRepository implements BaseRepositoryInterface
     private array $searchFields;
     private array $fieldsFromRequest;
 
+    /**
+     * BaseRepository constructor.
+     */
     public function __construct()
     {
         $this->builder = app($this->getModelClass())->query();
@@ -108,7 +111,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
     private function sort($data)
     {
         foreach ($data as $key => $value) {
-            if (in_array($key, $this->fields)) {
+            if (in_array($key, $this->fields) || $key == 'id') {
                 $this->builder->orderBy($key, $value);
             }
         }
@@ -133,12 +136,21 @@ abstract class BaseRepository implements BaseRepositoryInterface
     {
         foreach ($data as $key => $value) {
             if (isset($this->relations[$key])) {
+
+                $fields = Arr::get($value, 'fields', []);
+                $query = $key;
+
                 if (in_array($this->relations[$key][0], self::RELATION_TYPE)) {
                     $this->fieldsFromRequest[] = $this->relations[$key][1];
-                } else {
-                    $value[] = $this->relations[$key][1];
+                } elseif ($fields) {
+                    $fields[] = $this->relations[$key][1];
                 }
-                $this->builder->with($key . ':id,' . implode(',', $value));
+
+                if ($fields) {
+                    $query = $query . ':id,' . implode(',', $fields);
+                }
+
+                $this->builder->with($query);
             }
         }
     }
