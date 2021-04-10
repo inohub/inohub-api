@@ -7,6 +7,7 @@ use Database\Seeders\Course\CourseSeed;
 use Database\Seeders\Donate\DonateSeed;
 use Database\Seeders\Lesson\LessonSeed;
 use Database\Seeders\Like\LikeSeed;
+use Database\Seeders\Profile\ProfileSeed;
 use Database\Seeders\Startup\StartupSeed;
 use Database\Seeders\StartupNews\StartupNewsSeed;
 use Database\Seeders\Test\TestFullSeed;
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UserSeed::class);
+        $this->call(ProfileSeed::class);
         $this->call(StartupSeed::class);
         $this->call(StartupNewsSeed::class);
         $this->call(LikeSeed::class);
