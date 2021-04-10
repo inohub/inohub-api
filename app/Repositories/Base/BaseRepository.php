@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Base;
 
-use App\Interfaces\BaseRepository\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -10,14 +9,9 @@ use Illuminate\Support\Arr;
 
 /**
  * Class BaseRepository
- * @property Builder $builder
- * @property         $fields
- * @property         $relations
- * @property         $searchFields
- * @property         $fieldsFromRequest
  * @package App\Repositories\Base
  */
-abstract class BaseRepository implements BaseRepositoryInterface
+abstract class BaseRepository
 {
     const RELATION_TYPE = ['belongsTo'];
 
@@ -26,6 +20,16 @@ abstract class BaseRepository implements BaseRepositoryInterface
     private array $relations;
     private array $searchFields;
     private array $fieldsFromRequest;
+
+    /**
+     * @return string
+     */
+    abstract function getModelClass(): string;
+
+    /**
+     * @return array
+     */
+    abstract protected function getSearchFields(): array;
 
     /**
      * BaseRepository constructor.
@@ -87,9 +91,9 @@ abstract class BaseRepository implements BaseRepositoryInterface
     private function setForAll($data)
     {
         $this->setFields(Arr::get($data, 'fields', []));
-        $this->setRelationCount(Arr::get($data, 'count', []));
         $this->setRelations(Arr::get($data, 'relation', []));
         $this->select();
+        $this->setRelationCount(Arr::get($data, 'count', []));
     }
 
     /**
