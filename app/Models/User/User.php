@@ -2,6 +2,8 @@
 
 namespace App\Models\User;
 
+use App\Models\AdataDetail\AdataDetail;
+use App\Models\Profile\Profile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,12 +19,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name',
         'email',
-        'password',
-        'first_name',
-        'last_name',
-        'username'
+        'password'
     ];
 
     /**
@@ -57,5 +55,15 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    public function adataDetails()
+    {
+        return $this->hasMany(AdataDetail::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
     }
 }

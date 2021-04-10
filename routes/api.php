@@ -103,6 +103,12 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::put('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'update']);
         Route::delete('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'destroy']);
     });
+
+    Route::group(['prefix' => 'adata'], function () {
+        Route::get('/get-token/{user}', [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'getFreshAdataToken']);
+        Route::get('/fetch-user-data/{token}', [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'fetchAdataInfoByToken']);
+
+    });
 });
 
 
