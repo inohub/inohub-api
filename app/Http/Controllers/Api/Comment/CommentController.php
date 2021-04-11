@@ -48,7 +48,9 @@ class CommentController extends Controller
      */
     protected function indexComment(Request $request, Model $model)
     {
-        $builder = $this->commentRepository->filters($request, $model);
+        $builder = $this->commentRepository->filters($request)
+            ->where('target_class', $model->getMorphClass())
+            ->where('target_id', $model->id);
 
         return $this->response($builder->get());
     }
@@ -91,7 +93,9 @@ class CommentController extends Controller
      */
     protected function showComment(Request $request, Model $model, Comment $comment)
     {
-        $builder = $this->commentRepository->findOne($request, $comment, $model);
+        $builder = $this->commentRepository->findOne($request, $comment)
+            ->where('target_class', $model->getMorphClass())
+            ->where('target_id', $model->id);
 
         return $this->response($builder->first());
     }

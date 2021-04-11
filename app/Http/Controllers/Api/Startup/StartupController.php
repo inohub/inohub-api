@@ -137,31 +137,4 @@ class StartupController extends Controller
 
         return $this->response([]);
     }
-
-    /**
-     * @param Startup $startup
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
-     */
-    public function like(Startup $startup)
-    {
-        DB::beginTransaction();
-
-        try {
-
-            if ((new LikeService($startup, Auth::user()))->run()) {
-
-                DB::commit();
-
-                return $this->response($startup->likes()->count());
-            }
-
-            return $this->response([], ResponseCodes::FAILED_RESULT);
-
-        } catch (\Throwable $exception) {
-
-            throw $exception;
-        }
-    }
 }

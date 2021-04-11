@@ -17,6 +17,7 @@ Route::group([
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/comments/params', [\App\Http\Controllers\Api\Comment\CommentController::class, 'getParams']);
+    Route::get('/likes/params', [\App\Http\Controllers\Api\Like\LikeController::class, 'getParams']);
 
     Route::group(['prefix' => 'startups'], function () {
         Route::get('/params', [\App\Http\Controllers\Api\Startup\StartupController::class, 'getParams']);
@@ -25,20 +26,21 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'show']);
         Route::put('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'update']);
         Route::delete('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'destroy']);
-        Route::post('/{startup}/like', [\App\Http\Controllers\Api\Startup\StartupController::class, 'like']);
-
         Route::group(['prefix' => '{startup}/media'], function () {
             Route::post('store-preview-image', [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewImage']);
             Route::post('store-preview-video', [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewVideo']);
         });
-
-        Route::post('/{startup}/comment', [\App\Http\Controllers\Api\Startup\StartupController::class, 'storeComment']);
         Route::group(['prefix' => '/{startup}/comments'], function () {
             Route::get('/', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'index']);
             Route::post('/', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'store']);
             Route::get('/{comment}', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'show']);
             Route::put('/{comment}', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'update']);
             Route::delete('/{comment}', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'destroy']);
+        });
+        Route::group(['prefix' => '/{startup}/likes'], function () {
+            Route::get('/', [\App\Http\Controllers\Api\Startup\StartupLikeController::class, 'index']);
+            Route::post('/', [\App\Http\Controllers\Api\Startup\StartupLikeController::class, 'like']);
+            Route::get('/count', [\App\Http\Controllers\Api\Startup\StartupLikeController::class, 'likeCount']);
         });
     });
 
@@ -56,13 +58,17 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'show']);
         Route::put('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'update']);
         Route::delete('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'destroy']);
-        Route::post('/{startupNews}/like', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'like']);
         Route::group(['prefix' => '/{startupNews}/comments'], function () {
             Route::get('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'index']);
             Route::post('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'store']);
             Route::get('/{comment}', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'show']);
             Route::put('/{comment}', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'update']);
             Route::delete('/{comment}', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'destroy']);
+        });
+        Route::group(['prefix' => '/{startupNews}/likes'], function () {
+            Route::get('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsLikeController::class, 'index']);
+            Route::post('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsLikeController::class, 'like']);
+            Route::get('/count', [\App\Http\Controllers\Api\StartupNews\StartupNewsLikeController::class, 'likeCount']);
         });
     });
 
@@ -136,6 +142,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'show']);
         Route::put('/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'update']);
         Route::delete('/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'destroy']);
+        Route::get('/{variant}/is-correct', [\App\Http\Controllers\Api\Test\VariantController::class, 'isCorrect']);
     });
 });
 

@@ -50,27 +50,4 @@ class CommentRepository extends BaseRepository
             ],
         ];
     }
-
-    /**
-     * @param Request    $request
-     * @param Model|null $parentClass
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function filters(Request $request, Model $parentClass = null)
-    {
-        return parent::filters($request)->where('target_class', $parentClass->getMorphClass());
-    }
-
-    /**
-     * @param Request    $request
-     * @param Model      $model
-     * @param Model|null $parentClass
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function findOne(Request $request, Model $model, Model $parentClass = null)
-    {
-        return parent::findOne($request, $model)->where('target_class', $parentClass->getMorphClass());
-    }
 }

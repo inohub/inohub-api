@@ -44,8 +44,6 @@ class CommentChecker
     {
         $res = $this->comment->target_class == $model->getMorphClass();
 
-        $res = $res && $this->comment->target_id == $model->id;
-
-        return $res;
+        return $res && $this->comment->target_id == $model->id;
     }
 }

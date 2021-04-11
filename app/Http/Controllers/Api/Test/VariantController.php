@@ -133,4 +133,14 @@ class VariantController extends Controller
 
         return $this->response([]);
     }
+
+    /**
+     * @param Variant $variant
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function isCorrect(Variant $variant)
+    {
+        return $this->response($variant->is_correct);
+    }
 }
