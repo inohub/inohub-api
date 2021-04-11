@@ -27,17 +27,6 @@ class Category extends Model
         'parent_id'
     ];
 
-    protected $relations = [
-        'parent'   => [
-            'belongsTo',
-            'parent_id',
-        ],
-        'children' => [
-            'hasMany',
-            'parent_id',
-        ]
-    ];
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

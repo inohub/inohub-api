@@ -27,6 +27,10 @@ class RouteServiceProvider extends ServiceProvider
         'donate',
         'course',
         'lesson',
+        'test',
+        'question',
+        'variant',
+        'answer',
     ];
 
     /**

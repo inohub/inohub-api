@@ -93,7 +93,7 @@ class StartupNewsController extends Controller
     {
         $builder = $this->startupNewsRepository->findOne($request, $startupNews);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**

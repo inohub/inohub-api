@@ -90,7 +90,7 @@ class CourseController extends Controller
     {
         $builder = $this->courseRepository->findOne($request, $course);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**

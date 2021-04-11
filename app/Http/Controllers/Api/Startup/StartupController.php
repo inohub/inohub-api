@@ -93,7 +93,7 @@ class StartupController extends Controller
     {
         $builder = $this->startupRepository->findOne($request, $startup);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**

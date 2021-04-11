@@ -1,13 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-Route::get('test', function () {
-    $model = new App\Models\Startup\Startup();
-//    $model->getRelations()
-});
 
 Route::get('/unauthorized', [AuthController::class, 'unauthorized'])->name('unauthorized');
 
@@ -106,6 +100,42 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'show']);
         Route::put('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'update']);
         Route::delete('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'tests'], function () {
+        Route::get('/params', [\App\Http\Controllers\Api\Test\TestController::class, 'getParams']);
+        Route::get('/', [\App\Http\Controllers\Api\Test\TestController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\Test\TestController::class, 'store']);
+        Route::get('/{test}', [\App\Http\Controllers\Api\Test\TestController::class, 'show']);
+        Route::put('/{test}', [\App\Http\Controllers\Api\Test\TestController::class, 'update']);
+        Route::delete('{test}', [\App\Http\Controllers\Api\Test\TestController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'questions'], function () {
+        Route::get('/params', [\App\Http\Controllers\Api\Test\QuestionController::class, 'getParams']);
+        Route::get('/', [\App\Http\Controllers\Api\Test\QuestionController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\Test\QuestionController::class, 'store']);
+        Route::get('/{question}', [\App\Http\Controllers\Api\Test\QuestionController::class, 'show']);
+        Route::put('/{question}', [\App\Http\Controllers\Api\Test\QuestionController::class, 'update']);
+        Route::delete('{question}', [\App\Http\Controllers\Api\Test\QuestionController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'answers'], function () {
+        Route::get('/params', [\App\Http\Controllers\Api\Test\AnswerController::class, 'getParams']);
+        Route::get('/', [\App\Http\Controllers\Api\Test\AnswerController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\Test\AnswerController::class, 'store']);
+        Route::get('/{answer}', [\App\Http\Controllers\Api\Test\AnswerController::class, 'show']);
+        Route::put('/{answer}', [\App\Http\Controllers\Api\Test\AnswerController::class, 'update']);
+        Route::delete('/{answer}', [\App\Http\Controllers\Api\Test\AnswerController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'variants'], function () {
+        Route::get('/params', [\App\Http\Controllers\Api\Test\VariantController::class, 'getParams']);
+        Route::get('/', [\App\Http\Controllers\Api\Test\VariantController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\Test\VariantController::class, 'store']);
+        Route::get('/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'show']);
+        Route::put('/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'update']);
+        Route::delete('/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'destroy']);
     });
 });
 

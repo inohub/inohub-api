@@ -88,7 +88,7 @@ class CategoryController extends Controller
     {
         $builder = $this->categoryRepository->findOne($request, $category);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**

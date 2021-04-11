@@ -14,7 +14,7 @@ class CourseRepository extends BaseRepository
     /**
      * @return string
      */
-    public function getModelClass(): string
+    protected function getModelClass(): string
     {
         return Course::class;
     }
@@ -22,7 +22,7 @@ class CourseRepository extends BaseRepository
     /**
      * @return string[]
      */
-    public function getSearchFields(): array
+    protected function getSearchFields(): array
     {
         return [
             'owner_id'     => '=',
@@ -31,6 +31,19 @@ class CourseRepository extends BaseRepository
             'published_at' => '=',
             'created_at'   => '=',
             'updated_at'   => '='
+        ];
+    }
+
+    /**
+     * @return \string[][]
+     */
+    protected function getRelations(): array
+    {
+        return [
+            'lessons' => [
+                'hasMany',
+                'course_id',
+            ],
         ];
     }
 }

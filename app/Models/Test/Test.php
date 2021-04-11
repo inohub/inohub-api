@@ -5,6 +5,7 @@ namespace App\Models\Test;
 use App\Models\Lesson\Lesson;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Test
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Test extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * @var string[]

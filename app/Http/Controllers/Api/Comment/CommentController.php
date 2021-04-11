@@ -93,7 +93,7 @@ class CommentController extends Controller
     {
         $builder = $this->commentRepository->findOne($request, $comment, $model);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**

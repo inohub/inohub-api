@@ -33,9 +33,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read      $fags
  * @package App\Models\Startup
  */
-class Startup extends Model implements OwnerInterface
+class Startup extends Model implements OwnerInterface, HasMedia
 {
-    use HasFactory, OwnerTrait, ScopeOfOwner;
+    use HasFactory, OwnerTrait, ScopeOfOwner, InteractsWithMedia;
 
     /**
      * @var string[]
@@ -54,33 +54,6 @@ class Startup extends Model implements OwnerInterface
      */
     protected $dates = [
         'published_at',
-    ];
-
-    protected $relations = [
-        'texts'       => [
-            'morphMany',
-            'target_id',
-        ],
-        'faqs'        => [
-            'hasMany',
-            'startup_id',
-        ],
-        'likes'       => [
-            'morphMany',
-            'target_id',
-        ],
-        'comments'    => [
-            'morphMany',
-            'target_id',
-        ],
-        'donates'     => [
-            'hasMany',
-            'startup_id',
-        ],
-        'startupNews' => [
-            'hasMany',
-            'startup_id',
-        ],
     ];
 
     /**

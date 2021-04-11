@@ -16,7 +16,7 @@ class CommentRepository extends BaseRepository
     /**
      * @return string
      */
-    public function getModelClass(): string
+    protected function getModelClass(): string
     {
         return Comment::class;
     }
@@ -24,13 +24,30 @@ class CommentRepository extends BaseRepository
     /**
      * @return string[]
      */
-    public function getSearchFields(): array
+    protected function getSearchFields(): array
     {
         return [
             'owner_id'   => '=',
             'parent_id'  => '=',
             'created_at' => '=',
             'updated_at' => '='
+        ];
+    }
+
+    /**
+     * @return \string[][]
+     */
+    protected function getRelations(): array
+    {
+        return [
+            'parent' => [
+                'belongsTo',
+                'parent_id',
+            ],
+            'children' => [
+                'hasMany',
+                'parent_id',
+            ],
         ];
     }
 

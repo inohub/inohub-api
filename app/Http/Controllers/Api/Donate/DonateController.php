@@ -86,6 +86,6 @@ class DonateController extends Controller
     {
         $builder = $this->donateRepository->findOne($request, $donate);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 }

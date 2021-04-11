@@ -84,7 +84,7 @@ class FaqController extends Controller
     {
         $builder = $this->faqRepository->findOne($request, $faq);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**

@@ -14,7 +14,7 @@ class StartupRepository extends BaseRepository
     /**
      * @return string
      */
-    public function getModelClass(): string
+    protected function getModelClass(): string
     {
         return Startup::class;
     }
@@ -22,7 +22,7 @@ class StartupRepository extends BaseRepository
     /**
      * @return string[]
      */
-    public function getSearchFields(): array
+    protected function getSearchFields(): array
     {
         return [
             'owner_id'        => '=',
@@ -33,6 +33,39 @@ class StartupRepository extends BaseRepository
             'published_at'    => '=',
             'created_at'      => '=',
             'updated_at'      => '=',
+        ];
+    }
+
+    /**
+     * @return \string[][]
+     */
+    protected function getRelations(): array
+    {
+        return [
+            'texts'       => [
+                'morphMany',
+                'target_id',
+            ],
+            'faqs'        => [
+                'hasMany',
+                'startup_id',
+            ],
+            'likes'       => [
+                'morphMany',
+                'target_id',
+            ],
+            'comments'    => [
+                'morphMany',
+                'target_id',
+            ],
+            'donates'     => [
+                'hasMany',
+                'startup_id',
+            ],
+            'startupNews' => [
+                'hasMany',
+                'startup_id',
+            ],
         ];
     }
 }

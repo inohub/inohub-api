@@ -90,7 +90,7 @@ class LessonController extends Controller
     {
         $builder = $this->lessonRepository->findOne($request, $lesson);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**

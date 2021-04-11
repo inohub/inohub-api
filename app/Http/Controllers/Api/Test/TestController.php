@@ -3,62 +3,134 @@
 namespace App\Http\Controllers\Api\Test;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Test\Test\TestCreateRequest;
+use App\Http\Requests\Test\Test\TestUpdateRequest;
+use App\Models\Test\Test;
+use App\Repositories\Test\TestRepository;
+use App\ResponseCodes\ResponseCodes;
+use App\Services\Test\Test\TestCreateService;
+use App\Services\Test\Test\TestUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
+/**
+ * Class TestController
+ * @property TestRepository $testRepository
+ * @package App\Http\Controllers\Api\Test
+ */
 class TestController extends Controller
 {
+    private TestRepository $testRepository;
+
     /**
-     * Display a listing of the resource.
+     * TestController constructor.
      *
-     * @return \Illuminate\Http\Response
+     * @param TestRepository $testRepository
      */
-    public function index()
+    public function __construct(TestRepository $testRepository)
     {
-        //
+        $this->testRepository = $testRepository;
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function getParams()
     {
-        //
+        return $this->response($this->testRepository->getParams());
     }
 
     /**
-     * Display the specified resource.
+     * @param Request $request
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function index(Request $request)
     {
-        //
+        $builder = $this->testRepository->filters($request);
+
+        return $this->response($builder->get());
     }
 
     /**
-     * Update the specified resource in storage.
+     * @param TestCreateRequest $request
+     * @param Test              $test
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
      */
-    public function update(Request $request, $id)
+    public function store(TestCreateRequest $request, Test $test)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+
+            if ((new TestCreateService($test, $request))->run()) {
+
+                DB::commit();
+
+                return $this->response($test->refresh());
+            }
+
+            return $this->response([], ResponseCodes::FAILED_RESULT);
+
+        } catch (\Throwable $exception) {
+
+            throw $exception;
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param Request $request
+     * @param Test    $test
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function show(Request $request, Test $test)
     {
-        //
+        $builder = $this->testRepository->findOne($request, $test);
+
+        return $this->response($builder->first());
+    }
+
+    /**
+     * @param TestUpdateRequest $request
+     * @param Test              $test
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function update(TestUpdateRequest $request, Test $test)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if ((new TestUpdateService($test, $request))->run()) {
+
+                DB::commit();
+
+                return $this->response($test->refresh());
+            }
+
+            return $this->response([], ResponseCodes::FAILED_RESULT);
+
+        } catch (\Throwable $exception) {
+
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param Test $test
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function destroy(Test $test)
+    {
+        $test->delete();
+
+        return $this->response([]);
     }
 }

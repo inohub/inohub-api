@@ -31,21 +31,6 @@ class Lesson extends Model
         'description',
     ];
 
-    protected $relations = [
-        'course' => [
-            'belongsTo',
-            'course_id',
-        ],
-        'texts'  => [
-            'morphMany',
-            'target_id',
-        ],
-        'test'   => [
-            'hasOne',
-            'lesson_id',
-        ],
-    ];
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -63,10 +48,10 @@ class Lesson extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function test()
+    public function tests()
     {
-        return $this->hasOne(Test::class, 'lesson_id');
+        return $this->hasMany(Test::class, 'lesson_id');
     }
 }

@@ -41,25 +41,6 @@ class StartupNews extends Model
         'published_at',
     ];
 
-    protected $relations = [
-        'startup'  => [
-            'belongsTo',
-            'startup_id'
-        ],
-        'texts'    => [
-            'morphMany',
-            'target_id',
-        ],
-        'likes'    => [
-            'morphMany',
-            'target_id',
-        ],
-        'comments' => [
-            'morphMany',
-            'target_id',
-        ],
-    ];
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

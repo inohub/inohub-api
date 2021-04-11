@@ -24,12 +24,17 @@ abstract class BaseRepository
     /**
      * @return string
      */
-    abstract function getModelClass(): string;
+    abstract protected function getModelClass(): string;
 
     /**
      * @return array
      */
     abstract protected function getSearchFields(): array;
+
+    /**
+     * @return array
+     */
+    abstract protected function getRelations(): array;
 
     /**
      * BaseRepository constructor.
@@ -38,7 +43,7 @@ abstract class BaseRepository
     {
         $this->builder = app($this->getModelClass())->query();
         $this->fields = array_merge(app($this->getModelClass())->getFillable(), ['created_at', 'updated_at']);
-        $this->relations = app($this->getModelClass())->getRelations();
+        $this->relations = $this->getRelations();
         $this->searchFields = $this->getSearchFields();
     }
 
