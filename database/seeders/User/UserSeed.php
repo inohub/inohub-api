@@ -27,8 +27,6 @@ class UserSeed extends Seeder
     {
         return User::factory($num)->make()->each(function (User $user) {
             $user->save();
-
-
         });
     }
 

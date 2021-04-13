@@ -14,6 +14,7 @@ use Database\Seeders\Test\TestFullSeed;
 use Database\Seeders\Text\TextSeed;
 use Database\Seeders\User\UserSeed;
 use Database\Seeders\Category\CategorySeed;
+use Database\Seeders\UserTest\UserTestSeed;
 use Illuminate\Database\Seeder;
 
 /**
@@ -40,6 +41,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CourseSeed::class);
         $this->call(LessonSeed::class);
         $this->call(TestFullSeed::class);
+        $this->call(UserTestSeed::class);
 
         $this->call(TextSeed::class);
     }
