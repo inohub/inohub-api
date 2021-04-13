@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api\Lesson;
 
+use App\Components\Test\TestShuffle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Lesson\LessonCreateRequest;
+use App\Http\Requests\Lesson\LessonGetTestRequest;
 use App\Http\Requests\Lesson\LessonUpdateRequest;
 use App\Models\Lesson\Lesson;
 use App\Repositories\Lesson\LessonRepository;
@@ -132,5 +134,18 @@ class LessonController extends Controller
         $lesson->delete();
 
         return $this->response([]);
+    }
+
+    /**
+     * @param LessonGetTestRequest $request
+     * @param Lesson               $lesson
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getTestForUser(LessonGetTestRequest $request, Lesson $lesson)
+    {
+        $test = (new TestShuffle($lesson, $request))->run();
+
+        return $this->response($test);
     }
 }

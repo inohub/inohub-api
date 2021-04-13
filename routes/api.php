@@ -106,6 +106,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'show']);
         Route::put('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'update']);
         Route::delete('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'destroy']);
+        Route::post('/{lesson}/get-test', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'getTestForUser']);
     });
 
     Route::group(['prefix' => 'tests'], function () {

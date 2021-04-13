@@ -39,7 +39,7 @@ class Question extends Model
      */
     public function answer()
     {
-        return $this->hasOne(Question::class, 'question_id');
+        return $this->hasOne(Answer::class, 'question_id');
     }
 
     /**
