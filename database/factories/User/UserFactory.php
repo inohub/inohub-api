@@ -2,6 +2,7 @@
 
 namespace Database\Factories\User;
 
+use App\Models\Profile\Profile;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -26,10 +27,6 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
-            'patronymic' => $this->faker->lastName,
-            'username' => $this->faker->unique()->userName,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'password' => bcrypt('password'),

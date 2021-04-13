@@ -144,6 +144,12 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::delete('/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'destroy']);
         Route::get('/{variant}/is-correct', [\App\Http\Controllers\Api\Test\VariantController::class, 'isCorrect']);
     });
+
+    Route::group(['prefix' => 'adata'], function () {
+        Route::get('/get-token/{user}', [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'getFreshAdataToken']);
+        Route::get('/fetch-user-data/{token}', [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'fetchAdataInfoByToken']);
+
+    });
 });
 
 
