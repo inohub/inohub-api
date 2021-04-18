@@ -147,9 +147,16 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'adata'], function () {
-        Route::get('/get-token/{user}', [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'getFreshAdataToken']);
-        Route::get('/fetch-user-data/{token}', [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'fetchAdataInfoByToken']);
-
+        Route::get('/get-token/{user}',
+            [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'getFreshAdataToken']);
+        Route::get('/fetch-user-data/{token}',
+            [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'fetchAdataInfoByToken']);
+    });
+    Route::group(['prefix' => 'admin'], function () {
+        Route::group(['prefix' => 'dashboard'], function () {
+            Route::get('get-users-card-details',
+                [\App\Http\Controllers\Api\Admin\DashboardController::class, 'getUsersCardDetails']);
+        });
     });
 });
 
