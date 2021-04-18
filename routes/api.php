@@ -17,7 +17,6 @@ Route::group([
     Route::get('me', [AuthController::class, 'me']);
 });
 Route::group(['middleware' => ['auth:api']], function () {
-
     Route::get('/comments/params', [\App\Http\Controllers\Api\Comment\CommentController::class, 'getParams']);
 
     Route::group(['prefix' => 'startups'], function () {
@@ -30,8 +29,10 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::post('/{startup}/like', [\App\Http\Controllers\Api\Startup\StartupController::class, 'like']);
 
         Route::group(['prefix' => '{startup}/media'], function () {
-            Route::post('store-preview-image', [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewImage']);
-            Route::post('store-preview-video', [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewVideo']);
+            Route::post('store-preview-image',
+                [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewImage']);
+            Route::post('store-preview-video',
+                [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewVideo']);
         });
 
         Route::post('/{startup}/comment', [\App\Http\Controllers\Api\Startup\StartupController::class, 'storeComment']);
@@ -57,14 +58,19 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::post('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'store']);
         Route::get('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'show']);
         Route::put('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'update']);
-        Route::delete('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'destroy']);
-        Route::post('/{startupNews}/like', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'like']);
+        Route::delete('/{startupNews}',
+            [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'destroy']);
+        Route::post('/{startupNews}/like',
+            [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'like']);
         Route::group(['prefix' => '/{startupNews}/comments'], function () {
             Route::get('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'index']);
             Route::post('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'store']);
-            Route::get('/{comment}', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'show']);
-            Route::put('/{comment}', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'update']);
-            Route::delete('/{comment}', [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'destroy']);
+            Route::get('/{comment}',
+                [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'show']);
+            Route::put('/{comment}',
+                [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'update']);
+            Route::delete('/{comment}',
+                [\App\Http\Controllers\Api\StartupNews\StartupNewsCommentController::class, 'destroy']);
         });
     });
 
@@ -105,9 +111,16 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'adata'], function () {
-        Route::get('/get-token/{user}', [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'getFreshAdataToken']);
-        Route::get('/fetch-user-data/{token}', [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'fetchAdataInfoByToken']);
-
+        Route::get('/get-token/{user}',
+            [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'getFreshAdataToken']);
+        Route::get('/fetch-user-data/{token}',
+            [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'fetchAdataInfoByToken']);
+    });
+    Route::group(['prefix' => 'admin'], function () {
+        Route::group(['prefix' => 'dashboard'], function () {
+            Route::get('get-users-card-details',
+                [\App\Http\Controllers\Api\Admin\DashboardController::class, 'getUsersCardDetails']);
+        });
     });
 });
 
