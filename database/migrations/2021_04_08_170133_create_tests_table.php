@@ -15,8 +15,9 @@ class CreateTestsTable extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('lesson_id')->unique();
+            $table->unsignedBigInteger('lesson_id');
             $table->string('name');
+            $table->softDeletes();
 
             $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade');
             $table->timestamps();

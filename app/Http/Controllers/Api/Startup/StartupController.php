@@ -40,10 +40,7 @@ class StartupController extends Controller
      */
     public function getParams()
     {
-        return $this->response([
-            'fields' => $this->startupRepository->fields,
-            'relations' => $this->startupRepository->relations
-        ]);
+        return $this->response($this->startupRepository->getParams());
     }
 
     /**
@@ -94,9 +91,9 @@ class StartupController extends Controller
      */
     public function show(Request $request, Startup $startup)
     {
-        $builder = $this->startupRepository->filters($request, $startup);
+        $builder = $this->startupRepository->findOne($request, $startup);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**
@@ -139,32 +136,5 @@ class StartupController extends Controller
         $startup->delete();
 
         return $this->response([]);
-    }
-
-    /**
-     * @param Startup $startup
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
-     */
-    public function like(Startup $startup)
-    {
-        DB::beginTransaction();
-
-        try {
-
-            if ((new LikeService($startup, Auth::user()))->run()) {
-
-                DB::commit();
-
-                return $this->response($startup->likes()->count());
-            }
-
-            return $this->response([], ResponseCodes::FAILED_RESULT);
-
-        } catch (\Throwable $exception) {
-
-            throw $exception;
-        }
     }
 }

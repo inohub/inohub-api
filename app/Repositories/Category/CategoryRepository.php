@@ -3,35 +3,50 @@
 
 namespace App\Repositories\Category;
 
-
 use App\Models\Category\Category;
 use App\Repositories\Base\BaseRepository;
 
+/**
+ * Class CategoryRepository
+ * @package App\Repositories\Category
+ */
 class CategoryRepository extends BaseRepository
 {
     /**
-     * @var string[]
-     */
-    protected $searches = [
-        'parent_id'  => '=',
-        'title'      => 'LIKE',
-        'created_at' => '=',
-        'updated_at' => '=',
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'parent'    => 'parent_id',
-        'childrens' => 'parent_id'
-    ];
-
-    /**
      * @return string
      */
-    protected function getModelClass()
+    protected function getModelClass(): string
     {
         return Category::class;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getSearchFields(): array
+    {
+        return [
+            'parent_id'  => '=',
+            'title'      => 'LIKE',
+            'created_at' => '=',
+            'updated_at' => '=',
+        ];
+    }
+
+    /**
+     * @return \string[][]
+     */
+    protected function getRelations(): array
+    {
+        return [
+            'parent'   => [
+                'belongsTo',
+                'parent_id',
+            ],
+            'children' => [
+                'hasMany',
+                'parent_id',
+            ]
+        ];
     }
 }

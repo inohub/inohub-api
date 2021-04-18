@@ -37,10 +37,7 @@ class CommentController extends Controller
      */
     public function getParams()
     {
-        return $this->response([
-            'fields' => $this->commentRepository->fields,
-            'relations' => $this->commentRepository->relations,
-        ]);
+        return $this->response($this->commentRepository->getParams());
     }
 
     /**
@@ -51,7 +48,9 @@ class CommentController extends Controller
      */
     protected function indexComment(Request $request, Model $model)
     {
-        $builder = $this->commentRepository->filters($request, $model);
+        $builder = $this->commentRepository->filters($request)
+            ->where('target_class', $model->getMorphClass())
+            ->where('target_id', $model->id);
 
         return $this->response($builder->get());
     }
@@ -94,9 +93,11 @@ class CommentController extends Controller
      */
     protected function showComment(Request $request, Model $model, Comment $comment)
     {
-        $builder = $this->commentRepository->filters($request, $model, $comment);
+        $builder = $this->commentRepository->findOne($request, $comment)
+            ->where('target_class', $model->getMorphClass())
+            ->where('target_id', $model->id);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**

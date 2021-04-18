@@ -37,10 +37,7 @@ class CourseController extends Controller
      */
     public function getParams()
     {
-        return $this->response([
-            'fields'    => $this->courseRepository->fields,
-            'relations' => $this->courseRepository->relations,
-        ]);
+        return $this->response($this->courseRepository->getParams());
     }
 
     /**
@@ -91,9 +88,9 @@ class CourseController extends Controller
      */
     public function show(Request $request, Course $course)
     {
-        $builder = $this->courseRepository->filters($request, $course);
+        $builder = $this->courseRepository->findOne($request, $course);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**

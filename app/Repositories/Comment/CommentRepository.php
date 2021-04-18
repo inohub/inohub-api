@@ -14,41 +14,40 @@ use Illuminate\Http\Request;
 class CommentRepository extends BaseRepository
 {
     /**
-     * @var string[]
-     */
-    protected $searches = [
-        'owner_id'   => '=',
-        'parent_id'  => '=',
-        'created_at' => '=',
-        'updated_at' => '='
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'owner'     => 'owner_id',
-        'parent'    => 'parent_id',
-        'childrens' => 'parent_id',
-    ];
-
-    /**
      * @return string
      */
-    public function getModelClass()
+    protected function getModelClass(): string
     {
         return Comment::class;
     }
 
     /**
-     * @param Request      $request
-     * @param Model|null   $model
-     * @param Comment|null $comment
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return string[]
      */
-    public function filters(Request $request, Model $model = null, Comment $comment = null)
+    protected function getSearchFields(): array
     {
-        return parent::filters($request, $comment)->where('target_class', $model->getMorphClass());
+        return [
+            'owner_id'   => '=',
+            'parent_id'  => '=',
+            'created_at' => '=',
+            'updated_at' => '='
+        ];
+    }
+
+    /**
+     * @return \string[][]
+     */
+    protected function getRelations(): array
+    {
+        return [
+            'parent' => [
+                'belongsTo',
+                'parent_id',
+            ],
+            'children' => [
+                'hasMany',
+                'parent_id',
+            ],
+        ];
     }
 }

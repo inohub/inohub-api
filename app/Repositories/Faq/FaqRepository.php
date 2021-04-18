@@ -3,31 +3,49 @@
 
 namespace App\Repositories\Faq;
 
-
 use App\Models\Faq\Faq;
 use App\Repositories\Base\BaseRepository;
 
+/**
+ * Class FaqRepository
+ * @package App\Repositories\Faq
+ */
 class FaqRepository extends BaseRepository
 {
     /**
-     * @var string[]
+     * @return string
      */
-    protected $searches = [
-        'startup_id' => '=',
-        'created_at' => '=',
-        'updated_at' => '=',
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'startup' => 'startup_id',
-        'text'    => 'target_id'
-    ];
-
-    protected function getModelClass()
+    protected function getModelClass(): string
     {
         return Faq::class;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getSearchFields(): array
+    {
+        return [
+            'startup_id' => '=',
+            'created_at' => '=',
+            'updated_at' => '=',
+        ];
+    }
+
+    /**
+     * @return \string[][]
+     */
+    protected function getRelations(): array
+    {
+        return [
+            'startup' => [
+                'belongsTo',
+                'startup_id',
+            ],
+            'text'    => [
+                'morphOne',
+                'target_class',
+            ]
+        ];
     }
 }

@@ -8,13 +8,10 @@ use App\Http\Requests\StartupNews\StartupNewsUpdateRequest;
 use App\Models\StartupNews\StartupNews;
 use App\Repositories\StartupNews\StartupNewsRepository;
 use App\ResponseCodes\ResponseCodes;
-use App\Services\Like\LikeService;
 use App\Services\StartupNews\StartupNewsCreateService;
 use App\Services\StartupNews\StartupNewsUpdateService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class StartupNewsController
@@ -40,10 +37,7 @@ class StartupNewsController extends Controller
      */
     public function getParams()
     {
-        return $this->response([
-            'fields'    => $this->startupNewsRepository->fields,
-            'relations' => $this->startupNewsRepository->relations,
-        ]);
+        return $this->response($this->startupNewsRepository->getParams());
     }
 
     /**
@@ -94,9 +88,9 @@ class StartupNewsController extends Controller
      */
     public function show(Request $request, StartupNews $startupNews)
     {
-        $builder = $this->startupNewsRepository->filters($request, $startupNews);
+        $builder = $this->startupNewsRepository->findOne($request, $startupNews);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**
@@ -138,32 +132,5 @@ class StartupNewsController extends Controller
         $startupNews->delete();
 
         return $this->response([]);
-    }
-
-    /**
-     * @param StartupNews $startupNews
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
-     */
-    public function like(StartupNews $startupNews)
-    {
-        DB::beginTransaction();
-
-        try {
-
-            if ((new LikeService($startupNews, Auth::user()))->run()) {
-
-                DB::commit();
-
-                return $this->response($startupNews->likes()->count());
-            }
-
-            return $this->response([], ResponseCodes::FAILED_RESULT);
-
-        } catch (\Throwable $exception) {
-
-            throw $exception;
-        }
     }
 }

@@ -12,29 +12,47 @@ use App\Repositories\Base\BaseRepository;
 class StartupNewsRepository extends BaseRepository
 {
     /**
-     * @var string[]
-     */
-    protected $searches = [
-        'startup_id' => '=',
-        'created_at' => '=',
-        'updated_at' => '=',
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'startup'  => 'startup_id',
-        'texts'    => 'target_id',
-        'likes'    => 'target_id',
-        'comments' => 'target_id',
-    ];
-
-    /**
      * @return string
      */
-    protected function getModelClass()
+    protected function getModelClass(): string
     {
         return StartupNews::class;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getSearchFields(): array
+    {
+        return [
+            'startup_id' => '=',
+            'created_at' => '=',
+            'updated_at' => '=',
+        ];
+    }
+
+    /**
+     * @return \string[][]
+     */
+    protected function getRelations(): array
+    {
+        return [
+            'startup'  => [
+                'belongsTo',
+                'startup_id'
+            ],
+            'texts'    => [
+                'morphMany',
+                'target_id',
+            ],
+            'likes'    => [
+                'morphMany',
+                'target_id',
+            ],
+            'comments' => [
+                'morphMany',
+                'target_id',
+            ],
+        ];
     }
 }

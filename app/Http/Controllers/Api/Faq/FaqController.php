@@ -33,10 +33,7 @@ class FaqController extends Controller
      */
     public function getParams()
     {
-        return $this->response([
-            'fields' => $this->faqRepository->fields,
-            'relations' => $this->faqRepository->relations
-        ]);
+        return $this->response($this->faqRepository->getParams());
     }
 
     /**
@@ -85,9 +82,9 @@ class FaqController extends Controller
      */
     public function show(Faq $faq, Request $request)
     {
-        $builder = $this->faqRepository->filters($request, $faq);
+        $builder = $this->faqRepository->findOne($request, $faq);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**

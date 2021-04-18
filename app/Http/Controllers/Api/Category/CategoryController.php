@@ -37,10 +37,7 @@ class CategoryController extends Controller
      */
     public function getParams()
     {
-        return $this->response([
-            'fields' => $this->categoryRepository->fields,
-            'relations' => $this->categoryRepository->relations
-        ]);
+        return $this->response($this->categoryRepository->getParams());
     }
 
     /**
@@ -89,9 +86,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category, Request $request)
     {
-        $builder = $this->categoryRepository->filters($request, $category);
+        $builder = $this->categoryRepository->findOne($request, $category);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 
     /**

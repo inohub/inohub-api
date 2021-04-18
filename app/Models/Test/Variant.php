@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Variant
  * @property      $question_id
+ * @property      $text
  * @property      $is_correct
  * @property-read $question
  * @package App\Models\Test
@@ -21,6 +22,7 @@ class Variant extends Model
      */
     protected $fillable = [
         'question_id',
+        'text',
         'is_correct',
     ];
 

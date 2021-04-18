@@ -2,25 +2,39 @@
 
 namespace App\Repositories\Base;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 /**
  * Class BaseRepository
- * @property Builder $builder
- * @property array   $data
- * @property array   $fields
- * @property         $searches
- * @property         $relations
  * @package App\Repositories\Base
  */
 abstract class BaseRepository
 {
-    protected Builder $builder;
-    private array $data;
-    public array $fields;
+    const RELATION_TYPE = ['belongsTo'];
+
+    private Builder $builder;
+    private array $fields;
+    private array $relations;
+    private array $searchFields;
+    private array $fieldsFromRequest;
+
+    /**
+     * @return string
+     */
+    abstract protected function getModelClass(): string;
+
+    /**
+     * @return array
+     */
+    abstract protected function getSearchFields(): array;
+
+    /**
+     * @return array
+     */
+    abstract protected function getRelations(): array;
 
     /**
      * BaseRepository constructor.
@@ -28,106 +42,143 @@ abstract class BaseRepository
     public function __construct()
     {
         $this->builder = app($this->getModelClass())->query();
-        $this->fields = array_merge(['id', 'created_at', 'updated_at'], app($this->getModelClass())->getFillable());
+        $this->fields = array_merge(app($this->getModelClass())->getFillable(), ['created_at', 'updated_at']);
+        $this->relations = $this->getRelations();
+        $this->searchFields = $this->getSearchFields();
     }
 
     /**
-     * @param Request    $request
-     * @param Model|null $model
+     * @return array
+     */
+    public function getParams()
+    {
+        return [
+            'fields'    => $this->fields,
+            'relations' => array_keys($this->relations),
+        ];
+    }
+
+    /**
+     * @param Request $request
      *
      * @return Builder
      */
-    public function filters(Request $request, Model $model = null)
+    public function filters(Request $request)
     {
-        $this->data = $request->all();
+        $data = $request->post();
 
-        if ($model) {
-            $this->builder->where('id', $model->id);
-        }
-
-        if (isset($this->data['searches'])) {
-            $this->search();
-        }
-
-        if (isset($this->data['fields'])) {
-            $this->setFields();
-        }
-
-        if (isset($this->data['sorts'])) {
-            $this->sort();
-        }
-
-        if (isset($this->data['relations'])) {
-            $this->setRelations();
-        }
-
-        if (isset($this->data['relations_count'])) {
-            $this->setRelationsCount();
-        }
+        $this->search(Arr::get($data, 'search', []));
+        $this->sort(Arr::get($data, 'sort', []));
+        $this->setForAll($data);
 
         return $this->builder;
     }
 
-    private function search()
+    /**
+     * @param Request $request
+     * @param Model   $model
+     *
+     * @return Builder
+     */
+    public function findOne(Request $request, Model $model)
     {
-        $searches = $this->data['searches'];
+        $data = $request->post();
 
-        foreach ($searches as $key => $value) {
-            if (isset($this->serches[$key])) {
-                if ($this->searches[$key] == 'LIKE') {
-                    $value = '%' . $value . '%';
-                }
-                $this->builder->where($key, $this->searches[$key], $value);
+        $this->builder->where('id', $model->id);
+        $this->setForAll($data);
+
+        return $this->builder;
+    }
+
+    /**
+     * @param $data
+     */
+    private function setForAll($data)
+    {
+        $this->setFields(Arr::get($data, 'fields', []));
+        $this->setRelations(Arr::get($data, 'relation', []));
+        $this->select();
+        $this->setRelationCount(Arr::get($data, 'count', []));
+    }
+
+    /**
+     * @param $data
+     */
+    private function search($data)
+    {
+        foreach ($data as $key => $value) {
+            if (isset($this->searchFields[$key])) {
+                $value = $value == 'LIKE' ? '%' . $value . '%' : $value;
+                $this->builder->where($key, $this->searchFields[$key], $value);
             }
         }
     }
 
-    private function sort()
+    /**
+     * @param $data
+     */
+    private function sort($data)
     {
-        $sorts = $this->data['sorts'];
-
-        foreach ($sorts as $key => $value) {
-            if (in_array($key, $this->fields)) {
+        foreach ($data as $key => $value) {
+            if (in_array($key, $this->fields) || $key == 'id') {
                 $this->builder->orderBy($key, $value);
             }
         }
     }
 
-    private function setFields()
+    /**
+     * @param $data
+     */
+    private function setRelationCount($data)
     {
-        $fields = $this->data['fields'];
-
-        foreach ($fields as $field) {
-            if (in_array($field, $this->fields)) {
-                $this->builder->addSelect($field);
+        foreach ($data as $value) {
+            if (isset($this->relations[$value])) {
+                $this->builder->withCount($value);
             }
         }
     }
 
-    private function setRelations()
+    /**
+     * @param $data
+     */
+    private function setRelations($data)
     {
-        $relations = $this->data['relations'];
-
-        foreach ($relations as $key => $value) {
+        foreach ($data as $key => $value) {
             if (isset($this->relations[$key])) {
-                if (Str::plural($key, 2) == $key) {
-                    $value[] = $this->relations[$key];
-                } else {
-                    $this->builder->addSelect($this->relations[$key]);
+
+                $fields = Arr::get($value, 'fields', []);
+                $query = $key;
+
+                if (in_array($this->relations[$key][0], self::RELATION_TYPE)) {
+                    $this->fieldsFromRequest[] = $this->relations[$key][1];
+                } elseif ($fields) {
+                    $fields[] = $this->relations[$key][1];
                 }
-                $this->builder->with($key . ':' . implode(',', $value));
+
+                if ($fields) {
+                    $query = $query . ':id,' . implode(',', $fields);
+                }
+
+                $this->builder->with($query);
             }
         }
     }
 
-    private function setRelationsCount()
+    /**
+     * @param $data
+     */
+    private function setFields($data)
     {
-        $relationsCount = $this->data['relations_count'];
-
-        foreach ($relationsCount as $item) {
-            if (isset($this->relations[$item])) {
-                $this->builder->withCount($item);
-            }
+        if ($data) {
+            $this->fieldsFromRequest = $data;
+        } else {
+            $this->fieldsFromRequest = $this->fields;
         }
+    }
+
+    private function select()
+    {
+        array_unshift($this->fieldsFromRequest, 'id');
+        $this->builder->select($this->fieldsFromRequest);
     }
 }

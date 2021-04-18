@@ -12,37 +12,60 @@ use App\Repositories\Base\BaseRepository;
 class StartupRepository extends BaseRepository
 {
     /**
-     * @var string[]
-     */
-    protected $searches = [
-        'owner_id'        => '=',
-        'name'            => 'LIKE',
-        'subtitle'        => 'LIKE',
-        'donation_amount' => '=',
-        'is_publish'      => '=',
-        'published_at'    => '=',
-        'created_at'      => '=',
-        'updated_at'      => '=',
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $relations = [
-        'owner'       => 'owner_id',
-        'texts'       => 'target_id',
-        'faqs'        => 'startup_id',
-        'likes'       => 'target_id',
-        'comments'    => 'target_id',
-        'donates'     => 'startup_id',
-        'startupNews' => 'startup_id',
-    ];
-
-    /**
      * @return string
      */
-    protected function getModelClass()
+    protected function getModelClass(): string
     {
         return Startup::class;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getSearchFields(): array
+    {
+        return [
+            'owner_id'        => '=',
+            'name'            => 'LIKE',
+            'subtitle'        => 'LIKE',
+            'donation_amount' => '=',
+            'is_publish'      => '=',
+            'published_at'    => '=',
+            'created_at'      => '=',
+            'updated_at'      => '=',
+        ];
+    }
+
+    /**
+     * @return \string[][]
+     */
+    protected function getRelations(): array
+    {
+        return [
+            'texts'       => [
+                'morphMany',
+                'target_id',
+            ],
+            'faqs'        => [
+                'hasMany',
+                'startup_id',
+            ],
+            'likes'       => [
+                'morphMany',
+                'target_id',
+            ],
+            'comments'    => [
+                'morphMany',
+                'target_id',
+            ],
+            'donates'     => [
+                'hasMany',
+                'startup_id',
+            ],
+            'startupNews' => [
+                'hasMany',
+                'startup_id',
+            ],
+        ];
     }
 }

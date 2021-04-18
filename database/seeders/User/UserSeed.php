@@ -3,6 +3,7 @@
 namespace Database\Seeders\User;
 
 use App\Models\User\User;
+use App\Services\User\UserRegistrationService;
 use Illuminate\Database\Seeder;
 
 /**
@@ -14,6 +15,7 @@ class UserSeed extends Seeder
     public function run()
     {
         self::createUser(10);
+        self::createDeveloper();
     }
 
     /**
@@ -25,8 +27,17 @@ class UserSeed extends Seeder
     {
         return User::factory($num)->make()->each(function (User $user) {
             $user->save();
-
-
         });
+    }
+
+    public static function createDeveloper()
+    {
+        $user = User::all()->first();
+
+        if (env('BASE_ADMIN_EMAIL') && env('BASE_ADMIN_PASSWORD')) {
+            $user->email = env('BASE_ADMIN_EMAIL');
+            $user->password = bcrypt(env('BASE_ADMIN_PASSWORD'));
+            $user->save();
+        }
     }
 }

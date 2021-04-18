@@ -3,6 +3,7 @@
 namespace App\Models\Like;
 
 use App\Interfaces\Owner\OwnerInterface;
+use App\Models\Like\Checker\LikeChecker;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,7 +34,6 @@ class Like extends Model implements OwnerInterface
      * @var string[]
      */
     protected $hidden = [
-        'id',
         'target_class',
         'target_id',
     ];
@@ -49,5 +49,13 @@ class Like extends Model implements OwnerInterface
             'target_id',
             'id',
         );
+    }
+
+    /**
+     * @return LikeChecker
+     */
+    public function getChecker()
+    {
+        return new LikeChecker($this);
     }
 }

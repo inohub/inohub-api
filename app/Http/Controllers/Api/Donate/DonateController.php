@@ -35,10 +35,7 @@ class DonateController extends Controller
      */
     public function getParams()
     {
-        return $this->response([
-            'fields' => $this->donateRepository->fields,
-            'relations' => $this->donateRepository->relations,
-        ]);
+        return $this->response($this->donateRepository->getParams());
     }
 
     /**
@@ -87,8 +84,8 @@ class DonateController extends Controller
      */
     public function show(Request $request, Donate $donate)
     {
-        $builder = $this->donateRepository->filters($request, $donate);
+        $builder = $this->donateRepository->findOne($request, $donate);
 
-        return $this->response($builder->get());
+        return $this->response($builder->first());
     }
 }
