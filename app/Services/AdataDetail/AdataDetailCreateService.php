@@ -35,14 +35,13 @@ class AdataDetailCreateService
         }
 
 //        $client = new Client();
-//
+
 //        $request = $client->request('GET',
 //            'https://api.adata.kz/api/individual/info/'.config('adata.token').'?iinBin='.$iin);
 //
-//        $response = $request->getBody()->getContents();
-        $response = [
-          'token'
-        ];
+//        $response = json_decode($request->getBody()->getContents());
+
+        $response['token'] = 'Sorry this zapros is limited, no more, use another to fetch data not token';
 
         if (!isset($response['token'])) {
             Log::error(json_encode($response));

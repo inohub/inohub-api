@@ -4,7 +4,7 @@
 namespace App\Services\AdataDetail;
 
 
-use App\Models\User\User;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
 class AdataDetailFetchDataService
@@ -26,19 +26,12 @@ class AdataDetailFetchDataService
      */
     public function run()
     {
-//        $client = new Client();
-//
-//        $request = $client->request('GET',
-//            'https://api.adata.kz/api/individual/info/check/'.config('adata.token').'?token='.$this->token);
-//
-//        $response = $request->getBody()->getContents();
-        $response = [
-            'success' => true,
-            'data' => [
-                'pedophil' => 'yes',
-                'pidor' => 'yes'
-            ]
-        ];
+        $client = new Client();
+
+        $request = $client->request('GET',
+            'https://api.adata.kz/api/individual/info/check/'.config('adata.token').'?token='.$this->token);
+
+        $response = json_decode($request->getBody()->getContents(), true);
 
         if (!$response['success']) {
             Log::error(json_encode($response));
