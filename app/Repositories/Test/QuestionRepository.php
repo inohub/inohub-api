@@ -21,16 +21,6 @@ class QuestionRepository extends BaseRepository
     }
 
     /**
-     * @return string[]
-     */
-    protected function getSearchFields(): array
-    {
-        return [
-            'test_id' => '='
-        ];
-    }
-
-    /**
      * @return \string[][]
      */
     protected function getRelations(): array

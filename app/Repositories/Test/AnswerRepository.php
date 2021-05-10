@@ -19,16 +19,6 @@ class AnswerRepository extends BaseRepository
         return Answer::class;
     }
 
-    /**
-     * @return string[]
-     */
-    protected function getSearchFields(): array
-    {
-        return [
-            'question_id' => '=',
-        ];
-    }
-
     protected function getRelations(): array
     {
         return [

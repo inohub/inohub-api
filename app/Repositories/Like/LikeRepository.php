@@ -20,18 +20,6 @@ class LikeRepository extends BaseRepository
     }
 
     /**
-     * @return string[]
-     */
-    protected function getSearchFields(): array
-    {
-        return [
-            'owner_id'   => '=',
-            'created_at' => '=',
-            'updated_at' => '=',
-        ];
-    }
-
-    /**
      * @return array
      */
     protected function getRelations(): array

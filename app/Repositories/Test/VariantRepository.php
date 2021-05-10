@@ -20,17 +20,6 @@ class VariantRepository extends BaseRepository
     }
 
     /**
-     * @return string[]
-     */
-    protected function getSearchFields(): array
-    {
-        return [
-            'question_id' => '=',
-            'is_correct'  => '='
-        ];
-    }
-
-    /**
      * @return \string[][]
      */
     protected function getRelations(): array

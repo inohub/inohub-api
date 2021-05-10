@@ -20,21 +20,6 @@ class CourseRepository extends BaseRepository
     }
 
     /**
-     * @return string[]
-     */
-    protected function getSearchFields(): array
-    {
-        return [
-            'owner_id'     => '=',
-            'name'         => 'LIKE',
-            'is_publish'   => '=',
-            'published_at' => '=',
-            'created_at'   => '=',
-            'updated_at'   => '='
-        ];
-    }
-
-    /**
      * @return \string[][]
      */
     protected function getRelations(): array

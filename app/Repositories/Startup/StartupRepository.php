@@ -20,23 +20,6 @@ class StartupRepository extends BaseRepository
     }
 
     /**
-     * @return string[]
-     */
-    protected function getSearchFields(): array
-    {
-        return [
-            'owner_id'        => '=',
-            'name'            => 'LIKE',
-            'subtitle'        => 'LIKE',
-            'donation_amount' => '=',
-            'is_publish'      => '=',
-            'published_at'    => '=',
-            'created_at'      => '=',
-            'updated_at'      => '=',
-        ];
-    }
-
-    /**
      * @return \string[][]
      */
     protected function getRelations(): array

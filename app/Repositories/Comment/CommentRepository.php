@@ -22,19 +22,6 @@ class CommentRepository extends BaseRepository
     }
 
     /**
-     * @return string[]
-     */
-    protected function getSearchFields(): array
-    {
-        return [
-            'owner_id'   => '=',
-            'parent_id'  => '=',
-            'created_at' => '=',
-            'updated_at' => '='
-        ];
-    }
-
-    /**
      * @return \string[][]
      */
     protected function getRelations(): array
