@@ -20,19 +20,6 @@ class LessonRepository extends BaseRepository
     }
 
     /**
-     * @return string[]
-     */
-    protected function getSearchFields(): array
-    {
-        return [
-            'course_id'  => '=',
-            'name'       => 'LIKE',
-            'created_at' => '=',
-            'updated_at' => '=',
-        ];
-    }
-
-    /**
      * @return \string[][]
      */
     protected function getRelations(): array
@@ -40,16 +27,16 @@ class LessonRepository extends BaseRepository
         return [
             'course' => [
                 'belongsTo',
-                'course_id',
+                'course_id'
             ],
-            'texts'  => [
+            'texts' => [
                 'morphMany',
                 'target_id',
             ],
-            'tests'  => [
+            'tests' => [
                 'hasMany',
                 'lesson_id',
-            ],
+            ]
         ];
     }
 }
