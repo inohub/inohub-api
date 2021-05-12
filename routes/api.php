@@ -16,11 +16,7 @@ Route::group([
 });
 Route::group(['middleware' => ['auth:api']], function () {
 
-    Route::get('/comments/params', [\App\Http\Controllers\Api\Comment\CommentController::class, 'getParams']);
-    Route::get('/likes/params', [\App\Http\Controllers\Api\Like\LikeController::class, 'getParams']);
-
     Route::group(['prefix' => 'startups'], function () {
-        Route::get('/params', [\App\Http\Controllers\Api\Startup\StartupController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Startup\StartupController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\Startup\StartupController::class, 'store']);
         Route::get('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'show']);
@@ -45,14 +41,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'donates'], function () {
-        Route::get('/params', [\App\Http\Controllers\Api\Donate\DonateController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Donate\DonateController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\Donate\DonateController::class, 'store']);
         Route::get('/{donate}', [\App\Http\Controllers\Api\Donate\DonateController::class, 'show']);
     });
 
     Route::group(['prefix' => 'startup-news'], function () {
-        Route::get('/params', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'store']);
         Route::get('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'show']);
@@ -73,7 +67,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'categories'], function () {
-        Route::get('/params', [\App\Http\Controllers\Api\Category\CategoryController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Category\CategoryController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\Category\CategoryController::class, 'store']);
         Route::get('/{category}', [\App\Http\Controllers\Api\Category\CategoryController::class, 'show']);
@@ -82,7 +75,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'faqs'], function () {
-        Route::get('/params', [\App\Http\Controllers\Api\Faq\FaqController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'store']);
         Route::get('/{faq}', [\App\Http\Controllers\Api\Faq\FaqController::class, 'show']);
@@ -91,7 +83,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'courses'], function () {
-        Route::get('/params', [\App\Http\Controllers\Api\Course\CourseController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Course\CourseController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\Course\CourseController::class, 'store']);
         Route::get('/{course}', [\App\Http\Controllers\Api\Course\CourseController::class, 'show']);
@@ -100,7 +91,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'lessons'], function () {
-        Route::get('/params', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'store']);
         Route::get('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'show']);
@@ -110,7 +100,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'tests'], function () {
-        Route::get('/params', [\App\Http\Controllers\Api\Test\TestController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Test\TestController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\Test\TestController::class, 'store']);
         Route::get('/{test}', [\App\Http\Controllers\Api\Test\TestController::class, 'show']);
@@ -119,7 +108,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'questions'], function () {
-        Route::get('/params', [\App\Http\Controllers\Api\Test\QuestionController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Test\QuestionController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\Test\QuestionController::class, 'store']);
         Route::get('/{question}', [\App\Http\Controllers\Api\Test\QuestionController::class, 'show']);
@@ -128,7 +116,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'answers'], function () {
-        Route::get('/params', [\App\Http\Controllers\Api\Test\AnswerController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Test\AnswerController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\Test\AnswerController::class, 'store']);
         Route::get('/{answer}', [\App\Http\Controllers\Api\Test\AnswerController::class, 'show']);
@@ -137,7 +124,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'variants'], function () {
-        Route::get('/params', [\App\Http\Controllers\Api\Test\VariantController::class, 'getParams']);
         Route::get('/', [\App\Http\Controllers\Api\Test\VariantController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\Test\VariantController::class, 'store']);
         Route::get('/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'show']);
