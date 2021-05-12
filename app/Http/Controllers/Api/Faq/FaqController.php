@@ -14,6 +14,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * Class FaqController
+ * @property FaqRepository $faqRepository
+ * @package App\Http\Controllers\Api\Faq
+ */
 class FaqController extends Controller
 {
     private FaqRepository $faqRepository;
@@ -29,27 +34,21 @@ class FaqController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->faqRepository->getParams());
-    }
-
-    /**
-     * @param  Request  $request
+     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $builder = $this->faqRepository->filters($request);
+        $builder = $this->faqRepository->doFilter($request);
 
         return $this->response($builder->get());
     }
 
     /**
-     * @param  FaqCreateRequest  $request
-     * @param  Faq  $faq
+     * @param FaqCreateRequest $request
+     * @param Faq              $faq
+     *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
@@ -76,15 +75,12 @@ class FaqController extends Controller
 
     /**
      * @param Faq $faq
-     * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Faq $faq, Request $request)
+    public function show(Faq $faq)
     {
-        $builder = $this->faqRepository->findOne($request, $faq);
-
-        return $this->response($builder->first());
+        return $this->response($faq);
     }
 
     /**

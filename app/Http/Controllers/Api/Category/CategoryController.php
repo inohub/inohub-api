@@ -33,27 +33,21 @@ class CategoryController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->categoryRepository->getParams());
-    }
-
-    /**
-     * @param  Request  $request
+     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $builder = $this->categoryRepository->filters($request);
+        $builder = $this->categoryRepository->doFilter($request);
 
         return $this->response($builder->get());
     }
 
     /**
-     * @param  CategoryCreateRequest  $request
-     * @param  Category  $category
+     * @param CategoryCreateRequest $request
+     * @param Category              $category
+     *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
@@ -80,15 +74,12 @@ class CategoryController extends Controller
 
     /**
      * @param Category $category
-     * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Category $category, Request $request)
+    public function show(Category $category)
     {
-        $builder = $this->categoryRepository->findOne($request, $category);
-
-        return $this->response($builder->first());
+        return $this->response($category);
     }
 
     /**

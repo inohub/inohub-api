@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Comment;
 
+use App\Exceptions\WrongDataException;
 use App\Http\Controllers\Controller;
 use App\Models\Comment\Comment;
 use App\Repositories\Comment\CommentRepository;
@@ -33,14 +34,6 @@ class CommentController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->commentRepository->getParams());
-    }
-
-    /**
      * @param Request $request
      * @param Model   $model
      *
@@ -48,7 +41,7 @@ class CommentController extends Controller
      */
     protected function indexComment(Request $request, Model $model)
     {
-        $builder = $this->commentRepository->filters($request)
+        $builder = $this->commentRepository->doFilter($request)
             ->where('target_class', $model->getMorphClass())
             ->where('target_id', $model->id);
 
@@ -85,19 +78,19 @@ class CommentController extends Controller
     }
 
     /**
-     * @param Request $request
      * @param Model   $model
      * @param Comment $comment
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws WrongDataException
      */
-    protected function showComment(Request $request, Model $model, Comment $comment)
+    protected function showComment(Model $model, Comment $comment)
     {
-        $builder = $this->commentRepository->findOne($request, $comment)
-            ->where('target_class', $model->getMorphClass())
-            ->where('target_id', $model->id);
+        if ($comment->getChecker()->isParent($model)) {
+            return $this->response($comment);
+        }
 
-        return $this->response($builder->first());
+        throw new WrongDataException("This model doesn't have this comment");
     }
 
     /**

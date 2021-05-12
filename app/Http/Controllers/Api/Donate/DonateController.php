@@ -31,19 +31,11 @@ class DonateController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->donateRepository->getParams());
-    }
-
-    /**
      * @param Request $request
      */
     public function index(Request $request)
     {
-        $builder = $this->donateRepository->filters($request);
+        $builder = $this->donateRepository->doFilter($request);
 
         return $this->response($builder->limit(10)->get());
     }
@@ -77,15 +69,12 @@ class DonateController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param Donate  $donate
+     * @param Donate $donate
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Donate $donate)
+    public function show(Donate $donate)
     {
-        $builder = $this->donateRepository->findOne($request, $donate);
-
-        return $this->response($builder->first());
+        return $this->response($donate);
     }
 }

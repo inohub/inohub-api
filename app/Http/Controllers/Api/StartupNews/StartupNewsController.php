@@ -33,21 +33,13 @@ class StartupNewsController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->startupNewsRepository->getParams());
-    }
-
-    /**
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $builder = $this->startupNewsRepository->filters($request);
+        $builder = $this->startupNewsRepository->doFilter($request);
 
         return $this->response($builder->get());
     }
@@ -81,16 +73,13 @@ class StartupNewsController extends Controller
     }
 
     /**
-     * @param Request     $request
      * @param StartupNews $startupNews
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, StartupNews $startupNews)
+    public function show(StartupNews $startupNews)
     {
-        $builder = $this->startupNewsRepository->findOne($request, $startupNews);
-
-        return $this->response($builder->first());
+        return $this->response($startupNews);
     }
 
     /**

@@ -33,21 +33,13 @@ class VariantController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->variantRepository->getParams());
-    }
-
-    /**
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $builder = $this->variantRepository->filters($request);
+        $builder = $this->variantRepository->doFilter($request);
 
         return $this->response($builder->get());
     }
@@ -81,16 +73,13 @@ class VariantController extends Controller
     }
 
     /**
-     * @param Request $request
      * @param Variant $variant
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Variant $variant)
+    public function show(Variant $variant)
     {
-        $builder = $this->variantRepository->findOne($request, $variant);
-
-        return $this->response($builder->first());
+        return $this->response($variant);
     }
 
     /**

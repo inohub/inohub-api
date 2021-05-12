@@ -33,21 +33,13 @@ class TestController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->testRepository->getParams());
-    }
-
-    /**
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $builder = $this->testRepository->filters($request);
+        $builder = $this->testRepository->doFilter($request);
 
         return $this->response($builder->get());
     }
@@ -81,16 +73,13 @@ class TestController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param Test    $test
+     * @param Test $test
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Test $test)
+    public function show(Test $test)
     {
-        $builder = $this->testRepository->findOne($request, $test);
-
-        return $this->response($builder->first());
+        return $this->response($test);
     }
 
     /**

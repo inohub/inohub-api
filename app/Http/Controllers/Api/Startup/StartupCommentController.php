@@ -36,15 +36,15 @@ class StartupCommentController extends CommentController
     }
 
     /**
-     * @param Request $request
      * @param Startup $startup
      * @param Comment $comment
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\WrongDataException
      */
-    public function show(Request $request, Startup $startup, Comment $comment)
+    public function show(Startup $startup, Comment $comment)
     {
-        return parent::showComment($request, $startup, $comment);
+        return parent::showComment($startup, $comment);
     }
 
     /**

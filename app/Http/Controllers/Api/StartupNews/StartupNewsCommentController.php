@@ -40,15 +40,15 @@ class StartupNewsCommentController extends CommentController
     }
 
     /**
-     * @param Request     $request
      * @param StartupNews $startupNews
      * @param Comment     $comment
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\WrongDataException
      */
-    public function show(Request $request, StartupNews $startupNews, Comment $comment)
+    public function show(StartupNews $startupNews, Comment $comment)
     {
-        return parent::showComment($request, $startupNews, $comment);
+        return parent::showComment($startupNews, $comment);
     }
 
     /**

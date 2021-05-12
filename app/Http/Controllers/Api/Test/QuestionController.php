@@ -33,21 +33,13 @@ class QuestionController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->questionRepository->getParams());
-    }
-
-    /**
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $builder = $this->questionRepository->filters($request);
+        $builder = $this->questionRepository->doFilter($request);
 
         return $this->response($builder->get());
     }
@@ -81,16 +73,13 @@ class QuestionController extends Controller
     }
 
     /**
-     * @param Request  $request
      * @param Question $question
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Question $question)
+    public function show(Question $question)
     {
-        $builder = $this->questionRepository->findOne($request, $question);
-
-        return $this->response($builder->first());
+        return $this->response($question);
     }
 
     /**

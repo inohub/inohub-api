@@ -33,21 +33,13 @@ class AnswerController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->answerRepository->getParams());
-    }
-
-    /**
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $builder = $this->answerRepository->filters($request);
+        $builder = $this->answerRepository->doFilter($request);
 
         return $this->response($builder->get());
     }
@@ -81,16 +73,13 @@ class AnswerController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param Answer  $answer
+     * @param Answer $answer
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Answer $answer)
+    public function show(Answer $answer)
     {
-        $builder = $this->answerRepository->findOne($request, $answer);
-
-        return $this->response($builder->first());
+        return $this->response($answer);
     }
 
     /**

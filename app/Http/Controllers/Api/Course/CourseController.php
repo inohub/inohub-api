@@ -33,21 +33,13 @@ class CourseController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->courseRepository->getParams());
-    }
-
-    /**
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $builder = $this->courseRepository->filters($request);
+        $builder = $this->courseRepository->doFilter($request);
 
         return $this->response($builder->get());
     }
@@ -81,16 +73,13 @@ class CourseController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param Course  $course
+     * @param Course $course
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Course $course)
+    public function show(Course $course)
     {
-        $builder = $this->courseRepository->findOne($request, $course);
-
-        return $this->response($builder->first());
+        return $this->response($course);
     }
 
     /**

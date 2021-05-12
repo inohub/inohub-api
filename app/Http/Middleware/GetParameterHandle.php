@@ -113,7 +113,7 @@ class GetParameterHandle
             }
 
             $result[$key] = [
-                'fields' => $this->fieldsParse(Arr::get($value, 'fields', []), Arr::get($value, 'search', [])),
+                'fields' => $this->fieldsParse(Arr::get($value, 'fields', []), array_keys(Arr::get($value, 'search', []))),
                 'search' => $this->searchParse(Arr::get($value, 'search', [])),
             ];
         }

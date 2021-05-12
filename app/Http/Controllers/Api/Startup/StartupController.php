@@ -8,13 +8,10 @@ use App\Http\Requests\Startup\StartupUpdateRequest;
 use App\Models\Startup\Startup;
 use App\Repositories\Startup\StartupRepository;
 use App\ResponseCodes\ResponseCodes;
-use App\Services\Like\LikeService;
 use App\Services\Startup\StartupCreateService;
 use App\Services\Startup\StartupUpdateService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class StartupController
@@ -36,21 +33,13 @@ class StartupController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->startupRepository->getParams());
-    }
-
-    /**
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $builder = $this->startupRepository->filters($request);
+        $builder = $this->startupRepository->doFilter($request);
 
         return $this->response($builder->get());
     }
@@ -84,16 +73,13 @@ class StartupController extends Controller
     }
 
     /**
-     * @param Request $request
      * @param Startup $startup
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Startup $startup)
+    public function show(Startup $startup)
     {
-        $builder = $this->startupRepository->findOne($request, $startup);
-
-        return $this->response($builder->first());
+        return $this->response($startup);
     }
 
     /**

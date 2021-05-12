@@ -35,21 +35,13 @@ class LessonController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->lessonRepository->getParams());
-    }
-
-    /**
      * @param Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $builder = $this->lessonRepository->filters($request);
+        $builder = $this->lessonRepository->doFilter($request);
 
         return $this->response($builder->get());
     }
@@ -83,16 +75,13 @@ class LessonController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param Lesson  $lesson
+     * @param Lesson $lesson
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Lesson $lesson)
+    public function show(Lesson $lesson)
     {
-        $builder = $this->lessonRepository->findOne($request, $lesson);
-
-        return $this->response($builder->first());
+        return $this->response($lesson);
     }
 
     /**

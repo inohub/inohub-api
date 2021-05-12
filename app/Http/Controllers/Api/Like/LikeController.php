@@ -31,14 +31,6 @@ class LikeController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getParams()
-    {
-        return $this->response($this->likeRepository->getParams());
-    }
-
-    /**
      * @param Request $request
      * @param Model   $model
      *
@@ -46,7 +38,7 @@ class LikeController extends Controller
      */
     protected function indexLike(Request $request, Model $model)
     {
-        $builder = $this->likeRepository->filters($request)
+        $builder = $this->likeRepository->doFilter($request)
             ->where('target_class', $model->getMorphClass())
             ->where('target_id', $model->id);
 
