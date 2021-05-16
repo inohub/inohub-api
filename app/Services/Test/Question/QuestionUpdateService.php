@@ -2,28 +2,27 @@
 
 namespace App\Services\Test\Question;
 
+use App\Components\Request\DataTransfer;
 use App\Models\Test\Question;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 /**
  * Class QuestionUpdateService
- * @property Question $question
- * @property Request  $request
+ * @property Question     $question
+ * @property DataTransfer $request
  * @package App\Services\Test\Question
  */
 class QuestionUpdateService
 {
     private Question $question;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * QuestionUpdateService constructor.
      *
-     * @param Question $question
-     * @param Request  $request
+     * @param Question     $question
+     * @param DataTransfer $request
      */
-    public function __construct(Question $question, Request $request)
+    public function __construct(Question $question, DataTransfer $request)
     {
         $this->question = $question;
         $this->request = $request;
@@ -34,9 +33,7 @@ class QuestionUpdateService
      */
     public function run()
     {
-        $data = $this->request->post();
-
-        $this->question->text = Arr::get($data, 'text');
+        $this->question->text = $this->request->post('text');
 
         return $this->question->save();
     }

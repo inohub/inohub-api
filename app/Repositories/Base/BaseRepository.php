@@ -178,30 +178,32 @@ abstract class BaseRepository
         $this->checkRelations(array_keys($relations));
 
         foreach ($relations as $key => $value) {
-
             if (in_array($this->relations[$key][0], self::SET_SELF_RELATION_TYPE) && count($baseFields)) {
                 $baseFields[] = $this->relations[$key][1];
                 $builder = $this->fieldsBuilder($builder, $baseFields);
             }
 
             if (!count($value)) {
-                return $builder->with($key);
+
+                $builder->with($key);
+
+            } else {
+
+                $fields = Arr::get($value, 'fields', []);
+                $search = Arr::get($value, 'search', []);
+
+                if (!in_array($this->relations[$key][0], self::SET_SELF_RELATION_TYPE) && count($fields)) {
+                    $fields[] = $this->relations[$key][1];
+                }
+
+                $builder->with($key, function ($builder) use ($fields) {
+                    $this->fieldsBuilder($builder, $fields);
+                });
+
+                $builder->whereHas($key, function ($builder) use ($search) {
+                    $this->searchBuilder($builder, $search);
+                });
             }
-
-            $fields = Arr::get($value, 'fields', []);
-            $search = Arr::get($value, 'search', []);
-
-            if (!in_array($this->relations[$key][0], self::SET_SELF_RELATION_TYPE) && count($fields)) {
-                $fields[] = $this->relations[$key][1];
-            }
-
-            $builder->with($key, function ($builder) use ($fields) {
-                $this->fieldsBuilder($builder, $fields);
-            });
-
-            $builder->whereHas($key, function ($builder) use ($search) {
-                $this->searchBuilder($builder, $search);
-            });
         }
 
         return $builder;

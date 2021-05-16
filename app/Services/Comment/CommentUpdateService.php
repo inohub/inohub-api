@@ -2,28 +2,27 @@
 
 namespace App\Services\Comment;
 
+use App\Components\Request\DataTransfer;
 use App\Models\Comment\Comment;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 /**
  * Class CommentUpdateService
- * @property Comment $comment
- * @property Request $request
+ * @property Comment      $comment
+ * @property DataTransfer $request
  * @package App\Services\Comment
  */
 class CommentUpdateService
 {
     private Comment $comment;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * CommentUpdateService constructor.
      *
-     * @param Comment $comment
-     * @param Request $request
+     * @param Comment      $comment
+     * @param DataTransfer $request
      */
-    public function __construct(Comment $comment, Request $request)
+    public function __construct(Comment $comment, DataTransfer $request)
     {
         $this->comment = $comment;
         $this->request = $request;
@@ -34,9 +33,7 @@ class CommentUpdateService
      */
     public function run()
     {
-        $data = $this->request->post();
-
-        $this->comment->text = Arr::get($data, 'text');
+        $this->comment->text = $this->request->post('text');
 
         return $this->comment->save();
     }

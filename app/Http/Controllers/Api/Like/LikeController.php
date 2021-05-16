@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api\Like;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Repositories\Like\LikeRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Like\LikeService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -57,7 +58,7 @@ class LikeController extends Controller
 
         try {
 
-            if ((new LikeService($model, Auth::user()))->run()) {
+            if ((new LikeService(Auth::user(), new DataTransfer(['model' => $model,])))->run()) {
 
                 DB::commit();
 
@@ -66,7 +67,7 @@ class LikeController extends Controller
                 ]);
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 

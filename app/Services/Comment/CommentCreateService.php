@@ -2,34 +2,28 @@
 
 namespace App\Services\Comment;
 
+use App\Components\Request\DataTransfer;
 use App\Models\Comment\Comment;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 /**
  * Class CommentCreateService
- * @property Model   $model
- * @property Comment $comment
- * @property Request $request
+ * @property Comment      $comment
+ * @property DataTransfer $request
  * @package App\Services\Comment
  */
 class CommentCreateService
 {
-    private Model $model;
     private Comment $comment;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * CommentCreateService constructor.
      *
-     * @param Model   $model
-     * @param Comment $comment
-     * @param Request $request
+     * @param Comment      $comment
+     * @param DataTransfer $request
      */
-    public function __construct(Model $model, Comment $comment, Request $request)
+    public function __construct(Comment $comment, DataTransfer $request)
     {
-        $this->model = $model;
         $this->comment = $comment;
         $this->request = $request;
     }
@@ -39,12 +33,10 @@ class CommentCreateService
      */
     public function run()
     {
-        $data = $this->request->post();
-
-        $this->comment->text = Arr::get($data, 'text');
-        $this->comment->parent_id = Arr::get($data, 'parent_id');
-        $this->comment->target_class = $this->model->getMorphClass();
-        $this->comment->target_id = $this->model->id;
+        $this->comment->text = $this->request->post('text');
+        $this->comment->parent_id = $this->request->post('parent_id');
+        $this->comment->target_class = $this->request->post('model')->getMorphClass();
+        $this->comment->target_id = $this->request->post('model')->id;
 
         return $this->comment->save();
     }

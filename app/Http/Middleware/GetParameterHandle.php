@@ -21,7 +21,7 @@ class GetParameterHandle
     public function handle(Request $request, Closure $next)
     {
         if ($request->isMethod('get')) {
-            $request->request->replace($this->parseParameters($request->post()));
+            $request->request->replace($this->parseParameters($request->all()));
         }
 
         return $next($request);
@@ -109,13 +109,12 @@ class GetParameterHandle
         foreach ($relations as $key => $value) {
             if (!is_array($value)) {
                 $result[$key] = [];
-                break;
+            } else {
+                $result[$key] = [
+                    'fields' => $this->fieldsParse(Arr::get($value, 'fields', []), array_keys(Arr::get($value, 'search', []))),
+                    'search' => $this->searchParse(Arr::get($value, 'search', [])),
+                ];
             }
-
-            $result[$key] = [
-                'fields' => $this->fieldsParse(Arr::get($value, 'fields', []), array_keys(Arr::get($value, 'search', []))),
-                'search' => $this->searchParse(Arr::get($value, 'search', [])),
-            ];
         }
 
         return $result;

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Http\Requests\User\UserRegistrationRequest;
 use App\Models\User\User;
 use App\ResponseCodes\ResponseCodes;
 use App\Services\User\UserRegistrationService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
@@ -26,7 +27,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (!$token = auth()->attempt($credentials)) {
-            return $this->response(null,ResponseCodes::WRONG_DATA);
+            return $this->response([], ResponseCodes::WRONG_DATA);
         }
 
         return $this->respondWithToken($token);
@@ -37,14 +38,15 @@ class AuthController extends Controller
         DB::beginTransaction();
 
         try {
-            if ((new UserRegistrationService($user, $request))->run()) {
+            if ((new UserRegistrationService($user, new DataTransfer($request->post())))->run()) {
                 DB::commit();
+
                 return $this->response($user->refresh(), ResponseCodes::CREATED);
             }
 
-            return $this->response(null, ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
         } catch (\Exception $e) {
-            return $this->response( $e->getMessage(), ResponseCodes::UNPROCESSABLE);
+            throw $e;
         }
     }
 
@@ -83,7 +85,7 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param  string  $token
+     * @param string $token
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -91,13 +93,13 @@ class AuthController extends Controller
     {
         return $this->response([
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'token_type'   => 'bearer',
+            'expires_in'   => auth()->factory()->getTTL() * 60
         ], ResponseCodes::SUCCESS);
     }
 
     public function unauthorized()
     {
-        return $this->response(null,ResponseCodes::UNAUTHORIZED);
+        return $this->response([], ResponseCodes::UNAUTHORIZED);
     }
 }

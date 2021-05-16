@@ -2,6 +2,7 @@
 
 namespace App\Models\Test;
 
+use App\Models\UserTest\UserQuestionResult;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property      $text
  * @property      $is_correct
  * @property-read $question
+ * @property-read $userQuestionResults
  * @package App\Models\Test
  */
 class Variant extends Model
@@ -32,5 +34,13 @@ class Variant extends Model
     public function question()
     {
         return $this->belongsTo(Question::class, 'question_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function userQuestionResults()
+    {
+        return $this->hasMany(UserQuestionResult::class, 'variant_id');
     }
 }

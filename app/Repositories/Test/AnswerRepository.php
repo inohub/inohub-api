@@ -19,6 +19,9 @@ class AnswerRepository extends BaseRepository
         return Answer::class;
     }
 
+    /**
+     * @return \string[][]
+     */
     protected function getRelations(): array
     {
         return [

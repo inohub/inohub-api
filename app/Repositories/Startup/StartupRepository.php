@@ -25,6 +25,10 @@ class StartupRepository extends BaseRepository
     protected function getRelations(): array
     {
         return [
+            'owner'       => [
+                'belongsTo',
+                'owner_id',
+            ],
             'texts'       => [
                 'morphMany',
                 'target_id',

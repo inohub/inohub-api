@@ -2,29 +2,28 @@
 
 namespace App\Services\Lesson;
 
+use App\Components\Request\DataTransfer;
 use App\Models\Lesson\Lesson;
 use App\Services\Text\TextsCreateService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 /**
  * Class LessonUpdateService
- * @property Lesson  $lesson
- * @property Request $request
+ * @property Lesson       $lesson
+ * @property DataTransfer $request
  * @package App\Services\Lesson
  */
 class LessonUpdateService
 {
     private Lesson $lesson;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * LessonUpdateService constructor.
      *
-     * @param Lesson  $lesson
-     * @param Request $request
+     * @param Lesson       $lesson
+     * @param DataTransfer $request
      */
-    public function __construct(Lesson $lesson, Request $request)
+    public function __construct(Lesson $lesson, DataTransfer $request)
     {
         $this->lesson = $lesson;
         $this->request = $request;
@@ -35,10 +34,10 @@ class LessonUpdateService
      */
     public function run()
     {
-        $data = $this->request->post();
+        $this->lesson->description = $this->request->post('description');
 
-        $this->lesson->description = Arr::get($data, 'description');
-
-        return $this->lesson->save() && (new TextsCreateService($this->lesson, $this->request))->run();
+        return $this->lesson->save() && (new TextsCreateService($this->lesson, new DataTransfer([
+                'texts' => $this->request->post('texts'),
+            ])))->run();
     }
 }

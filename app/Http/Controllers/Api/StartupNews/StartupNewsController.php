@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\StartupNews;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StartupNews\StartupNewsCreateRequest;
 use App\Http\Requests\StartupNews\StartupNewsUpdateRequest;
 use App\Models\StartupNews\StartupNews;
 use App\Repositories\StartupNews\StartupNewsRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\StartupNews\StartupNewsCreateService;
 use App\Services\StartupNews\StartupNewsUpdateService;
 use Illuminate\Http\Request;
@@ -57,14 +58,14 @@ class StartupNewsController extends Controller
 
         try {
 
-            if ((new StartupNewsCreateService($startupNews, $request))->run()) {
+            if ((new StartupNewsCreateService($startupNews, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($startupNews->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 
@@ -95,14 +96,14 @@ class StartupNewsController extends Controller
 
         try {
 
-            if ((new StartupNewsUpdateService($startupNews, $request))->run()) {
+            if ((new StartupNewsUpdateService($startupNews, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($startupNews->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 

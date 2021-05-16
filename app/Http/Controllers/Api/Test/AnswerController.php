@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\Test;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Test\Answer\AnswerCreateRequest;
 use App\Http\Requests\Test\Answer\AnswerUpdateRequest;
 use App\Models\Test\Answer;
 use App\Repositories\Test\AnswerRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Test\Answer\AnswerCreateService;
 use App\Services\Test\Answer\AnswerUpdateService;
 use Illuminate\Http\Request;
@@ -57,14 +58,14 @@ class AnswerController extends Controller
 
         try {
 
-            if ((new AnswerCreateService($answer, $request))->run()) {
+            if ((new AnswerCreateService($answer, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($answer->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 
@@ -95,14 +96,14 @@ class AnswerController extends Controller
 
         try {
 
-            if ((new AnswerUpdateService($answer, $request))->run()) {
+            if ((new AnswerUpdateService($answer, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($answer->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 

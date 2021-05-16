@@ -29,6 +29,10 @@ class CourseRepository extends BaseRepository
                 'hasMany',
                 'course_id',
             ],
+            'owner'   => [
+                'belongsTo',
+                'owner_id',
+            ]
         ];
     }
 }

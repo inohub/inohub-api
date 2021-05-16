@@ -1,13 +1,18 @@
 <?php
 
-
 namespace App\Services\Media;
-
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Class MediaChunkUploadService
+ * @property Model   $model
+ * @property Request $request
+ * @property string  $collectionName
+ * @package App\Services\Media
+ */
 class MediaChunkUploadService
 {
     private Model $model;
@@ -17,9 +22,9 @@ class MediaChunkUploadService
     /**
      * LikeService constructor.
      *
-     * @param  Model  $model
-     * @param  Request  $request
-     * @param  string  $collectionName
+     * @param Model   $model
+     * @param Request $request
+     * @param string  $collectionName
      */
     public function __construct(Model $model, Request $request, string $collectionName)
     {
@@ -32,7 +37,7 @@ class MediaChunkUploadService
     {
         $file = $this->request->file('file');
 
-        $path = 'chunks/user_'.'1'.'/'.$file->getClientOriginalName();
+        $path = 'chunks/user_' . '1' . '/' . $file->getClientOriginalName();
 
         Storage::disk('public')->append($path, $file->get());
 

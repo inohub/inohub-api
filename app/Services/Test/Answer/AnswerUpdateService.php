@@ -2,28 +2,27 @@
 
 namespace App\Services\Test\Answer;
 
+use App\Components\Request\DataTransfer;
 use App\Models\Test\Answer;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 /**
  * Class AnswerUpdateService
- * @property Answer  $answer
- * @property Request $request
+ * @property Answer       $answer
+ * @property DataTransfer $request
  * @package App\Services\Test\Answer
  */
 class AnswerUpdateService
 {
     private Answer $answer;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * AnswerUpdateService constructor.
      *
-     * @param Answer  $answer
-     * @param Request $request
+     * @param Answer       $answer
+     * @param DataTransfer $request
      */
-    public function __construct(Answer $answer, Request $request)
+    public function __construct(Answer $answer, DataTransfer $request)
     {
         $this->answer = $answer;
         $this->request = $request;
@@ -34,9 +33,7 @@ class AnswerUpdateService
      */
     public function run()
     {
-        $data = $this->request->post();
-
-        $this->answer->correct_text = Arr::get($data, 'correct_text');
+        $this->answer->correct_text = $this->request->post('correct_text');
 
         return $this->answer->save();
     }

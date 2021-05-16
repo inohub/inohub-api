@@ -29,8 +29,8 @@ class UserQuestionResult extends Model
     protected $fillable = [
         'question_id',
         'user_test_result_id',
-        'answer_text',
         'variant_id',
+        'answer_text',
         'is_correct',
     ];
 

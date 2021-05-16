@@ -2,31 +2,31 @@
 
 namespace App\Services\Like;
 
+use App\Components\Request\DataTransfer;
 use App\Models\Like\Like;
 use App\Models\User\User;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class LikeService
- * @property Model $model
- * @property User  $user
+ * @property User         $user
+ * @property DataTransfer $request
  * @package App\Services\Like
  */
 class LikeService
 {
-    private Model $model;
     private User $user;
+    private DataTransfer $request;
 
     /**
      * LikeService constructor.
      *
-     * @param Model $model
-     * @param User  $user
+     * @param User         $user
+     * @param DataTransfer $request
      */
-    public function __construct(Model $model, User $user)
+    public function __construct(User $user, DataTransfer $request)
     {
-        $this->model = $model;
         $this->user = $user;
+        $this->request = $request;
     }
 
     /**
@@ -34,7 +34,7 @@ class LikeService
      */
     public function run()
     {
-        $checker = $this->model->getChecker()->checkLike($this->user);
+        $checker = $this->request->post('model')->getChecker()->checkLike($this->user);
 
         if ($checker->exists()) {
 
@@ -43,8 +43,8 @@ class LikeService
         } else {
 
             $like = new Like();
-            $like->target_class = $this->model->getMorphClass();
-            $like->target_id = $this->model->id;
+            $like->target_class = $this->request->post('model')->getMorphClass();
+            $like->target_id = $this->request->post('model')->id;
 
             $res = $like->save();
         }

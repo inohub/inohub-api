@@ -25,9 +25,13 @@ class VariantRepository extends BaseRepository
     protected function getRelations(): array
     {
         return [
-            'question' => [
+            'question'            => [
                 'belongsTo',
                 'question_id',
+            ],
+            'userQuestionResults' => [
+                'hasMany',
+                'variant_id',
             ]
         ];
     }

@@ -29,6 +29,10 @@ class DonateRepository extends BaseRepository
                 'belongsTo',
                 'startup_id',
             ],
+            'owner'   => [
+                'belongsTo',
+                'owner_id',
+            ]
         ];
     }
 }

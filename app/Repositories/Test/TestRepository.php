@@ -26,24 +26,18 @@ class TestRepository extends BaseRepository
     protected function getRelations(): array
     {
         return [
-            'lesson'    => [
+            'lesson'          => [
                 'belongsTo',
                 'lesson_id',
             ],
-            'questions' => [
+            'questions'       => [
                 'hasMany',
-                'question_id',
+                'test_id',
+            ],
+            'userTestResults' => [
+                'hasMany',
+                'test_id',
             ]
         ];
     }
-
-//    /**
-//     * @param Request $request
-//     *
-//     * @return \Illuminate\Database\Eloquent\Builder
-//     */
-//    public function filters(Request $request)
-//    {
-//        return parent::filters($request)->withTrashed();
-//    }
 }

@@ -2,29 +2,28 @@
 
 namespace App\Services\Text;
 
+use App\Components\Request\DataTransfer;
 use App\Models\Text\Text;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 /**
  * Class TextCreateService
- * @property Model   $model
- * @property Request $request
+ * @property Model        $model
+ * @property DataTransfer $request
  * @package App\Services\Text
  */
 class TextCreateService
 {
     private Model $model;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * TextCreateService constructor.
      *
-     * @param Model   $model
-     * @param Request $request
+     * @param Model        $model
+     * @param DataTransfer $request
      */
-    public function __construct(Model $model, Request $request)
+    public function __construct(Model $model, DataTransfer $request)
     {
         $this->model = $model;
         $this->request = $request;
@@ -36,10 +35,9 @@ class TextCreateService
     public function run()
     {
         $text = new Text();
-        $data = $this->request->post();
 
-        $text->title = Arr::get($data, 'title');
-        $text->content = Arr::get($data, 'content');
+        $text->title = $this->request->post('title');
+        $text->content = $this->request->post('content');
         $text->target_class = $this->model->getMorphClass();
         $text->target_id = $this->model->id;
 

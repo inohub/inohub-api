@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\Startup;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Startup\StartupCreateRequest;
 use App\Http\Requests\Startup\StartupUpdateRequest;
 use App\Models\Startup\Startup;
 use App\Repositories\Startup\StartupRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Startup\StartupCreateService;
 use App\Services\Startup\StartupUpdateService;
 use Illuminate\Http\Request;
@@ -57,14 +58,14 @@ class StartupController extends Controller
 
         try {
 
-            if ((new StartupCreateService($startup, $request))->run()) {
+            if ((new StartupCreateService($startup, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($startup->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 
@@ -96,14 +97,14 @@ class StartupController extends Controller
 
         try {
 
-            if ((new StartupUpdateService($startup, $request))->run()) {
+            if ((new StartupUpdateService($startup, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($startup->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 

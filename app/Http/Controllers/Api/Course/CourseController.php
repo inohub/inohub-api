@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\Course;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Course\CourseCreateRequest;
 use App\Http\Requests\Course\CourseUpdateRequest;
 use App\Models\Course\Course;
 use App\Repositories\Course\CourseRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Course\CourseCreateService;
 use App\Services\Course\CourseUpdateService;
 use Illuminate\Http\Request;
@@ -57,14 +58,14 @@ class CourseController extends Controller
 
         try {
 
-            if ((new CourseCreateService($course, $request))->run()) {
+            if ((new CourseCreateService($course, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($course->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 
@@ -95,14 +96,14 @@ class CourseController extends Controller
 
         try {
 
-            if ((new CourseUpdateService($course, $request))->run()) {
+            if ((new CourseUpdateService($course, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($course->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 

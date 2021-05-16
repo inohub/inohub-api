@@ -5,15 +5,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/unauthorized', [AuthController::class, 'unauthorized'])->name('unauthorized');
 
-Route::group([
-    'prefix' => 'auth'
-], function () {
+Route::group(['prefix' => 'auth'], function () {
     Route::post('/registration', [AuthController::class, 'registration']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('me', [AuthController::class, 'me']);
 });
+
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::group(['prefix' => 'startups'], function () {
@@ -22,7 +21,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'show']);
         Route::put('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'update']);
         Route::delete('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'destroy']);
-        Route::group(['prefix' => '{startup}/media'], function () {
+        Route::group(['prefix' => '/{startup}/media'], function () {
             Route::post('store-preview-image', [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewImage']);
             Route::post('store-preview-video', [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewVideo']);
         });
@@ -136,6 +135,18 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/get-token/{user}', [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'getFreshAdataToken']);
         Route::get('/fetch-user-data/{token}', [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'fetchAdataInfoByToken']);
 
+    });
+
+    Route::group(['prefix' => 'user-test-results'], function () {
+        Route::get('/', [\App\Http\Controllers\Api\UserTest\UserTestResultController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\UserTest\UserTestResultController::class, 'store']);
+        Route::get('/{userTestResult}', [\App\Http\Controllers\Api\UserTest\UserTestResultController::class, 'show']);
+    });
+
+    Route::group(['prefix' => 'user-question-results'], function () {
+        Route::get('/', [\App\Http\Controllers\Api\UserTest\UserQuestionResultController::class, 'index']);
+        Route::get('/{userQuestionResult}', [\App\Http\Controllers\Api\UserTest\UserQuestionResultController::class, 'show']);
+        Route::post('/{userQuestionResult}/change-correct', [\App\Http\Controllers\Api\UserTest\UserQuestionResultController::class, 'changeCorrect']);
     });
 });
 

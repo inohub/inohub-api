@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api\Comment;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Exceptions\WrongDataException;
 use App\Http\Controllers\Controller;
 use App\Models\Comment\Comment;
 use App\Repositories\Comment\CommentRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Comment\CommentCreateService;
 use App\Services\Comment\CommentUpdateService;
 use Illuminate\Database\Eloquent\Model;
@@ -60,16 +61,19 @@ class CommentController extends Controller
     {
         DB::beginTransaction();
 
+        $data = $request->post();
+        $data['model'] = $model;
+
         try {
 
-            if ((new CommentCreateService($model, $comment, $request))->run()) {
+            if ((new CommentCreateService($comment, new DataTransfer($data)))->run()) {
 
                 DB::commit();
 
                 return $this->response($comment->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 
@@ -109,14 +113,14 @@ class CommentController extends Controller
 
             if ($comment->getChecker()->isOwner(Auth::user()) &&
                 $comment->getChecker()->isParent($model) &&
-                (new CommentUpdateService($comment, $request))->run()) {
+                (new CommentUpdateService($comment, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($comment->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 
@@ -141,6 +145,6 @@ class CommentController extends Controller
             return $this->response([]);
         }
 
-        return $this->response([], ResponseCodes::FAILED_RESULT);
+        throw new FailedResultException('Не удалось сохранить');
     }
 }

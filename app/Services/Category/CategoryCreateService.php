@@ -1,31 +1,28 @@
 <?php
 
-
 namespace App\Services\Category;
 
-
+use App\Components\Request\DataTransfer;
 use App\Models\Category\Category;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 /**
  * Class CategoryCreateService
- * @property Category $category
- * @property Request $request
+ * @property Category     $category
+ * @property DataTransfer $request
  * @package App\Services\Category
  */
 class CategoryCreateService
 {
     private Category $category;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * StartupCreateService constructor.
      *
-     * @param Category $category
-     * @param Request $request
+     * @param Category     $category
+     * @param DataTransfer $request
      */
-    public function __construct(Category $category, Request $request)
+    public function __construct(Category $category, DataTransfer $request)
     {
         $this->category = $category;
         $this->request = $request;
@@ -36,11 +33,9 @@ class CategoryCreateService
      */
     public function run()
     {
-        $data = $this->request->post();
-
-        $this->category->title = Arr::get($data, 'title');
-        $this->category->description = Arr::get($data, 'description');
-        $this->category->parent_id = Arr::get($data, 'parent_id', null);
+        $this->category->title = $this->request->post('title');
+        $this->category->description = $this->request->post('description');
+        $this->category->parent_id = $this->request->post('parent_id');
 
         return $this->category->save();
     }

@@ -2,28 +2,27 @@
 
 namespace App\Services\Donate;
 
+use App\Components\Request\DataTransfer;
 use App\Models\Donate\Donate;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 /**
  * Class DonateCreateService
- * @property Donate  $donate
- * @property Request $request
+ * @property Donate       $donate
+ * @property DataTransfer $request
  * @package App\Services\Donate
  */
 class DonateCreateService
 {
     private Donate $donate;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * DonateCreateService constructor.
      *
-     * @param Donate  $donate
-     * @param Request $request
+     * @param Donate       $donate
+     * @param DataTransfer $request
      */
-    public function __construct(Donate $donate, Request $request)
+    public function __construct(Donate $donate, DataTransfer $request)
     {
         $this->donate = $donate;
         $this->request = $request;
@@ -34,10 +33,8 @@ class DonateCreateService
      */
     public function run()
     {
-        $data = $this->request->post();
-
-        $this->donate->startup_id = Arr::get($data, 'startup_id');
-        $this->donate->amount = Arr::get($data, 'amount');
+        $this->donate->startup_id = $this->request->post('startup_id');
+        $this->donate->amount = $this->request->post('amount');
 
         return $this->donate->save(); //TODO: нужно реализовать снятие денег с карты
     }

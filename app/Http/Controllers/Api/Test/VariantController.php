@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\Test;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Test\Variant\VariantCreateRequest;
 use App\Http\Requests\Test\Variant\VariantUpdateRequest;
 use App\Models\Test\Variant;
 use App\Repositories\Test\VariantRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Test\Variant\VariantCreateService;
 use App\Services\Test\Variant\VariantUpdateService;
 use Illuminate\Http\Request;
@@ -57,14 +58,14 @@ class VariantController extends Controller
 
         try {
 
-            if ((new VariantCreateService($variant, $request))->run()) {
+            if ((new VariantCreateService($variant, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($variant->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 
@@ -95,14 +96,14 @@ class VariantController extends Controller
 
         try {
 
-            if ((new VariantUpdateService($variant, $request))->run()) {
+            if ((new VariantUpdateService($variant, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($variant->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 

@@ -2,11 +2,17 @@
 
 namespace App\Exceptions;
 
+use App\ResponseCodes\ResponseCodes;
+use App\Traits\Response\Response;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use Response;
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -36,5 +42,16 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof ModelNotFoundException) {
+            return $this->response([$e->getMessage()], ResponseCodes::NOT_FOUND);
+        } elseif ($e instanceof NotFoundHttpException) {
+            return $this->response([], ResponseCodes::NOT_FOUND);
+        }
+
+        return parent::render($request, $e);
     }
 }

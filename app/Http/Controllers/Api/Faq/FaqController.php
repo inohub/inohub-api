@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api\Faq;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Faq\FaqCreateRequest;
 use App\Http\Requests\Faq\FaqUpdateRequest;
 use App\Models\Faq\Faq;
 use App\Repositories\Faq\FaqRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Faq\FaqCreateService;
 use App\Services\Faq\FaqUpdateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class FaqController
@@ -58,14 +58,14 @@ class FaqController extends Controller
 
         try {
 
-            if ((new FaqCreateService($faq, $request))->run()) {
+            if ((new FaqCreateService($faq, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($faq->refresh());
             }
 
-            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 
@@ -97,14 +97,14 @@ class FaqController extends Controller
 
         try {
 
-            if ((new FaqUpdateService($faq, $request))->run()) {
+            if ((new FaqUpdateService($faq, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($faq->refresh());
             }
 
-            throw (new HttpException(ResponseCodes::BAD_REQUEST));
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 

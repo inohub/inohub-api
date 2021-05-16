@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\Category;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CategoryCreateRequest;
 use App\Http\Requests\Category\CategoryUpdateRequest;
 use App\Models\Category\Category;
 use App\Repositories\Category\CategoryRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Category\CategoryCreateService;
 use App\Services\Category\CategoryUpdateService;
 use Illuminate\Http\Request;
@@ -57,14 +58,14 @@ class CategoryController extends Controller
 
         try {
 
-            if ((new CategoryCreateService($category, $request))->run()) {
+            if ((new CategoryCreateService($category, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($category->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 
@@ -96,14 +97,14 @@ class CategoryController extends Controller
 
         try {
 
-            if ((new CategoryUpdateService($category, $request))->run()) {
+            if ((new CategoryUpdateService($category, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($category->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 

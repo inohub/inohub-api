@@ -26,15 +26,19 @@ class QuestionRepository extends BaseRepository
     protected function getRelations(): array
     {
         return [
-            'test'     => [
+            'test'                => [
                 'belongsTo',
                 'test_id',
             ],
-            'answer'   => [
+            'answer'              => [
                 'hasOne',
                 'question_id',
             ],
-            'variants' => [
+            'variants'            => [
+                'hasMany',
+                'question_id',
+            ],
+            'userQuestionResults' => [
                 'hasMany',
                 'question_id',
             ]

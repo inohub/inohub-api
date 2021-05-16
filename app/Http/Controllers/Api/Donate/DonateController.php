@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api\Donate;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Donate\DonateCreateRequest;
 use App\Models\Donate\Donate;
 use App\Repositories\Donate\DonateRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Donate\DonateCreateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -53,14 +54,14 @@ class DonateController extends Controller
 
         try {
 
-            if ((new DonateCreateService($donate, $request))->run()) {
+            if ((new DonateCreateService($donate, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($donate->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\Startup;
 
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Models\Startup\Startup;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Media\MediaChunkUploadService;
 use Illuminate\Http\Request;
 
@@ -17,9 +17,9 @@ class StartupMediaController extends Controller
                 return $this->response($startup->getFirstMediaUrl($collectionName));
             }
 
-            return $this->response('Impossible error occurred', ResponseCodes::UNPROCESSABLE);
+            throw new FailedResultException('Не удалось сохранить');
         } catch (\Throwable $exception) {
-            return $this->response($exception->getMessage(), ResponseCodes::FAILED_RESULT);
+            throw $exception;
         }
     }
 
@@ -27,7 +27,7 @@ class StartupMediaController extends Controller
     {
         $startup->clearMediaCollection('preview-image');
 
-        $this->response(null);
+        $this->response([]);
     }
 
     public function storeStartupPreviewVideo(Startup $startup, Request $request, $collectionName = 'preview-video')
@@ -37,9 +37,9 @@ class StartupMediaController extends Controller
                 return $this->response($startup->getFirstMediaUrl($collectionName));
             }
 
-            return $this->response('Impossible error occurred', ResponseCodes::UNPROCESSABLE);
+            throw new FailedResultException('Не удалось сохранить');
         } catch (\Throwable $exception) {
-            return $this->response($exception->getMessage(), ResponseCodes::FAILED_RESULT);
+            throw $exception;
         }
     }
 
@@ -47,7 +47,7 @@ class StartupMediaController extends Controller
     {
         $startup->clearMediaCollection('preview-video');
 
-        $this->response(null);
+        $this->response([]);
     }
 
 }

@@ -1,26 +1,28 @@
 <?php
 
-
 namespace App\Services\Faq;
 
-
+use App\Components\Request\DataTransfer;
 use App\Models\Faq\Faq;
-use App\Services\Text\TextCreateService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
+/**
+ * Class FaqUpdateService
+ * @property Faq          $faq
+ * @property DataTransfer $request
+ * @package App\Services\Faq
+ */
 class FaqUpdateService
 {
     private Faq $faq;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * StartupCreateService constructor.
      *
-     * @param Faq $faq
-     * @param Request $request
+     * @param Faq          $faq
+     * @param DataTransfer $request
      */
-    public function __construct(Faq $faq, Request $request)
+    public function __construct(Faq $faq, DataTransfer $request)
     {
         $this->faq = $faq;
         $this->request = $request;
@@ -31,10 +33,8 @@ class FaqUpdateService
      */
     public function run()
     {
-        $data = $this->request->post();
-
-        $this->faq->text->title = $data['title'];
-        $this->faq->text->content = $data['content'];
+        $this->faq->text->title = $this->request->post('title');
+        $this->faq->text->content = $this->request->post('content');
 
         return $this->faq->text->save();
     }

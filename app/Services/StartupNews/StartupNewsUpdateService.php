@@ -2,30 +2,29 @@
 
 namespace App\Services\StartupNews;
 
+use App\Components\Request\DataTransfer;
 use App\Models\StartupNews\StartupNews;
 use App\Services\Text\TextsCreateService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
 /**
  * Class StartupNewsUpdateService
- * @property StartupNews $startupNews
- * @property Request     $request
+ * @property StartupNews  $startupNews
+ * @property DataTransfer $request
  * @package App\Services\StartupNews
  */
 class StartupNewsUpdateService
 {
     private StartupNews $startupNews;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * StartupNewsUpdateService constructor.
      *
-     * @param StartupNews $startupNews
-     * @param Request     $request
+     * @param StartupNews  $startupNews
+     * @param DataTransfer $request
      */
-    public function __construct(StartupNews $startupNews, Request $request)
+    public function __construct(StartupNews $startupNews, DataTransfer $request)
     {
         $this->startupNews = $startupNews;
         $this->request = $request;
@@ -36,11 +35,11 @@ class StartupNewsUpdateService
      */
     public function run()
     {
-        $data = $this->request->post();
-
-        $this->startupNews->is_publish = Arr::get($data, 'is_publish', false);
+        $this->startupNews->is_publish = $this->request->post('is_publish', false);
         $this->startupNews->published_at = $this->startupNews->is_publish ? Carbon::now() : null;
 
-        return $this->startupNews->save() && (new TextsCreateService($this->startupNews, $this->request))->run();
+        return $this->startupNews->save() && (new TextsCreateService($this->startupNews, new DataTransfer([
+                'texts' => $this->request->post('texts'),
+            ])))->run();
     }
 }

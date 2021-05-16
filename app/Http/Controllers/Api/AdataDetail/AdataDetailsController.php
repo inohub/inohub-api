@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\AdataDetail;
 
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
 use App\ResponseCodes\ResponseCodes;
@@ -22,7 +23,7 @@ class AdataDetailsController extends Controller
                 return $this->response($user->refresh()->adataDetails()->get());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
         } catch (\Throwable $exception) {
             return $this->response($exception->getMessage(), ResponseCodes::FAILED_RESULT);
         }

@@ -2,29 +2,28 @@
 
 namespace App\Services\Course;
 
+use App\Components\Request\DataTransfer;
 use App\Models\Course\Course;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
 /**
  * Class CourseCreateService
- * @property Course  $course
- * @property Request $request
+ * @property Course       $course
+ * @property DataTransfer $request
  * @package App\Services\Course
  */
 class CourseCreateService
 {
     private Course $course;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * CourseCreateService constructor.
      *
-     * @param Course  $course
-     * @param Request $request
+     * @param Course       $course
+     * @param DataTransfer $request
      */
-    public function __construct(Course $course, Request $request)
+    public function __construct(Course $course, DataTransfer $request)
     {
         $this->course = $course;
         $this->request = $request;
@@ -35,11 +34,9 @@ class CourseCreateService
      */
     public function run()
     {
-        $data = $this->request->post();
-
-        $this->course->name = Arr::get($data, 'name');
-        $this->course->description = Arr::get($data, 'description');
-        $this->course->is_publish = Arr::get($data, 'is_publish', false);
+        $this->course->name = $this->request->post('name');
+        $this->course->description = $this->request->post('description');
+        $this->course->is_publish = $this->request->post('is_publish', false);
         $this->course->published_at = $this->course->is_publish ? Carbon::now() : null;
 
         return $this->course->save();

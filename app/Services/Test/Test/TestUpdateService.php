@@ -2,28 +2,27 @@
 
 namespace App\Services\Test\Test;
 
+use App\Components\Request\DataTransfer;
 use App\Models\Test\Test;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 /**
  * Class TestUpdateService
- * @property Test    $test
- * @property Request $request
+ * @property Test         $test
+ * @property DataTransfer $request
  * @package App\Services\Test
  */
 class TestUpdateService
 {
     private Test $test;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * TestUpdateService constructor.
      *
-     * @param Test    $test
-     * @param Request $request
+     * @param Test         $test
+     * @param DataTransfer $request
      */
-    public function __construct(Test $test, Request $request)
+    public function __construct(Test $test, DataTransfer $request)
     {
         $this->test = $test;
         $this->request = $request;
@@ -34,9 +33,7 @@ class TestUpdateService
      */
     public function run()
     {
-        $data = $this->request->post();
-
-        $this->test->name = Arr::get($data, 'name');
+        $this->test->name = $this->request->post('name');
 
         return $this->test->save();
     }

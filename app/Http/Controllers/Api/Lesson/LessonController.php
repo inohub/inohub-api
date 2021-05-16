@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api\Lesson;
 
+use App\Components\Request\DataTransfer;
 use App\Components\Test\TestShuffle;
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Lesson\LessonCreateRequest;
 use App\Http\Requests\Lesson\LessonGetTestRequest;
 use App\Http\Requests\Lesson\LessonUpdateRequest;
 use App\Models\Lesson\Lesson;
 use App\Repositories\Lesson\LessonRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Lesson\LessonCreateService;
 use App\Services\Lesson\LessonUpdateService;
 use Illuminate\Http\Request;
@@ -59,14 +60,14 @@ class LessonController extends Controller
 
         try {
 
-            if ((new LessonCreateService($lesson, $request))->run()) {
+            if ((new LessonCreateService($lesson, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($lesson->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 
@@ -97,14 +98,14 @@ class LessonController extends Controller
 
         try {
 
-            if ((new LessonUpdateService($lesson, $request))->run()) {
+            if ((new LessonUpdateService($lesson, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($lesson->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 

@@ -2,30 +2,29 @@
 
 namespace App\Services\Startup;
 
+use App\Components\Request\DataTransfer;
 use App\Models\Startup\Startup;
 use App\Services\Text\TextsCreateService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
 /**
  * Class StartupUpdateService
- * @property Startup $startup
- * @property Request $request
+ * @property Startup      $startup
+ * @property DataTransfer $request
  * @package App\Services\Startup
  */
 class StartupUpdateService
 {
     private Startup $startup;
-    private Request $request;
+    private DataTransfer $request;
 
     /**
      * StartupUpdateService constructor.
      *
-     * @param Startup $startup
-     * @param Request $request
+     * @param Startup      $startup
+     * @param DataTransfer $request
      */
-    public function __construct(Startup $startup, Request $request)
+    public function __construct(Startup $startup, DataTransfer $request)
     {
         $this->startup = $startup;
         $this->request = $request;
@@ -36,13 +35,13 @@ class StartupUpdateService
      */
     public function run()
     {
-        $data = $this->request->post();
-
-        $this->startup->subtitle = Arr::get($data, 'subtitle');
-        $this->startup->donation_amount = Arr::get($data, 'donation_amount');
-        $this->startup->is_publish = Arr::get($data, 'is_publish', false);
+        $this->startup->subtitle = $this->request->post('subtitle');
+        $this->startup->donation_amount = $this->request->post('donation_amount');
+        $this->startup->is_publish = $this->request->post('is_publish', false);
         $this->startup->published_at = $this->startup->is_publish ? Carbon::now() : null;
 
-        return $this->startup->save() && (new TextsCreateService($this->startup, $this->request))->run();
+        return $this->startup->save() && (new TextsCreateService($this->startup, new DataTransfer([
+                'texts' => $this->request->post('texts'),
+            ])))->run();
     }
 }

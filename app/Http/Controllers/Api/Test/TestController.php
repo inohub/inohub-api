@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\Test;
 
+use App\Components\Request\DataTransfer;
+use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Test\Test\TestCreateRequest;
 use App\Http\Requests\Test\Test\TestUpdateRequest;
 use App\Models\Test\Test;
 use App\Repositories\Test\TestRepository;
-use App\ResponseCodes\ResponseCodes;
 use App\Services\Test\Test\TestCreateService;
 use App\Services\Test\Test\TestUpdateService;
 use Illuminate\Http\Request;
@@ -57,14 +58,14 @@ class TestController extends Controller
 
         try {
 
-            if ((new TestCreateService($test, $request))->run()) {
+            if ((new TestCreateService($test, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($test->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 
@@ -95,14 +96,14 @@ class TestController extends Controller
 
         try {
 
-            if ((new TestUpdateService($test, $request))->run()) {
+            if ((new TestUpdateService($test, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
                 return $this->response($test->refresh());
             }
 
-            return $this->response([], ResponseCodes::FAILED_RESULT);
+            throw new FailedResultException('Не удалось сохранить');
 
         } catch (\Throwable $exception) {
 

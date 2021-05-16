@@ -27,6 +27,10 @@ class CommentRepository extends BaseRepository
     protected function getRelations(): array
     {
         return [
+            'owner' => [
+                'belongsTo',
+                'owner_id',
+            ],
             'parent' => [
                 'belongsTo',
                 'parent_id',

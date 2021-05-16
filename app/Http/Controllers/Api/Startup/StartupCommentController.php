@@ -9,6 +9,10 @@ use App\Models\Comment\Comment;
 use App\Models\Startup\Startup;
 use Illuminate\Http\Request;
 
+/**
+ * Class StartupCommentController
+ * @package App\Http\Controllers\Api\Startup
+ */
 class StartupCommentController extends CommentController
 {
     /**
