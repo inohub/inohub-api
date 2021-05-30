@@ -3,16 +3,17 @@
 namespace App\Models\Test;
 
 use App\Models\UserTest\UserQuestionResult;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Variant
- * @property      $question_id
- * @property      $text
- * @property      $is_correct
- * @property-read $question
- * @property-read $userQuestionResults
+ * @property int             $question_id
+ * @property string          $text
+ * @property boolean         $is_correct
+ * @property-read Question   $question
+ * @property-read Collection $userQuestionResults
  * @package App\Models\Test
  */
 class Variant extends Model

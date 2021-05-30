@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Faq
- * @property      $startup_id
- * @property-read $startup
- * @property-read $text
+ * @property int          $startup_id
+ * @property-read Startup $startup
+ * @property-read Text    $text
  * @package App\Models\Faq
  */
 class Faq extends Model

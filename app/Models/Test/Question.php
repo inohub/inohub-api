@@ -3,17 +3,18 @@
 namespace App\Models\Test;
 
 use App\Models\UserTest\UserQuestionResult;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Question
- * @property      $test_id
- * @property      $text
- * @property-read $test
- * @property-read $answer
- * @property-read $variants
- * @property-read $userQuestionResults
+ * @property int             $test_id
+ * @property string          $text
+ * @property-read Test       $test
+ * @property-read Answer     $answer
+ * @property-read Collection $variants
+ * @property-read Collection $userQuestionResults
  * @package App\Models\Test
  */
 class Question extends Model

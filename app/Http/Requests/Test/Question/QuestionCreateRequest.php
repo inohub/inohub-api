@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Test\Question;
 
 use App\Http\Requests\Base\BaseRequest;
+use App\Rules\TestIdExistsRule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 /**
@@ -21,7 +23,7 @@ class QuestionCreateRequest extends BaseRequest
                 'bail',
                 'required',
                 'integer',
-                Rule::exists('tests', 'id')
+                new TestIdExistsRule(Auth::user()),
             ],
             'text'    => [
                 'required',

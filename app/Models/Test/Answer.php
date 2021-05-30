@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Answer
- * @property      $question_id
- * @property      $correct_text
- * @property-read $question
+ * @property int           $question_id
+ * @property string        $correct_text
+ * @property-read Question $question
  * @package App\Models\Test
  */
 class Answer extends Model

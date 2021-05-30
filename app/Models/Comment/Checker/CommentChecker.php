@@ -26,16 +26,6 @@ class CommentChecker
     }
 
     /**
-     * @param User $user
-     *
-     * @return bool
-     */
-    public function isOwner(User $user)
-    {
-        return $this->comment->owner_id == $user->id;
-    }
-
-    /**
      * @param Model $model
      *
      * @return bool

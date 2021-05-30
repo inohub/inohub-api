@@ -12,6 +12,7 @@ use App\Repositories\Course\CourseRepository;
 use App\Services\Course\CourseCreateService;
 use App\Services\Course\CourseUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -96,7 +97,8 @@ class CourseController extends Controller
 
         try {
 
-            if ((new CourseUpdateService($course, new DataTransfer($request->post())))->run()) {
+            if ($course->isOwner(Auth::user()) &&
+                (new CourseUpdateService($course, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -119,8 +121,13 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        $course->delete();
+        if ($course->isOwner(Auth::user())) {
 
-        return $this->response([]);
+            $course->delete();
+
+            return $this->response([]);
+        }
+
+        throw new FailedResultException('Не удалось удалить');
     }
 }

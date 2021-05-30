@@ -12,6 +12,7 @@ use App\Repositories\Faq\FaqRepository;
 use App\Services\Faq\FaqCreateService;
 use App\Services\Faq\FaqUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -58,7 +59,8 @@ class FaqController extends Controller
 
         try {
 
-            if ((new FaqCreateService($faq, new DataTransfer($request->post())))->run()) {
+            if ($faq->startup->isOwner(Auth::user()) &&
+                (new FaqCreateService($faq, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -97,7 +99,8 @@ class FaqController extends Controller
 
         try {
 
-            if ((new FaqUpdateService($faq, new DataTransfer($request->post())))->run()) {
+            if ($faq->startup->isOwner(Auth::user()) &&
+                (new FaqUpdateService($faq, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -120,9 +123,14 @@ class FaqController extends Controller
      */
     public function destroy(Faq $faq)
     {
-        $faq->text->delete();
-        $faq->delete();
+        if ($faq->startup->isOwner(Auth::user())) {
 
-        return $this->response([]);
+            $faq->text->delete();
+            $faq->delete();
+
+            return $this->response([]);
+        }
+
+        throw new FailedResultException('Не удалось удалить');
     }
 }

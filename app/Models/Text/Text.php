@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Text
- * @property $title
- * @property $content
- * @property $target_class
- * @property $target_id
+ * @property string $title
+ * @property string $content
+ * @property string $target_class
+ * @property int    $target_id
  * @package App\Models\Text
  */
 class Text extends Model

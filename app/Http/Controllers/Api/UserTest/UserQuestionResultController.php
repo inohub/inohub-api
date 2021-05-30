@@ -8,6 +8,7 @@ use App\Models\UserTest\UserQuestionResult;
 use App\Repositories\UserTest\UserQuestionResultRepository;
 use App\Services\UserTest\UserQuestionResult\UserQuestionResultChangeCorrectService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -63,7 +64,8 @@ class UserQuestionResultController extends Controller
 
         try {
 
-            if ((new UserQuestionResultChangeCorrectService($userQuestionResult))->run()) {
+            if ($userQuestionResult->question->test->lesson->course->isOwner(Auth::user()) &&
+                (new UserQuestionResultChangeCorrectService($userQuestionResult))->run()) {
 
                 DB::commit();
 

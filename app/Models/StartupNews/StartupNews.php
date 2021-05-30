@@ -7,18 +7,19 @@ use App\Models\Like\Like;
 use App\Models\Startup\Startup;
 use App\Models\StartupNews\Checker\StartupNewsChecker;
 use App\Models\Text\Text;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class StartupNews
- * @property       $startup_id
- * @property       $is_publish
- * @property       $published_at
- * @property-read  $startup
- * @property-read  $texts
- * @property-read  $likes
- * @property-read  $comments
+ * @property int              $startup_id
+ * @property boolean          $is_publish
+ * @property                  $published_at
+ * @property-read Startup     $startup
+ * @property-read Collection  $texts
+ * @property-read Collection  $likes
+ * @property-read Collection  $comments
  * @package App\Models
  */
 class StartupNews extends Model

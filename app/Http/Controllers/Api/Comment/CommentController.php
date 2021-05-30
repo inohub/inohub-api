@@ -111,7 +111,7 @@ class CommentController extends Controller
 
         try {
 
-            if ($comment->getChecker()->isOwner(Auth::user()) &&
+            if ($comment->isOwner(Auth::user()) &&
                 $comment->getChecker()->isParent($model) &&
                 (new CommentUpdateService($comment, new DataTransfer($request->post())))->run()) {
 
@@ -137,7 +137,7 @@ class CommentController extends Controller
      */
     protected function destroyComment(Model $model, Comment $comment)
     {
-        if ($comment->getChecker()->isOwner(Auth::user()) &&
+        if ($comment->isOwner(Auth::user()) &&
             $comment->getChecker()->isParent($model)) {
 
             $comment->delete();

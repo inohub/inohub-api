@@ -4,6 +4,7 @@ namespace App\Models\Like;
 
 use App\Interfaces\Owner\OwnerInterface;
 use App\Models\Like\Checker\LikeChecker;
+use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,10 +12,10 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Like
- * @property       $owner_id
- * @property       $target_class
- * @property       $target_id
- * @property-read  $owner
+ * @property int       $owner_id
+ * @property string    $target_class
+ * @property int       $target_id
+ * @property-read User $owner
  * @package App\Models\Like
  */
 class Like extends Model implements OwnerInterface

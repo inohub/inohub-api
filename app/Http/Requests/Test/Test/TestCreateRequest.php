@@ -4,6 +4,7 @@ namespace App\Http\Requests\Test\Test;
 
 use App\Http\Requests\Base\BaseRequest;
 use App\Rules\CanCreateTestInCourse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 /**
@@ -23,7 +24,7 @@ class TestCreateRequest extends BaseRequest
                 'required',
                 'integer',
                 Rule::exists('lessons', 'id'),
-                new CanCreateTestInCourse(),
+                new CanCreateTestInCourse(Auth::user()),
             ],
             'name'      => [
                 'required',

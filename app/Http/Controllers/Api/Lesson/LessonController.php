@@ -14,6 +14,7 @@ use App\Repositories\Lesson\LessonRepository;
 use App\Services\Lesson\LessonCreateService;
 use App\Services\Lesson\LessonUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -60,7 +61,8 @@ class LessonController extends Controller
 
         try {
 
-            if ((new LessonCreateService($lesson, new DataTransfer($request->post())))->run()) {
+            if ($lesson->course->isOwner(Auth::user()) &&
+                (new LessonCreateService($lesson, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -98,7 +100,8 @@ class LessonController extends Controller
 
         try {
 
-            if ((new LessonUpdateService($lesson, new DataTransfer($request->post())))->run()) {
+            if ($lesson->course->isOwner(Auth::user()) &&
+                (new LessonUpdateService($lesson, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -121,9 +124,13 @@ class LessonController extends Controller
      */
     public function destroy(Lesson $lesson)
     {
-        $lesson->delete();
+        if ($lesson->course->isOwner(Auth::user())) {
+            $lesson->delete();
 
-        return $this->response([]);
+            return $this->response([]);
+        }
+
+        throw new FailedResultException('Не удалось удалить');
     }
 
     /**

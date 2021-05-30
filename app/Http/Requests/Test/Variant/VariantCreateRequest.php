@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Test\Variant;
 
 use App\Http\Requests\Base\BaseRequest;
+use App\Rules\QuestionIdExistsRule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 /**
@@ -21,7 +23,7 @@ class VariantCreateRequest extends BaseRequest
                 'bail',
                 'required',
                 'integer',
-                Rule::exists('questions', 'id'),
+                new QuestionIdExistsRule(Auth::user()),
                 Rule::unique('answers', 'question_id'),
             ],
             'text'        => [

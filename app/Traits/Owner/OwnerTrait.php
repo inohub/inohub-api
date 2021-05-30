@@ -27,6 +27,16 @@ trait OwnerTrait
         return $this->belongsTo(User::class, 'owner_id');
     }
 
+    /**
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isOwner(User $user)
+    {
+        return $this->owner_id == $user->id;
+    }
+
     public static function bootOwnerTrait()
     {
         static::observe(OwnerObserver::class);

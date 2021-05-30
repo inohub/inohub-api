@@ -4,6 +4,7 @@ namespace App\Models\UserTest;
 
 use App\Interfaces\Owner\OwnerInterface;
 use App\Models\Test\Test;
+use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,10 +12,10 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UserTestResult
- * @property      $owner_id
- * @property      $test_id
- * @property-read $owner
- * @property-read $test
+ * @property int       $owner_id
+ * @property int       $test_id
+ * @property-read User $owner
+ * @property-read Test $test
  * @package App\Models\UserTest
  */
 class UserTestResult extends Model implements OwnerInterface

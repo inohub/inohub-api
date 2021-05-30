@@ -6,17 +6,17 @@ use App\Models\Course\Course;
 use App\Models\Lesson\Checker\LessonChecker;
 use App\Models\Test\Test;
 use App\Models\Text\Text;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Lesson
- * @property      $course_id
- * @property      $name
- * @property      $description
- * @property-read $course
- * @property-read $texts
- * @property-read $tests
+ * @property int             $course_id
+ * @property string          $name
+ * @property string          $description
+ * @property-read Course     $course
+ * @property-read Collection $texts
  * @package App\Models\Lesson
  */
 class Lesson extends Model

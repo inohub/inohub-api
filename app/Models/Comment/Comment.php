@@ -4,22 +4,23 @@ namespace App\Models\Comment;
 
 use App\Interfaces\Owner\OwnerInterface;
 use App\Models\Comment\Checker\CommentChecker;
+use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Comment
- * @property      $id
- * @property      $owner_id
- * @property      $parent_id
- * @property      $text
- * @property      $target_class
- * @property      $target_id
- * @property-read $owner
- * @property-read $children
- * @property-read $parent
+ * @property int             $owner_id
+ * @property int             $parent_id
+ * @property string          $text
+ * @property string          $target_class
+ * @property int             $target_id
+ * @property-read User       $owner
+ * @property-read Collection $children
+ * @property-read Comment    $parent
  * @package App\Models\Comment
  */
 class Comment extends Model implements OwnerInterface

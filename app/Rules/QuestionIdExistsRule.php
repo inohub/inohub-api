@@ -7,16 +7,16 @@ use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Class CanCreateTestInCourse
+ * Class QuestionIdExistsRule
  * @property User $user
  * @package App\Rules
  */
-class CanCreateTestInCourse implements Rule
+class QuestionIdExistsRule implements Rule
 {
     private User $user;
 
     /**
-     * CanCreateTestInCourse constructor.
+     * QuestionIdExistsRule constructor.
      *
      * @param User $user
      */
@@ -33,10 +33,11 @@ class CanCreateTestInCourse implements Rule
      */
     public function passes($attribute, $value)
     {
-        return DB::table('lessons')
+        return DB::table('questions')
+            ->join('tests', 'questions.test_id', '=', 'tests.id')
+            ->join('lessons', 'tests.lesson_id', '=', 'lessons.id')
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
-            ->where('lessons.id', $value)
-            ->where('courses.is_publish', false)
+            ->where('questions.id', $value)
             ->where('courses.owner_id', $this->user->id)
             ->exists();
     }

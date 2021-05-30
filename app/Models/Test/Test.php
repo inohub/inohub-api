@@ -4,17 +4,18 @@ namespace App\Models\Test;
 
 use App\Models\Lesson\Lesson;
 use App\Models\UserTest\UserTestResult;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Test
- * @property      $lesson_id
- * @property      $name
- * @property-read $lesson
- * @property-read $questions
- * @property-read $userTestResults
+ * @property int             $lesson_id
+ * @property string          $name
+ * @property-read Lesson     $lesson
+ * @property-read Collection $questions
+ * @property-read Collection $userTestResults
  * @package App\Models\Test
  */
 class Test extends Model

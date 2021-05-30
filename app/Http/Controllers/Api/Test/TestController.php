@@ -12,6 +12,7 @@ use App\Repositories\Test\TestRepository;
 use App\Services\Test\Test\TestCreateService;
 use App\Services\Test\Test\TestUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -58,7 +59,8 @@ class TestController extends Controller
 
         try {
 
-            if ((new TestCreateService($test, new DataTransfer($request->post())))->run()) {
+            if ($test->lesson->course->isOwner(Auth::user()) &&
+                (new TestCreateService($test, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -96,7 +98,8 @@ class TestController extends Controller
 
         try {
 
-            if ((new TestUpdateService($test, new DataTransfer($request->post())))->run()) {
+            if ($test->lesson->course->isOwner(Auth::user()) &&
+                (new TestUpdateService($test, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -119,8 +122,13 @@ class TestController extends Controller
      */
     public function destroy(Test $test)
     {
-        $test->delete();
+        if ($test->lesson->course->isOwner(Auth::user())) {
 
-        return $this->response([]);
+            $test->delete();
+
+            return $this->response([]);
+        }
+
+        throw new FailedResultException('Не удалось удалить');
     }
 }

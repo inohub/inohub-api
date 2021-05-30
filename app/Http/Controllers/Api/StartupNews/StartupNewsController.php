@@ -12,6 +12,7 @@ use App\Repositories\StartupNews\StartupNewsRepository;
 use App\Services\StartupNews\StartupNewsCreateService;
 use App\Services\StartupNews\StartupNewsUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -58,7 +59,8 @@ class StartupNewsController extends Controller
 
         try {
 
-            if ((new StartupNewsCreateService($startupNews, new DataTransfer($request->post())))->run()) {
+            if ($startupNews->startup->isOwner(Auth::user()) &&
+                (new StartupNewsCreateService($startupNews, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -96,7 +98,8 @@ class StartupNewsController extends Controller
 
         try {
 
-            if ((new StartupNewsUpdateService($startupNews, new DataTransfer($request->post())))->run()) {
+            if ($startupNews->startup->isOwner(Auth::user()) &&
+                (new StartupNewsUpdateService($startupNews, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -119,8 +122,13 @@ class StartupNewsController extends Controller
      */
     public function destroy(StartupNews $startupNews)
     {
-        $startupNews->delete();
+        if ($startupNews->startup->isOwner(Auth::user())) {
 
-        return $this->response([]);
+            $startupNews->delete();
+
+            return $this->response([]);
+        }
+
+        throw new FailedResultException('Не удалось удалить');
     }
 }

@@ -12,6 +12,7 @@ use App\Repositories\Test\VariantRepository;
 use App\Services\Test\Variant\VariantCreateService;
 use App\Services\Test\Variant\VariantUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -58,7 +59,8 @@ class VariantController extends Controller
 
         try {
 
-            if ((new VariantCreateService($variant, new DataTransfer($request->post())))->run()) {
+            if ($variant->question->test->lesson->course->isOwner(Auth::user()) &&
+                (new VariantCreateService($variant, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -96,7 +98,8 @@ class VariantController extends Controller
 
         try {
 
-            if ((new VariantUpdateService($variant, new DataTransfer($request->post())))->run()) {
+            if ($variant->question->test->lesson->course->isOwner(Auth::user()) &&
+                (new VariantUpdateService($variant, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -119,9 +122,14 @@ class VariantController extends Controller
      */
     public function destroy(Variant $variant)
     {
-        $variant->delete();
+        if ($variant->question->test->lesson->course->isOwner(Auth::user())) {
 
-        return $this->response([]);
+            $variant->delete();
+
+            return $this->response([]);
+        }
+
+        throw new FailedResultException('Не удалось удалить');
     }
 
     /**

@@ -2,16 +2,17 @@
 
 namespace App\Models\Category;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Category
- * @property      $title
- * @property      $description
- * @property      $parent_id
- * @property-read $parent
- * @property-read $children
+ * @property string          $title
+ * @property string          $description
+ * @property int             $parent_id
+ * @property-read Category   $parent
+ * @property-read Collection $children
  * @package App\Models\Category
  */
 class Category extends Model

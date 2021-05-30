@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UserQuestionResult
- * @property       $question_id
- * @property       $user_test_result_id
- * @property       $answer_text
- * @property       $variant_id
- * @property       $is_correct
- * @property-read  $question
- * @property-read  $userTestResult
- * @property-read  $variant
+ * @property int                 $question_id
+ * @property int                 $user_test_result_id
+ * @property string              $answer_text
+ * @property int                 $variant_id
+ * @property boolean             $is_correct
+ * @property-read Question       $question
+ * @property-read UserTestResult $userTestResult
+ * @property-read Variant        $variant
  * @package App\Models\UserTest
  */
 class UserQuestionResult extends Model

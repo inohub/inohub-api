@@ -5,6 +5,7 @@ namespace App\Models\Donate;
 use App\Interfaces\Owner\OwnerInterface;
 use App\Models\Donate\Checker\DonateChecker;
 use App\Models\Startup\Startup;
+use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,12 +13,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Donate
- * @property      $id
- * @property      $owner_id
- * @property      $startup_id
- * @property      $amount
- * @property-read $owner
- * @property-read $startup
+ * @property int          $owner_id
+ * @property int          $startup_id
+ * @property int          $amount
+ * @property-read User    $owner
+ * @property-read Startup $startup
  * @package App\Models\Donate
  */
 class Donate extends Model implements OwnerInterface

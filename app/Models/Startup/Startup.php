@@ -10,8 +10,10 @@ use App\Models\Like\Like;
 use App\Models\Startup\Checker\StartupChecker;
 use App\Models\StartupNews\StartupNews;
 use App\Models\Text\Text;
+use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -19,18 +21,18 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Class Startup
- * @property           $owner_id
- * @property           $name
- * @property           $subtitle
- * @property           $donation_amount
- * @property           $is_publish
- * @property           $published_at
- * @property-read      $owner
- * @property-read      $texts
- * @property-read      $likes
- * @property-read      $comments
- * @property-read      $startupNews
- * @property-read      $fags
+ * @property int             $owner_id
+ * @property string          $name
+ * @property string          $subtitle
+ * @property int             $donation_amount
+ * @property boolean         $is_publish
+ * @property                 $published_at
+ * @property-read User       $owner
+ * @property-read Collection $texts
+ * @property-read Collection $likes
+ * @property-read Collection $comments
+ * @property-read Collection $startupNews
+ * @property-read Collection $fags
  * @package App\Models\Startup
  */
 class Startup extends Model implements OwnerInterface, HasMedia

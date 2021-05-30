@@ -12,6 +12,7 @@ use App\Repositories\Test\AnswerRepository;
 use App\Services\Test\Answer\AnswerCreateService;
 use App\Services\Test\Answer\AnswerUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -58,7 +59,8 @@ class AnswerController extends Controller
 
         try {
 
-            if ((new AnswerCreateService($answer, new DataTransfer($request->post())))->run()) {
+            if ($answer->question->test->lesson->course->isOwner(Auth::user()) &&
+                (new AnswerCreateService($answer, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -96,7 +98,8 @@ class AnswerController extends Controller
 
         try {
 
-            if ((new AnswerUpdateService($answer, new DataTransfer($request->post())))->run()) {
+            if ($answer->question->test->lesson->course->isOwner(Auth::user()) &&
+                (new AnswerUpdateService($answer, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -119,8 +122,13 @@ class AnswerController extends Controller
      */
     public function destroy(Answer $answer)
     {
-        $answer->delete();
+        if ($answer->question->test->lesson->course->isOwner(Auth::user())) {
 
-        return $this->response([]);
+            $answer->delete();
+
+            return $this->response([]);
+        }
+
+        throw new FailedResultException('Не удалось удалить');
     }
 }

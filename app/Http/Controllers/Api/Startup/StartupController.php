@@ -12,6 +12,7 @@ use App\Repositories\Startup\StartupRepository;
 use App\Services\Startup\StartupCreateService;
 use App\Services\Startup\StartupUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -97,7 +98,8 @@ class StartupController extends Controller
 
         try {
 
-            if ((new StartupUpdateService($startup, new DataTransfer($request->post())))->run()) {
+            if ($startup->isOwner(Auth::user()) &&
+                (new StartupUpdateService($startup, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
@@ -120,8 +122,13 @@ class StartupController extends Controller
      */
     public function destroy(Startup $startup)
     {
-        $startup->delete();
+        if ($startup->isOwner(Auth::user())) {
+            $startup->delete();
 
-        return $this->response([]);
+            return $this->response([]);
+        }
+
+        throw new FailedResultException('Не удалось удалить');
+
     }
 }
