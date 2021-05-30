@@ -34,6 +34,8 @@ class VariantCreateRequest extends BaseRequest
             ],
             'is_correct'  => [
                 'boolean',
+                Rule::unique('variants', 'is_correct')
+                    ->where('question_id', $this->post('question_id'))
             ]
         ];
     }
