@@ -12,10 +12,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UserTestResult
- * @property int       $owner_id
- * @property int       $test_id
- * @property-read User $owner
- * @property-read Test $test
+ * @property int                     $owner_id
+ * @property int                     $test_id
+ * @property-read User               $owner
+ * @property-read Test               $test
+ * @property-read UserQuestionResult $userQuestionResult
  * @package App\Models\UserTest
  */
 class UserTestResult extends Model implements OwnerInterface
@@ -33,5 +34,33 @@ class UserTestResult extends Model implements OwnerInterface
     public function test()
     {
         return $this->belongsTo(Test::class, 'test_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function userQuestionResult()
+    {
+        return $this->hasOne(UserQuestionResult::class, 'user_test_result_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function scopeOfUserCorrectAnswers()
+    {
+        return $this->userQuestionResult()
+            ->whereNull('variant_id')
+            ->where('is_correct', true);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function scopeOfUserCorrectVariants()
+    {
+        return $this->userQuestionResult()
+            ->whereNotNull('variant_id')
+            ->where('is_correct', true);
     }
 }

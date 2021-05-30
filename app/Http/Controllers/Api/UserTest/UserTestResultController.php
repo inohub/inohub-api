@@ -60,7 +60,14 @@ class UserTestResultController extends Controller
 
                 DB::commit();
 
-                return $this->response($userTestResult->refresh());
+                $userTestResult->refresh();
+                $variantCount = $userTestResult->ofUserCorrectVariants()->count();
+                $total = $userTestResult->test->questions()->count();
+
+                return $this->response([
+                    'correct' => $variantCount,
+                    'total'    => $total,
+                ]);
             }
 
             throw new FailedResultException('Не удалось сохранить');

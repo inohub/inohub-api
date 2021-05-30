@@ -61,8 +61,7 @@ class LessonController extends Controller
 
         try {
 
-            if ($lesson->course->isOwner(Auth::user()) &&
-                (new LessonCreateService($lesson, new DataTransfer($request->post())))->run()) {
+            if ((new LessonCreateService($lesson, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 

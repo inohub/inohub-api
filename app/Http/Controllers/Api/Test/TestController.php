@@ -59,8 +59,7 @@ class TestController extends Controller
 
         try {
 
-            if ($test->lesson->course->isOwner(Auth::user()) &&
-                (new TestCreateService($test, new DataTransfer($request->post())))->run()) {
+            if ((new TestCreateService($test, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 

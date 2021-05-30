@@ -59,8 +59,7 @@ class VariantController extends Controller
 
         try {
 
-            if ($variant->question->test->lesson->course->isOwner(Auth::user()) &&
-                (new VariantCreateService($variant, new DataTransfer($request->post())))->run()) {
+            if ((new VariantCreateService($variant, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 

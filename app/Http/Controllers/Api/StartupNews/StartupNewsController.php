@@ -59,8 +59,7 @@ class StartupNewsController extends Controller
 
         try {
 
-            if ($startupNews->startup->isOwner(Auth::user()) &&
-                (new StartupNewsCreateService($startupNews, new DataTransfer($request->post())))->run()) {
+            if ((new StartupNewsCreateService($startupNews, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 

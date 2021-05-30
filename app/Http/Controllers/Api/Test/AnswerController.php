@@ -59,8 +59,7 @@ class AnswerController extends Controller
 
         try {
 
-            if ($answer->question->test->lesson->course->isOwner(Auth::user()) &&
-                (new AnswerCreateService($answer, new DataTransfer($request->post())))->run()) {
+            if ((new AnswerCreateService($answer, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 

@@ -59,8 +59,7 @@ class FaqController extends Controller
 
         try {
 
-            if ($faq->startup->isOwner(Auth::user()) &&
-                (new FaqCreateService($faq, new DataTransfer($request->post())))->run()) {
+            if ((new FaqCreateService($faq, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 

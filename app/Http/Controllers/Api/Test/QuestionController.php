@@ -59,8 +59,7 @@ class QuestionController extends Controller
 
         try {
 
-            if ($question->test->lesson->course->isOwner(Auth::user()) &&
-                (new QuestionCreateService($question, new DataTransfer($request->post())))->run()) {
+            if ((new QuestionCreateService($question, new DataTransfer($request->post())))->run()) {
 
                 DB::commit();
 
