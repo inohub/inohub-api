@@ -3,7 +3,7 @@
 namespace App\Services\User;
 
 use App\Models\User\User;
-use App\Repositories\RoleRepository;
+use App\Repositories\Role\RoleRepository;
 
 /**
  * Class UserAttachRoleService

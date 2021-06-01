@@ -37,6 +37,6 @@ class UserRegistrationService
         $this->user->email = $this->request->post('email');
         $this->user->password = bcrypt($this->request->post('password'));
 
-        return $this->user->save();
+        return $this->user->save() && (new UserAttachRoleService($this->user, $this->request->post('role_slug')))->run();
     }
 }

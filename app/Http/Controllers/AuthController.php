@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Components\Request\DataTransfer;
 use App\Exceptions\FailedResultException;
+use App\Http\Requests\User\UserAttachRoleRequest;
 use App\Http\Requests\User\UserRegistrationRequest;
 use App\Models\User\User;
 use App\ResponseCodes\ResponseCodes;
+use App\Services\User\UserAttachRoleService;
 use App\Services\User\UserRegistrationService;
 use Illuminate\Support\Facades\DB;
 
@@ -47,6 +49,35 @@ class AuthController extends Controller
             throw new FailedResultException('Не удалось сохранить');
         } catch (\Exception $e) {
             throw $e;
+        }
+    }
+
+    /**
+     * @param UserAttachRoleRequest $request
+     * @param User                  $user
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws FailedResultException
+     * @throws \Throwable
+     */
+    public function attachRole(UserAttachRoleRequest $request, User $user)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if ((new UserAttachRoleService($user, $request->post('role_slug')))->run()) {
+
+                DB::commit();
+
+                return $this->response([]);
+            }
+
+            throw new FailedResultException('Не удалось сохранить');
+
+        } catch (\Throwable $exception) {
+
+            throw $exception;
         }
     }
 

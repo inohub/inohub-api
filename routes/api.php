@@ -7,6 +7,7 @@ Route::get('/unauthorized', [AuthController::class, 'unauthorized'])->name('unau
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/registration', [AuthController::class, 'registration']);
+    Route::post('/attach-role', [AuthController::class, 'attachRole']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
@@ -14,6 +15,8 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => ['auth:api']], function () {
+
+    Route::get('/roles', [\App\Http\Controllers\Api\Role\RoleController::class, 'index']);
 
     Route::group(['prefix' => 'startups'], function () {
         Route::get('/', [\App\Http\Controllers\Api\Startup\StartupController::class, 'index']);

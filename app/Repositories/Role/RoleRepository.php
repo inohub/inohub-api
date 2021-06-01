@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Role;
 
 use App\Repositories\Base\BaseRepository;
 use PHPZen\LaravelRbac\Model\Role;
