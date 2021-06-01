@@ -135,6 +135,7 @@ return [
     */
 
     'providers' => [
+        PHPZen\LaravelRbac\RbacServiceProvider::class,
 
         /*
          * Laravel Framework Service Providers...

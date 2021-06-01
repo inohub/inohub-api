@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Schema;
  * Class BaseRepository
  * @property Builder $builder
  * @property array   $relations
+ * @property         $model
  * @package App\Repositories\Base
  */
 abstract class BaseRepository
@@ -19,6 +20,7 @@ abstract class BaseRepository
     const SET_SELF_RELATION_TYPE = ['belongsTo'];
     private Builder $builder;
     private array $relations;
+    private $model;
 
     /**
      * @return string
@@ -35,8 +37,17 @@ abstract class BaseRepository
      */
     public function __construct()
     {
+        $this->model = app($this->getModelClass());
         $this->builder = app($this->getModelClass())->query();
         $this->relations = $this->getRelations();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function startQuery()
+    {
+        return $this->model->query()->withoutGlobalScopes();
     }
 
     /**

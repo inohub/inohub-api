@@ -8,6 +8,7 @@ use Database\Seeders\Donate\DonateSeed;
 use Database\Seeders\Lesson\LessonSeed;
 use Database\Seeders\Like\LikeSeed;
 use Database\Seeders\Profile\ProfileSeed;
+use Database\Seeders\Role\RoleSeed;
 use Database\Seeders\Startup\StartupSeed;
 use Database\Seeders\StartupNews\StartupNewsSeed;
 use Database\Seeders\Test\TestFullSeed;
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(RoleSeed::class);
         $this->call(UserSeed::class);
         $this->call(ProfileSeed::class);
         $this->call(StartupSeed::class);
