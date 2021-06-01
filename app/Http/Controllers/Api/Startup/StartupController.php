@@ -10,6 +10,7 @@ use App\Http\Requests\Startup\StartupUpdateRequest;
 use App\Models\Startup\Startup;
 use App\Repositories\Startup\StartupRepository;
 use App\Services\Startup\StartupCreateService;
+use App\Services\Startup\StartupPublishService;
 use App\Services\Startup\StartupUpdateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -130,5 +131,28 @@ class StartupController extends Controller
 
         throw new FailedResultException('Не удалось удалить');
 
+    }
+
+    public function publish(Startup $startup)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if ($startup->isOwner(Auth::user()) &&
+                !$startup->is_publish &&
+                (new StartupPublishService($startup))) {
+
+                DB::commit();
+
+                return $this->response($startup->refresh());
+            }
+
+            throw new FailedResultException('Не удалось сохранить');
+
+        } catch (\Throwable $exception) {
+
+            throw $exception;
+        }
     }
 }

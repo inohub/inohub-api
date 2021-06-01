@@ -21,6 +21,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'show']);
         Route::put('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'update']);
         Route::delete('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'destroy']);
+        Route::post('/{startup}/publish', [\App\Http\Controllers\Api\Startup\StartupController::class, 'publish']);
         Route::group(['prefix' => '/{startup}/media'], function () {
             Route::post('store-preview-image', [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewImage']);
             Route::post('store-preview-video', [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewVideo']);

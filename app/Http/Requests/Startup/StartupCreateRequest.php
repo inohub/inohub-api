@@ -32,10 +32,6 @@ class StartupCreateRequest extends BaseRequest
                 'required',
                 'integer',
             ],
-            'is_publish' => [
-                'boolean',
-                'nullable',
-            ],
             'texts'           => [
                 'required',
                 'array',

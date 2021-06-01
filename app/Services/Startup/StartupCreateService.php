@@ -38,8 +38,6 @@ class StartupCreateService
         $this->startup->name = $this->request->post('name');
         $this->startup->subtitle = $this->request->post('subtitle');
         $this->startup->donation_amount = $this->request->post('donation_amount');
-        $this->startup->is_publish = $this->request->post('is_publish', false);
-        $this->startup->published_at = $this->startup->is_publish ? Carbon::now() : null;
 
         return $this->startup->save() && (new TextsCreateService($this->startup, new DataTransfer([
                 'texts' => $this->request->post('texts'),
