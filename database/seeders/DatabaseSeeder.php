@@ -34,11 +34,11 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeed::class);
         $this->call(UserSeed::class);
         $this->call(ProfileSeed::class);
+        $this->call(CategorySeed::class);
         $this->call(StartupSeed::class);
         $this->call(StartupNewsSeed::class);
         $this->call(LikeSeed::class);
         $this->call(CommentSeed::class);
-        $this->call(CategorySeed::class);
         $this->call(DonateSeed::class);
         $this->call(CourseSeed::class);
         $this->call(LessonSeed::class);

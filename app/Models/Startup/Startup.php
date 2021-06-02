@@ -3,6 +3,7 @@
 namespace App\Models\Startup;
 
 use App\Interfaces\Owner\OwnerInterface;
+use App\Models\Category\Category;
 use App\Models\Faq\Faq;
 use App\Models\Comment\Comment;
 use App\Models\Donate\Donate;
@@ -11,6 +12,7 @@ use App\Models\Startup\Checker\StartupChecker;
 use App\Models\StartupNews\StartupNews;
 use App\Models\Text\Text;
 use App\Models\User\User;
+use App\Observers\StartupObserver;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,13 +24,16 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Class Startup
- * @property int $owner_id
- * @property string $name
- * @property string $subtitle
- * @property int $donation_amount
- * @property boolean $is_publish
- * @property                 $published_at
- * @property-read User $owner
+ * @property int             $owner_id
+ * @property int             $category_id
+ * @property string          $name
+ * @property string          $subtitle
+ * @property int             $donation_amount
+ * @property int             $status
+ * @property                 $status_changed
+ * @property string          $block_reason
+ * @property-read User       $owner
+ * @property-read Category   $category
  * @property-read Collection $texts
  * @property-read Collection $likes
  * @property-read Collection $comments
@@ -45,19 +50,29 @@ class Startup extends Model implements OwnerInterface, HasMedia
      */
     protected $fillable = [
         'owner_id',
+        'category_id',
         'name',
         'subtitle',
         'donation_amount',
-        'is_publish',
-        'published_at',
+        'status',
+        'status_changed',
+        'block_reason'
     ];
 
     /**
      * @var string[]
      */
     protected $dates = [
-        'published_at',
+        'status_changed',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -115,11 +130,19 @@ class Startup extends Model implements OwnerInterface, HasMedia
         return new StartupChecker($this);
     }
 
+    /**
+     * @return string
+     */
     public function getPreviewImageUrlAttribute()
     {
         return $this->getFirstMediaUrl('preview-image');
     }
 
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
     public function scopeToApprove(Builder $query)
     {
         return $query->where('is_publish', 1)

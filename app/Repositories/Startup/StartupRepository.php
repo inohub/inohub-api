@@ -29,6 +29,10 @@ class StartupRepository extends BaseRepository
                 'belongsTo',
                 'owner_id',
             ],
+            'category'    => [
+                'belongsTo',
+                'category_id',
+            ],
             'texts'       => [
                 'morphMany',
                 'target_id',

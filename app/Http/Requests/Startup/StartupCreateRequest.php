@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Startup;
 
 use App\Http\Requests\Base\BaseRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * Class StartupCreateRequest
@@ -16,13 +17,19 @@ class StartupCreateRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => [
+            'category_id'     => [
+                'bail',
+                'required',
+                'integer',
+                Rule::exists('categories', 'id'),
+            ],
+            'name'            => [
                 'required',
                 'string',
                 'min:3',
                 'max:255'
             ],
-            'subtitle' => [
+            'subtitle'        => [
                 'required',
                 'string',
                 'min:3',

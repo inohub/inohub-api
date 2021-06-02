@@ -22,17 +22,21 @@ class CreateStartupsTable extends Migration
                 ->references('id')
                 ->onDelete('cascade');
 
+            $table->unsignedBigInteger('category_id');
+
+            $table->foreign('category_id')
+                ->on('categories')
+                ->references('id')
+                ->onDelete('cascade');
+
             $table->string('name');
             $table->string('subtitle');
             $table->integer('donation_amount');
 
-            $table->boolean('is_publish')->default(false);
-            $table->timestamp('published_at')->nullable();
+            $table->integer('status')->default(\App\StartupStatus\StartupStatus::DRAFT);
+            $table->timestamp('status_changed')->nullable();
 
-            $table->boolean('is_approved')->default(false);
-            $table->timestamp('approved_at')->nullable();
-
-            $table->string('cancellation_reason')->nullable();
+            $table->string('block_reason')->nullable();
             $table->timestamps();
         });
     }

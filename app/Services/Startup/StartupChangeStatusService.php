@@ -4,22 +4,21 @@ namespace App\Services\Startup;
 
 use App\Components\Request\DataTransfer;
 use App\Models\Startup\Startup;
-use App\Services\Text\TextsCreateService;
 use Illuminate\Support\Carbon;
 
 /**
- * Class StartupCreateService
+ * Class StartupChangeStatusService
  * @property Startup      $startup
  * @property DataTransfer $request
  * @package App\Services\Startup
  */
-class StartupCreateService
+class StartupChangeStatusService
 {
     private Startup $startup;
     private DataTransfer $request;
 
     /**
-     * StartupCreateService constructor.
+     * StartupChangeStatusService constructor.
      *
      * @param Startup      $startup
      * @param DataTransfer $request
@@ -35,13 +34,13 @@ class StartupCreateService
      */
     public function run()
     {
-        $this->startup->category_id = $this->request->post('category_id');
-        $this->startup->name = $this->request->post('name');
-        $this->startup->subtitle = $this->request->post('subtitle');
-        $this->startup->donation_amount = $this->request->post('donation_amount');
+        $this->startup->status = $this->request->post('status');
+        $this->startup->status_changed = Carbon::now();
 
-        return $this->startup->save() && (new TextsCreateService($this->startup, new DataTransfer([
-                'texts' => $this->request->post('texts'),
-            ])))->run();
+        if ($reason = $this->request->post('block_reason')) {
+            $this->startup->block_reason = $reason;
+        }
+
+        return $this->startup->save();
     }
 }

@@ -14,6 +14,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('me', [AuthController::class, 'me']);
 });
 
+Route::group(['prefix' => 'lists'], function () {
+    Route::get('/startup-status', [\App\Http\Controllers\Api\Lists\ListsController::class, 'startupStatus']);
+});
+
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/roles', [\App\Http\Controllers\Api\Role\RoleController::class, 'index']);
@@ -25,6 +29,9 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::put('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'update']);
         Route::delete('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'destroy']);
         Route::post('/{startup}/publish', [\App\Http\Controllers\Api\Startup\StartupController::class, 'publish']);
+        Route::post('/{startup}/approve', [\App\Http\Controllers\Api\Startup\StartupController::class, 'approve']);
+        Route::post('/{startup}/archive', [\App\Http\Controllers\Api\Startup\StartupController::class, 'archive']);
+        Route::post('/{startup}/block', [\App\Http\Controllers\Api\Startup\StartupController::class, 'block']);
         Route::group(['prefix' => '/{startup}/media'], function () {
             Route::post('store-preview-image', [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewImage']);
             Route::post('store-preview-video', [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewVideo']);
@@ -150,10 +157,10 @@ Route::group(['middleware' => ['auth:api']], function () {
         });
 
         Route::group(['prefix' => 'startups'], function () {
-           Route::get('to-approve', [\App\Http\Controllers\Api\Admin\StartupController::class, 'toApprove']);
-           Route::get('to-approve/{startup}', [\App\Http\Controllers\Api\Admin\StartupController::class, 'show']);
-           Route::post('to-approve/{startup}/approve', [\App\Http\Controllers\Api\Admin\StartupController::class, 'approve']);
-           Route::post('to-approve/{startup}/cancel', [\App\Http\Controllers\Api\Admin\StartupController::class, 'cancel']);
+            Route::get('to-approve', [\App\Http\Controllers\Api\Admin\StartupController::class, 'toApprove']);
+            Route::get('to-approve/{startup}', [\App\Http\Controllers\Api\Admin\StartupController::class, 'show']);
+            Route::post('to-approve/{startup}/approve', [\App\Http\Controllers\Api\Admin\StartupController::class, 'approve']);
+            Route::post('to-approve/{startup}/cancel', [\App\Http\Controllers\Api\Admin\StartupController::class, 'cancel']);
         });
     });
 

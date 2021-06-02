@@ -3,6 +3,7 @@
 namespace Database\Factories\Startup;
 
 use App\Models\Startup\Startup;
+use App\StartupStatus\StartupStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
@@ -22,14 +23,12 @@ class StartupFactory extends Factory
      */
     public function definition()
     {
-        $isPublish = rand(0,1);
-
         return [
-            'name' => $this->faker->company,
-            'subtitle' => $this->faker->jobTitle,
+            'name'            => $this->faker->company,
+            'subtitle'        => $this->faker->jobTitle,
             'donation_amount' => rand(1000, 99999),
-            'is_publish' => $isPublish,
-            'published_at' => $isPublish ? Carbon::now() : null,
+            'status'          => StartupStatus::getList()[rand(0, 4)],
+            'status_changed'  => Carbon::now()
         ];
     }
 }

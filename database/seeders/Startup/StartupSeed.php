@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Startup;
 
+use App\Models\Category\Category;
 use App\Models\Startup\Startup;
 use App\Models\User\User;
 use Illuminate\Database\Seeder;
@@ -15,20 +16,17 @@ class StartupSeed extends Seeder
     public function run()
     {
         User::all()->each(function (User $user) {
-            self::createStartup($user, 1);
+            $categoriesCount = Category::query()->count();
+            $category = Category::query()->where('id', rand(1, $categoriesCount))->first();
+            self::createStartup($user, $category, 1);
         });
     }
 
-    /**
-     * @param User $user
-     * @param      $num
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
-     */
-    public static function createStartup(User $user, $num)
+    public static function createStartup(User $user, Category $category, $num)
     {
-        return Startup::factory($num)->make()->each(function (Startup $startup) use ($user) {
+        return Startup::factory($num)->make()->each(function (Startup $startup) use ($user, $category) {
             $startup->owner_id = $user->id;
+            $startup->category_id = $category->id;
             $startup->save();
         });
     }
