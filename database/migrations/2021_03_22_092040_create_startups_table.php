@@ -28,6 +28,11 @@ class CreateStartupsTable extends Migration
 
             $table->boolean('is_publish')->default(false);
             $table->timestamp('published_at')->nullable();
+
+            $table->boolean('is_approved')->default(false);
+            $table->timestamp('approved_at')->nullable();
+
+            $table->string('cancellation_reason')->nullable();
             $table->timestamps();
         });
     }

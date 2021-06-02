@@ -1,0 +1,179 @@
++--------+----------+---------------------------------------------------------------+--------------+-----------------------------------------------------------------------------------+------------+
+| Domain | Method   | URI                                                           | Name         | Action                                                                            | Middleware |
++--------+----------+---------------------------------------------------------------+--------------+-----------------------------------------------------------------------------------+------------+
+|        | GET|HEAD | /                                                             |              | Closure                                                                           | web        |
+|        | GET|HEAD | api/adata/fetch-user-data/{token}                             |              | App\Http\Controllers\Api\AdataDetail\AdataDetailsController@fetchAdataInfoByToken | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/adata/get-token/{user}                                    |              | App\Http\Controllers\Api\AdataDetail\AdataDetailsController@getFreshAdataToken    | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/admin/dashboard/get-users-card-details                    |              | App\Http\Controllers\Api\Admin\DashboardController@getUsersCardDetails            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/answers                                                   |              | App\Http\Controllers\Api\Test\AnswerController@store                              | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/answers                                                   |              | App\Http\Controllers\Api\Test\AnswerController@index                              | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/answers/{answer}                                          |              | App\Http\Controllers\Api\Test\AnswerController@destroy                            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/answers/{answer}                                          |              | App\Http\Controllers\Api\Test\AnswerController@update                             | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/answers/{answer}                                          |              | App\Http\Controllers\Api\Test\AnswerController@show                               | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/auth/login                                                |              | App\Http\Controllers\AuthController@login                                         | api        |
+|        | POST     | api/auth/logout                                               |              | App\Http\Controllers\AuthController@logout                                        | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/auth/me                                                   |              | App\Http\Controllers\AuthController@me                                            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/auth/refresh                                              |              | App\Http\Controllers\AuthController@refresh                                       | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/auth/registration                                         |              | App\Http\Controllers\AuthController@registration                                  | api        |
+|        | POST     | api/categories                                                |              | App\Http\Controllers\Api\Category\CategoryController@store                        | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/categories                                                |              | App\Http\Controllers\Api\Category\CategoryController@index                        | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/categories/{category}                                     |              | App\Http\Controllers\Api\Category\CategoryController@destroy                      | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/categories/{category}                                     |              | App\Http\Controllers\Api\Category\CategoryController@update                       | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/categories/{category}                                     |              | App\Http\Controllers\Api\Category\CategoryController@show                         | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/courses                                                   |              | App\Http\Controllers\Api\Course\CourseController@store                            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/courses                                                   |              | App\Http\Controllers\Api\Course\CourseController@index                            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/courses/{course}                                          |              | App\Http\Controllers\Api\Course\CourseController@show                             | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/courses/{course}                                          |              | App\Http\Controllers\Api\Course\CourseController@destroy                          | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/courses/{course}                                          |              | App\Http\Controllers\Api\Course\CourseController@update                           | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/donates                                                   |              | App\Http\Controllers\Api\Donate\DonateController@index                            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/donates                                                   |              | App\Http\Controllers\Api\Donate\DonateController@store                            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/donates/{donate}                                          |              | App\Http\Controllers\Api\Donate\DonateController@show                             | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/faqs                                                      |              | App\Http\Controllers\Api\Faq\FaqController@store                                  | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/faqs                                                      |              | App\Http\Controllers\Api\Faq\FaqController@index                                  | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/faqs/{faq}                                                |              | App\Http\Controllers\Api\Faq\FaqController@destroy                                | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/faqs/{faq}                                                |              | App\Http\Controllers\Api\Faq\FaqController@show                                   | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/faqs/{faq}                                                |              | App\Http\Controllers\Api\Faq\FaqController@update                                 | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/lessons                                                   |              | App\Http\Controllers\Api\Lesson\LessonController@store                            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/lessons                                                   |              | App\Http\Controllers\Api\Lesson\LessonController@index                            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/lessons/{lesson}                                          |              | App\Http\Controllers\Api\Lesson\LessonController@update                           | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/lessons/{lesson}                                          |              | App\Http\Controllers\Api\Lesson\LessonController@destroy                          | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/lessons/{lesson}                                          |              | App\Http\Controllers\Api\Lesson\LessonController@show                             | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/lessons/{lesson}/get-test                                 |              | App\Http\Controllers\Api\Lesson\LessonController@getTestForUser                   | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/questions                                                 |              | App\Http\Controllers\Api\Test\QuestionController@index                            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/questions                                                 |              | App\Http\Controllers\Api\Test\QuestionController@store                            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/questions/{question}                                      |              | App\Http\Controllers\Api\Test\QuestionController@show                             | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/questions/{question}                                      |              | App\Http\Controllers\Api\Test\QuestionController@update                           | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/questions/{question}                                      |              | App\Http\Controllers\Api\Test\QuestionController@destroy                          | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/routes                                                    |              | Closure                                                                           | api        |
+|        | POST     | api/startup-news                                              |              | App\Http\Controllers\Api\StartupNews\StartupNewsController@store                  | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startup-news                                              |              | App\Http\Controllers\Api\StartupNews\StartupNewsController@index                  | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/startup-news/{startupNews}                                |              | App\Http\Controllers\Api\StartupNews\StartupNewsController@destroy                | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/startup-news/{startupNews}                                |              | App\Http\Controllers\Api\StartupNews\StartupNewsController@update                 | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startup-news/{startupNews}                                |              | App\Http\Controllers\Api\StartupNews\StartupNewsController@show                   | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/startup-news/{startupNews}/comments                       |              | App\Http\Controllers\Api\StartupNews\StartupNewsCommentController@store           | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startup-news/{startupNews}/comments                       |              | App\Http\Controllers\Api\StartupNews\StartupNewsCommentController@index           | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/startup-news/{startupNews}/comments/{comment}             |              | App\Http\Controllers\Api\StartupNews\StartupNewsCommentController@destroy         | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/startup-news/{startupNews}/comments/{comment}             |              | App\Http\Controllers\Api\StartupNews\StartupNewsCommentController@update          | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startup-news/{startupNews}/comments/{comment}             |              | App\Http\Controllers\Api\StartupNews\StartupNewsCommentController@show            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startup-news/{startupNews}/likes                          |              | App\Http\Controllers\Api\StartupNews\StartupNewsLikeController@index              | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/startup-news/{startupNews}/likes                          |              | App\Http\Controllers\Api\StartupNews\StartupNewsLikeController@like               | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startup-news/{startupNews}/likes/count                    |              | App\Http\Controllers\Api\StartupNews\StartupNewsLikeController@likeCount          | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/startups                                                  |              | App\Http\Controllers\Api\Startup\StartupController@store                          | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startups                                                  |              | App\Http\Controllers\Api\Startup\StartupController@index                          | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/startups/{startup}                                        |              | App\Http\Controllers\Api\Startup\StartupController@update                         | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/startups/{startup}                                        |              | App\Http\Controllers\Api\Startup\StartupController@destroy                        | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startups/{startup}                                        |              | App\Http\Controllers\Api\Startup\StartupController@show                           | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startups/{startup}/comments                               |              | App\Http\Controllers\Api\Startup\StartupCommentController@index                   | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/startups/{startup}/comments                               |              | App\Http\Controllers\Api\Startup\StartupCommentController@store                   | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/startups/{startup}/comments/{comment}                     |              | App\Http\Controllers\Api\Startup\StartupCommentController@destroy                 | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/startups/{startup}/comments/{comment}                     |              | App\Http\Controllers\Api\Startup\StartupCommentController@update                  | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startups/{startup}/comments/{comment}                     |              | App\Http\Controllers\Api\Startup\StartupCommentController@show                    | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/startups/{startup}/likes                                  |              | App\Http\Controllers\Api\Startup\StartupLikeController@like                       | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startups/{startup}/likes                                  |              | App\Http\Controllers\Api\Startup\StartupLikeController@index                      | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/startups/{startup}/likes/count                            |              | App\Http\Controllers\Api\Startup\StartupLikeController@likeCount                  | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/startups/{startup}/media/store-preview-image              |              | App\Http\Controllers\Api\Startup\StartupMediaController@storeStartupPreviewImage  | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/startups/{startup}/media/store-preview-video              |              | App\Http\Controllers\Api\Startup\StartupMediaController@storeStartupPreviewVideo  | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/tests                                                     |              | App\Http\Controllers\Api\Test\TestController@store                                | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/tests                                                     |              | App\Http\Controllers\Api\Test\TestController@index                                | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/tests/{test}                                              |              | App\Http\Controllers\Api\Test\TestController@update                               | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/tests/{test}                                              |              | App\Http\Controllers\Api\Test\TestController@destroy                              | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/tests/{test}                                              |              | App\Http\Controllers\Api\Test\TestController@show                                 | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/unauthorized                                              | unauthorized | App\Http\Controllers\AuthController@unauthorized                                  | api        |
+|        | GET|HEAD | api/user-question-results                                     |              | App\Http\Controllers\Api\UserTest\UserQuestionResultController@index              | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/user-question-results/{userQuestionResult}                |              | App\Http\Controllers\Api\UserTest\UserQuestionResultController@show               | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/user-question-results/{userQuestionResult}/change-correct |              | App\Http\Controllers\Api\UserTest\UserQuestionResultController@changeCorrect      | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/user-test-results                                         |              | App\Http\Controllers\Api\UserTest\UserTestResultController@index                  | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/user-test-results                                         |              | App\Http\Controllers\Api\UserTest\UserTestResultController@store                  | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/user-test-results/{userTestResult}                        |              | App\Http\Controllers\Api\UserTest\UserTestResultController@show                   | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | POST     | api/variants                                                  |              | App\Http\Controllers\Api\Test\VariantController@store                             | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/variants                                                  |              | App\Http\Controllers\Api\Test\VariantController@index                             | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/variants/{variant}                                        |              | App\Http\Controllers\Api\Test\VariantController@show                              | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | PUT      | api/variants/{variant}                                        |              | App\Http\Controllers\Api\Test\VariantController@update                            | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | DELETE   | api/variants/{variant}                                        |              | App\Http\Controllers\Api\Test\VariantController@destroy                           | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
+|        | GET|HEAD | api/variants/{variant}/is-correct                             |              | App\Http\Controllers\Api\Test\VariantController@isCorrect                         | api        |
+|        |          |                                                               |              |                                                                                   | auth:api   |
++--------+----------+---------------------------------------------------------------+--------------+-----------------------------------------------------------------------------------+------------+

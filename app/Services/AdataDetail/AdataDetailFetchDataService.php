@@ -5,6 +5,7 @@ namespace App\Services\AdataDetail;
 
 
 use App\Models\User\User;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
 class AdataDetailFetchDataService
@@ -35,8 +36,25 @@ class AdataDetailFetchDataService
         $response = [
             'success' => true,
             'data' => [
-                'pedophil' => 'yes',
-                'pidor' => 'yes'
+                'basic' => [
+                    'iin' => '00081234567',
+                    'rnn' => '123456789',
+                    'name' => 'Abukalip Kolakov'
+                ],
+                'reliability' => [
+                    'ban_leaving' => false,
+                    'enforcement_debt' => false,
+                    'terrorist' => true,
+                    'pedophile' => false,
+                    'alimony_payer' => false,
+                    'seized_property' => true,
+                    'ban_notarius_actions' => false
+                ],
+                'litigation' => [
+                    'total_civil_count' => rand(1,4),
+                    'total_criminal_count'=> rand(0,3),
+                    'total_administrative_count' => rand(0,1)
+                ]
             ]
         ];
 

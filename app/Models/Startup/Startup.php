@@ -13,6 +13,7 @@ use App\Models\Text\Text;
 use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,13 +22,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Class Startup
- * @property int             $owner_id
- * @property string          $name
- * @property string          $subtitle
- * @property int             $donation_amount
- * @property boolean         $is_publish
+ * @property int $owner_id
+ * @property string $name
+ * @property string $subtitle
+ * @property int $donation_amount
+ * @property boolean $is_publish
  * @property                 $published_at
- * @property-read User       $owner
+ * @property-read User $owner
  * @property-read Collection $texts
  * @property-read Collection $likes
  * @property-read Collection $comments
@@ -117,5 +118,11 @@ class Startup extends Model implements OwnerInterface, HasMedia
     public function getPreviewImageUrlAttribute()
     {
         return $this->getFirstMediaUrl('preview-image');
+    }
+
+    public function scopeToApprove(Builder $query)
+    {
+        return $query->where('is_publish', 1)
+            ->where('is_approved', 0);
     }
 }
