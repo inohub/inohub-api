@@ -45,7 +45,7 @@ class LessonController extends Controller
     {
         $builder = $this->lessonRepository->doFilter($request);
 
-        return $this->response($builder->get());
+        return $this->response($builder->paginate());
     }
 
     /**

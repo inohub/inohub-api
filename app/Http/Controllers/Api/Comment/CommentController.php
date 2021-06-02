@@ -46,7 +46,7 @@ class CommentController extends Controller
             ->where('target_class', $model->getMorphClass())
             ->where('target_id', $model->id);
 
-        return $this->response($builder->get());
+        return $this->response($builder->paginate());
     }
 
     /**

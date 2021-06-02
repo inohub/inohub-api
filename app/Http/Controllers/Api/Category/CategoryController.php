@@ -42,7 +42,7 @@ class CategoryController extends Controller
     {
         $builder = $this->categoryRepository->doFilter($request);
 
-        return $this->response($builder->get());
+        return $this->response($builder->paginate());
     }
 
     /**

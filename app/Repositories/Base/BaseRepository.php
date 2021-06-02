@@ -95,7 +95,8 @@ abstract class BaseRepository
         $this->builder = $this->countBuilder($this->builder, $request->post('count', []));
         $this->builder = $this->relationBuilder($this->builder, $request->post('relation', []), $request->post('fields', []));
 
-        return $this->builder->skip($this->perPage * ($request->post('page') - 1))->take($this->perPage);
+        return $this->builder;
+//            ->skip($this->perPage * ($request->post('page') - 1))->take($this->perPage);
     }
 
     /**

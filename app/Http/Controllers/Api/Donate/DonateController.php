@@ -38,7 +38,7 @@ class DonateController extends Controller
     {
         $builder = $this->donateRepository->doFilter($request);
 
-        return $this->response($builder->limit(10)->get());
+        return $this->response($builder->paginate());
     }
 
     /**

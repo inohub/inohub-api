@@ -43,7 +43,7 @@ class StartupNewsController extends Controller
     {
         $builder = $this->startupNewsRepository->doFilter($request);
 
-        return $this->response($builder->get());
+        return $this->response($builder->paginate());
     }
 
     /**

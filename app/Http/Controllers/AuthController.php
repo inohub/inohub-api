@@ -35,6 +35,13 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+    /**
+     * @param UserRegistrationRequest $request
+     * @param User                    $user
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws FailedResultException
+     */
     public function registration(UserRegistrationRequest $request, User $user)
     {
         DB::beginTransaction();

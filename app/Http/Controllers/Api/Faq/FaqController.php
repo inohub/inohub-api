@@ -43,7 +43,7 @@ class FaqController extends Controller
     {
         $builder = $this->faqRepository->doFilter($request);
 
-        return $this->response($builder->get());
+        return $this->response($builder->paginate());
     }
 
     /**

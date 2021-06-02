@@ -43,7 +43,7 @@ class CourseController extends Controller
     {
         $builder = $this->courseRepository->doFilter($request);
 
-        return $this->response($builder->get());
+        return $this->response($builder->paginate());
     }
 
     /**
