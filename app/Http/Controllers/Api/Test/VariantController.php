@@ -43,7 +43,7 @@ class VariantController extends Controller
     {
         $builder = $this->variantRepository->doFilter($request);
 
-        return $this->response($builder->get());
+        return $this->response($builder->paginate());
     }
 
     /**

@@ -40,7 +40,7 @@ class UserTestResultController extends Controller
     {
         $builder = $this->userTestResultRepository->doFilter($request);
 
-        return $this->response($builder->get());
+        return $this->response($builder->paginate());
     }
 
     /**

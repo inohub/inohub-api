@@ -43,7 +43,7 @@ class AnswerController extends Controller
     {
         $builder = $this->answerRepository->doFilter($request);
 
-        return $this->response($builder->get());
+        return $this->response($builder->paginate());
     }
 
     /**

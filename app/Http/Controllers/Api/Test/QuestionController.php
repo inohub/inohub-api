@@ -43,7 +43,7 @@ class QuestionController extends Controller
     {
         $builder = $this->questionRepository->doFilter($request);
 
-        return $this->response($builder->get());
+        return $this->response($builder->paginate());
     }
 
     /**

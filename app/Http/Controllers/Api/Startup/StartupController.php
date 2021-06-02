@@ -44,7 +44,7 @@ class StartupController extends Controller
     {
         $builder = $this->startupRepository->doFilter($request);
 
-        return $this->response($builder->get());
+        return $this->response($builder->paginate());
     }
 
     /**
@@ -133,6 +133,13 @@ class StartupController extends Controller
 
     }
 
+    /**
+     * @param Startup $startup
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws FailedResultException
+     * @throws \Throwable
+     */
     public function publish(Startup $startup)
     {
         DB::beginTransaction();
