@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Donate\Donate;
 use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -36,5 +37,17 @@ class DashboardController extends Controller
             $result[self::WEEK_DAYS[$key]] = count($value);
         }
         return $this->response($result);
+    }
+
+    public function getTopInvestor()
+    {
+        $user = User::withSum('donations', 'amount')
+            ->get()
+            ->sortBy('donations_sum_count')
+            ->first();
+
+        $user->profile;
+
+        return $this->response($user);
     }
 }

@@ -146,6 +146,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::group(['prefix' => 'dashboard'], function () {
             Route::get('get-users-card-details',
                 [\App\Http\Controllers\Api\Admin\DashboardController::class, 'getUsersCardDetails']);
+            Route::get('get-top-investor', [\App\Http\Controllers\Api\Admin\DashboardController::class, 'getTopInvestor']);
         });
 
         Route::group(['prefix' => 'startups'], function () {
