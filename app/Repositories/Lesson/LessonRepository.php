@@ -29,11 +29,11 @@ class LessonRepository extends BaseRepository
                 'belongsTo',
                 'course_id'
             ],
-            'texts' => [
+            'texts'  => [
                 'morphMany',
                 'target_id',
             ],
-            'tests' => [
+            'tests'  => [
                 'hasMany',
                 'lesson_id',
             ]

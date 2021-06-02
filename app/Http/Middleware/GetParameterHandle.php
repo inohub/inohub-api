@@ -46,6 +46,7 @@ class GetParameterHandle
             'search'   => $this->searchParse($search),
             'count'    => Arr::get($parameters, 'count', []),
             'relation' => $this->relationsParse(Arr::get($parameters, 'relation', [])),
+            'page' => Arr::get($parameters, 'page', 1),
         ];
     }
 
