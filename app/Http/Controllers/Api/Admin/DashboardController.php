@@ -22,6 +22,8 @@ class DashboardController extends Controller
 
     public function getUsersCardDetails()
     {
+        $result = [];
+
         $data = User::where('created_at', '>', Carbon::now()->subWeek())
             ->select('created_at', DB::raw('count(*) as total'))
             ->groupBy('id')

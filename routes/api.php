@@ -141,10 +141,18 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/fetch-user-data/{token}',
             [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'fetchAdataInfoByToken']);
     });
+
     Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => 'dashboard'], function () {
             Route::get('get-users-card-details',
                 [\App\Http\Controllers\Api\Admin\DashboardController::class, 'getUsersCardDetails']);
+        });
+
+        Route::group(['prefix' => 'startups'], function () {
+           Route::get('to-approve', [\App\Http\Controllers\Api\Admin\StartupController::class, 'toApprove']);
+           Route::get('to-approve/{startup}', [\App\Http\Controllers\Api\Admin\StartupController::class, 'show']);
+           Route::post('to-approve/{startup}/approve', [\App\Http\Controllers\Api\Admin\StartupController::class, 'approve']);
+           Route::post('to-approve/{startup}/cancel', [\App\Http\Controllers\Api\Admin\StartupController::class, 'cancel']);
         });
     });
 
@@ -159,6 +167,28 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/{userQuestionResult}', [\App\Http\Controllers\Api\UserTest\UserQuestionResultController::class, 'show']);
         Route::post('/{userQuestionResult}/change-correct', [\App\Http\Controllers\Api\UserTest\UserQuestionResultController::class, 'changeCorrect']);
     });
+});
+
+
+Route::get('routes', function () {
+    $routeCollection = Route::getRoutes();
+
+    echo "<table style='width:100%'>";
+    echo "<tr>";
+    echo "<td width='10%'><h4>HTTP Method</h4></td>";
+    echo "<td width='10%'><h4>Route</h4></td>";
+    echo "<td width='10%'><h4>Name</h4></td>";
+    echo "<td width='70%'><h4>Corresponding Action</h4></td>";
+    echo "</tr>";
+    foreach ($routeCollection as $value) {
+        echo "<tr>";
+        echo "<td>" . $value->methods()[0] . "</td>";
+        echo "<td>" . $value->uri() . "</td>";
+        echo "<td>" . $value->getName() . "</td>";
+        echo "<td>" . $value->getActionName() . "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
 });
 
 
