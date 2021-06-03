@@ -18,7 +18,9 @@ Route::group(['prefix' => 'lists'], function () {
     Route::get('/startup-status', [\App\Http\Controllers\Api\Lists\ListsController::class, 'startupStatus']);
 });
 
-Route::get('/', [\App\Http\Controllers\Api\Startup\StartupController::class, 'index']);
+Route::get('/startups', [\App\Http\Controllers\Api\Startup\StartupController::class, 'index']);
+
+
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/roles', [\App\Http\Controllers\Api\Role\RoleController::class, 'index']);
