@@ -5,15 +5,17 @@ namespace App\Models\User;
 use App\Models\AdataDetail\AdataDetail;
 use App\Models\Donate\Donate;
 use App\Models\Profile\Profile;
+use App\Traits\ScopePaginate\ScopePaginate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use PHPZen\LaravelRbac\Traits\Rbac;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, Rbac;
+    use HasFactory, Notifiable, Rbac, Billable, ScopePaginate;
 
     /**
      * The attributes that are mass assignable.

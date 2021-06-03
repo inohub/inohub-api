@@ -3,13 +3,13 @@
 namespace App\Models\Comment;
 
 use App\Interfaces\Owner\OwnerInterface;
+use App\Models\BaseModel\BaseModel;
 use App\Models\Comment\Checker\CommentChecker;
 use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Comment
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Comment    $parent
  * @package App\Models\Comment
  */
-class Comment extends Model implements OwnerInterface
+class Comment extends BaseModel implements OwnerInterface
 {
     use HasFactory, OwnerTrait, ScopeOfOwner;
 

@@ -3,13 +3,13 @@
 namespace App\Models\Course;
 
 use App\Interfaces\Owner\OwnerInterface;
+use App\Models\BaseModel\BaseModel;
 use App\Models\Lesson\Lesson;
 use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Course
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Collection $lessons
  * @package App\Models\Course
  */
-class Course extends Model implements OwnerInterface
+class Course extends BaseModel implements OwnerInterface
 {
     use HasFactory, OwnerTrait, ScopeOfOwner;
 

@@ -2,8 +2,8 @@
 
 namespace App\Models\Text;
 
+use App\Models\BaseModel\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Text
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    $target_id
  * @package App\Models\Text
  */
-class Text extends Model
+class Text extends BaseModel
 {
     use HasFactory;
 

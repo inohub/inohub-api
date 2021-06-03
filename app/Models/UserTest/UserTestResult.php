@@ -3,12 +3,12 @@
 namespace App\Models\UserTest;
 
 use App\Interfaces\Owner\OwnerInterface;
+use App\Models\BaseModel\BaseModel;
 use App\Models\Test\Test;
 use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UserTestResult
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read UserQuestionResult $userQuestionResult
  * @package App\Models\UserTest
  */
-class UserTestResult extends Model implements OwnerInterface
+class UserTestResult extends BaseModel implements OwnerInterface
 {
     use HasFactory, OwnerTrait, ScopeOfOwner;
 

@@ -2,10 +2,10 @@
 
 namespace App\Models\Test;
 
+use App\Models\BaseModel\BaseModel;
 use App\Models\UserTest\UserQuestionResult;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Question
@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Collection $userQuestionResults
  * @package App\Models\Test
  */
-class Question extends Model
+class Question extends BaseModel
 {
     use HasFactory;
 

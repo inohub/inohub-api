@@ -2,8 +2,8 @@
 
 namespace App\Models\Test;
 
+use App\Models\BaseModel\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Answer
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Question $question
  * @package App\Models\Test
  */
-class Answer extends Model
+class Answer extends BaseModel
 {
     use HasFactory;
 

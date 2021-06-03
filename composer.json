@@ -12,13 +12,14 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "laravel/cashier": "^12.14",
         "laravel/framework": "^8.12",
         "laravel/helpers": "^1.4",
         "laravel/tinker": "^2.5",
         "spatie/laravel-medialibrary": "^9.0.0",
         "spatie/laravel-permission": "^4.0",
-        "visualappeal/laravel-rbac": "^0.7.1",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "^1.0",
+        "visualappeal/laravel-rbac": "^0.7.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

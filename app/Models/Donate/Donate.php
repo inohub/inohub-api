@@ -3,13 +3,13 @@
 namespace App\Models\Donate;
 
 use App\Interfaces\Owner\OwnerInterface;
+use App\Models\BaseModel\BaseModel;
 use App\Models\Donate\Checker\DonateChecker;
 use App\Models\Startup\Startup;
 use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Donate
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Startup $startup
  * @package App\Models\Donate
  */
-class Donate extends Model implements OwnerInterface
+class Donate extends BaseModel implements OwnerInterface
 {
     use HasFactory, OwnerTrait, ScopeOfOwner;
 

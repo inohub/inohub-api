@@ -2,9 +2,9 @@
 
 namespace App\Models\Category;
 
+use App\Models\BaseModel\BaseModel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Category
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Collection $children
  * @package App\Models\Category
  */
-class Category extends Model
+class Category extends BaseModel
 {
     use HasFactory;
 

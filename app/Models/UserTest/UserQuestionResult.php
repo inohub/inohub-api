@@ -2,10 +2,10 @@
 
 namespace App\Models\UserTest;
 
+use App\Models\BaseModel\BaseModel;
 use App\Models\Test\Question;
 use App\Models\Test\Variant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UserQuestionResult
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Variant        $variant
  * @package App\Models\UserTest
  */
-class UserQuestionResult extends Model
+class UserQuestionResult extends BaseModel
 {
     use HasFactory;
 

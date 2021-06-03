@@ -2,13 +2,13 @@
 
 namespace App\Models\Lesson;
 
+use App\Models\BaseModel\BaseModel;
 use App\Models\Course\Course;
 use App\Models\Lesson\Checker\LessonChecker;
 use App\Models\Test\Test;
 use App\Models\Text\Text;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Lesson
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Collection $texts
  * @package App\Models\Lesson
  */
-class Lesson extends Model
+class Lesson extends BaseModel
 {
     use HasFactory;
 

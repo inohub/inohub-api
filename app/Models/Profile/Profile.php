@@ -2,9 +2,9 @@
 
 namespace App\Models\Profile;
 
+use App\Models\BaseModel\BaseModel;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Profile
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read User $user
  * @package App\Models\Profile
  */
-class Profile extends Model
+class Profile extends BaseModel
 {
     use HasFactory;
 
