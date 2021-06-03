@@ -34,6 +34,6 @@ class RoleController extends Controller
     {
         $builder = $this->roleRepository->doFilter($request);
 
-        return $this->response($builder->paginate());
+        return $this->response($builder->customPaginate());
     }
 }

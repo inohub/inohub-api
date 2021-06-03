@@ -3,6 +3,7 @@
 namespace App\Models\Startup;
 
 use App\Interfaces\Owner\OwnerInterface;
+use App\Models\BaseModel\BaseModel;
 use App\Models\Category\Category;
 use App\Models\Faq\Faq;
 use App\Models\Comment\Comment;
@@ -12,13 +13,11 @@ use App\Models\Startup\Checker\StartupChecker;
 use App\Models\StartupNews\StartupNews;
 use App\Models\Text\Text;
 use App\Models\User\User;
-use App\Observers\StartupObserver;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -41,7 +40,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read Collection $fags
  * @package App\Models\Startup
  */
-class Startup extends Model implements OwnerInterface, HasMedia
+class Startup extends BaseModel implements OwnerInterface, HasMedia
 {
     use HasFactory, OwnerTrait, ScopeOfOwner, InteractsWithMedia;
 

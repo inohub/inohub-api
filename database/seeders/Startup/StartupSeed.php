@@ -16,9 +16,8 @@ class StartupSeed extends Seeder
     public function run()
     {
         User::all()->each(function (User $user) {
-            $categoriesCount = Category::query()->count();
-            $category = Category::query()->where('id', rand(1, $categoriesCount))->first();
-            self::createStartup($user, $category, 1);
+            $categories = Category::all();
+            self::createStartup($user, $categories->random(1)->first(), 1);
         });
     }
 

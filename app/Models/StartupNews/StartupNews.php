@@ -2,6 +2,7 @@
 
 namespace App\Models\StartupNews;
 
+use App\Models\BaseModel\BaseModel;
 use App\Models\Comment\Comment;
 use App\Models\Like\Like;
 use App\Models\Startup\Startup;
@@ -9,7 +10,6 @@ use App\Models\StartupNews\Checker\StartupNewsChecker;
 use App\Models\Text\Text;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class StartupNews
@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Collection  $comments
  * @package App\Models
  */
-class StartupNews extends Model
+class StartupNews extends BaseModel
 {
     use HasFactory;
 

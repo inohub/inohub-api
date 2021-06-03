@@ -39,7 +39,7 @@ class UserQuestionResultController extends Controller
     {
         $builder = $this->userQuestionResultRepository->doFilter($request);
 
-        return $this->response($builder->paginate());
+        return $this->response($builder->customPaginate());
     }
 
     /**

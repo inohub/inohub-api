@@ -2,10 +2,10 @@
 
 namespace App\Models\Faq;
 
+use App\Models\BaseModel\BaseModel;
 use App\Models\Startup\Startup;
 use App\Models\Text\Text;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Faq
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Text    $text
  * @package App\Models\Faq
  */
-class Faq extends Model
+class Faq extends BaseModel
 {
     use HasFactory;
 

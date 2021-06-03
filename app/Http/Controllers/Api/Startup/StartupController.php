@@ -50,7 +50,7 @@ class StartupController extends Controller
     {
         $builder = $this->startupRepository->doFilter($request);
 
-        return $this->response($builder->paginate());
+        return $this->response($builder->customPaginate());
     }
 
     /**

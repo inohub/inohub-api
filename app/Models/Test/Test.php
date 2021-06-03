@@ -2,11 +2,11 @@
 
 namespace App\Models\Test;
 
+use App\Models\BaseModel\BaseModel;
 use App\Models\Lesson\Lesson;
 use App\Models\UserTest\UserTestResult;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read Collection $userTestResults
  * @package App\Models\Test
  */
-class Test extends Model
+class Test extends BaseModel
 {
     use HasFactory, SoftDeletes;
 

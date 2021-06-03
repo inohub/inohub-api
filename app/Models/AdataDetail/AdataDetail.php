@@ -2,10 +2,10 @@
 
 namespace App\Models\AdataDetail;
 
+use App\Models\BaseModel\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class AdataDetail extends Model
+class AdataDetail extends BaseModel
 {
     use HasFactory;
 

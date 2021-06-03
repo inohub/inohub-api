@@ -43,7 +43,7 @@ class TestController extends Controller
     {
         $builder = $this->testRepository->doFilter($request);
 
-        return $this->response($builder->paginate());
+        return $this->response($builder->customPaginate());
     }
 
     /**

@@ -3,12 +3,12 @@
 namespace App\Models\Like;
 
 use App\Interfaces\Owner\OwnerInterface;
+use App\Models\BaseModel\BaseModel;
 use App\Models\Like\Checker\LikeChecker;
 use App\Models\User\User;
 use App\Traits\Owner\OwnerTrait;
 use App\Traits\Owner\ScopeOfOwner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Like
@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read User $owner
  * @package App\Models\Like
  */
-class Like extends Model implements OwnerInterface
+class Like extends BaseModel implements OwnerInterface
 {
     use HasFactory, OwnerTrait, ScopeOfOwner;
 
