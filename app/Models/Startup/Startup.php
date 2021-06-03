@@ -65,6 +65,10 @@ class Startup extends BaseModel implements OwnerInterface, HasMedia
         'status_changed',
     ];
 
+    protected $with = [
+      'texts'
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

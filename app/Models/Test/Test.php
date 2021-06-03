@@ -30,6 +30,10 @@ class Test extends BaseModel
         'name',
     ];
 
+    protected $with = [
+      'questions'
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -39,6 +39,7 @@ class StartupCreateService
         $this->startup->name = $this->request->post('name');
         $this->startup->subtitle = $this->request->post('subtitle');
         $this->startup->donation_amount = $this->request->post('donation_amount');
+        $this->startup->status = 2;
 
         return $this->startup->save() && (new TextsCreateService($this->startup, new DataTransfer([
                 'texts' => $this->request->post('texts'),

@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Faq\Faq;
 use Database\Seeders\Adata\AdataSeed;
 use Database\Seeders\Comment\CommentSeed;
 use Database\Seeders\Course\CourseSeed;
 use Database\Seeders\Donate\DonateSeed;
+use Database\Seeders\Faq\FaqSeed;
 use Database\Seeders\Lesson\LessonSeed;
 use Database\Seeders\Like\LikeSeed;
 use Database\Seeders\Profile\ProfileSeed;
@@ -45,7 +47,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LessonSeed::class);
         $this->call(TestFullSeed::class);
         $this->call(UserTestSeed::class);
-
+        $this->call(FaqSeed::class);
         $this->call(TextSeed::class);
         $this->call(AdataSeed::class);
     }

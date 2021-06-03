@@ -7,6 +7,7 @@ use App\Exceptions\FailedResultException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StartupNews\StartupNewsCreateRequest;
 use App\Http\Requests\StartupNews\StartupNewsUpdateRequest;
+use App\Models\Startup\Startup;
 use App\Models\StartupNews\StartupNews;
 use App\Repositories\StartupNews\StartupNewsRepository;
 use App\Services\StartupNews\StartupNewsCreateService;
@@ -35,13 +36,14 @@ class StartupNewsController extends Controller
     }
 
     /**
-     * @param Request $request
-     *
+     * @param  Request  $request
+     * @param  Startup  $startup
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request, Startup $startup)
     {
-        $builder = $this->startupNewsRepository->doFilter($request);
+        $builder = $this->startupNewsRepository->doFilter($request)
+            ->where('startup_id', $startup->id);
 
         return $this->response($builder->customPaginate());
     }

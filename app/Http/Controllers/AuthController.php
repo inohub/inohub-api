@@ -10,6 +10,7 @@ use App\Models\User\User;
 use App\ResponseCodes\ResponseCodes;
 use App\Services\User\UserAttachRoleService;
 use App\Services\User\UserRegistrationService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
@@ -95,7 +96,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(auth()->user()->profile);
     }
 
     /**
@@ -132,7 +133,8 @@ class AuthController extends Controller
         return $this->response([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60
+            'expires_in'   => auth()->factory()->getTTL() * 6000,
+            'user' => Auth::user()->profile
         ], ResponseCodes::SUCCESS);
     }
 

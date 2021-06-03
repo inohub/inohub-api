@@ -18,7 +18,33 @@ Route::group(['prefix' => 'lists'], function () {
     Route::get('/startup-status', [\App\Http\Controllers\Api\Lists\ListsController::class, 'startupStatus']);
 });
 
+Route::get('/startups/{startup}/comments', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'index']);
 Route::get('/startups', [\App\Http\Controllers\Api\Startup\StartupController::class, 'index']);
+Route::get('/startups/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'show']);
+Route::get('/startups/{startup}/likes', [\App\Http\Controllers\Api\Startup\StartupLikeController::class, 'index']);
+Route::get('/startups/{startup}/startup-news', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'index']);
+Route::get('/faqs', [\App\Http\Controllers\Api\Faq\FaqController::class, 'index']);
+
+Route::get('/categories', [\App\Http\Controllers\Api\Category\CategoryController::class, 'index']);
+Route::get('/adata/fetch-user-data/{token}',
+    [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'fetchAdataInfoByToken']);
+Route::get('/courses', [\App\Http\Controllers\Api\Course\CourseController::class, 'index']);
+Route::get('/courses/{course}', [\App\Http\Controllers\Api\Course\CourseController::class, 'show']);
+Route::get('/lessons', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'index']);
+Route::get('/lessons/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'show']);
+
+Route::get('/variants/{variant}/is-correct', [\App\Http\Controllers\Api\Test\VariantController::class, 'isCorrect']);
+Route::get('/variants/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'show']);
+Route::get('/variants', [\App\Http\Controllers\Api\Test\VariantController::class, 'index']);
+
+Route::get('/answers/{answer}', [\App\Http\Controllers\Api\Test\AnswerController::class, 'show']);
+Route::get('/answers', [\App\Http\Controllers\Api\Test\AnswerController::class, 'index']);
+
+Route::get('/questions/{question}', [\App\Http\Controllers\Api\Test\QuestionController::class, 'show']);
+Route::get('/questions', [\App\Http\Controllers\Api\Test\QuestionController::class, 'index']);
+
+Route::get('/tests/{test}', [\App\Http\Controllers\Api\Test\TestController::class, 'show']);
+Route::get('/tests', [\App\Http\Controllers\Api\Test\TestController::class, 'index']);
 
 
 Route::group(['middleware' => ['auth:api']], function () {
@@ -27,7 +53,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::group(['prefix' => 'startups'], function () {
         Route::post('/', [\App\Http\Controllers\Api\Startup\StartupController::class, 'store']);
-        Route::get('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'show']);
+
         Route::put('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'update']);
         Route::delete('/{startup}', [\App\Http\Controllers\Api\Startup\StartupController::class, 'destroy']);
         Route::post('/{startup}/publish', [\App\Http\Controllers\Api\Startup\StartupController::class, 'publish']);
@@ -39,14 +65,14 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::post('store-preview-video', [\App\Http\Controllers\Api\Startup\StartupMediaController::class, 'storeStartupPreviewVideo']);
         });
         Route::group(['prefix' => '/{startup}/comments'], function () {
-            Route::get('/', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'index']);
+
             Route::post('/', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'store']);
             Route::get('/{comment}', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'show']);
             Route::put('/{comment}', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'update']);
             Route::delete('/{comment}', [\App\Http\Controllers\Api\Startup\StartupCommentController::class, 'destroy']);
         });
         Route::group(['prefix' => '/{startup}/likes'], function () {
-            Route::get('/', [\App\Http\Controllers\Api\Startup\StartupLikeController::class, 'index']);
+
             Route::post('/', [\App\Http\Controllers\Api\Startup\StartupLikeController::class, 'like']);
             Route::get('/count', [\App\Http\Controllers\Api\Startup\StartupLikeController::class, 'likeCount']);
         });
@@ -59,7 +85,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'startup-news'], function () {
-        Route::get('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'index']);
         Route::post('/', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'store']);
         Route::get('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'show']);
         Route::put('/{startupNews}', [\App\Http\Controllers\Api\StartupNews\StartupNewsController::class, 'update']);
@@ -79,7 +104,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'categories'], function () {
-        Route::get('/', [\App\Http\Controllers\Api\Category\CategoryController::class, 'index']);
+
         Route::post('/', [\App\Http\Controllers\Api\Category\CategoryController::class, 'store']);
         Route::get('/{category}', [\App\Http\Controllers\Api\Category\CategoryController::class, 'show']);
         Route::put('/{category}', [\App\Http\Controllers\Api\Category\CategoryController::class, 'update']);
@@ -87,7 +112,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'faqs'], function () {
-        Route::get('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'index']);
+
         Route::post('/', [\App\Http\Controllers\Api\Faq\FaqController::class, 'store']);
         Route::get('/{faq}', [\App\Http\Controllers\Api\Faq\FaqController::class, 'show']);
         Route::put('/{faq}', [\App\Http\Controllers\Api\Faq\FaqController::class, 'update']);
@@ -95,60 +120,58 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => 'courses'], function () {
-        Route::get('/', [\App\Http\Controllers\Api\Course\CourseController::class, 'index']);
+
         Route::post('/', [\App\Http\Controllers\Api\Course\CourseController::class, 'store']);
-        Route::get('/{course}', [\App\Http\Controllers\Api\Course\CourseController::class, 'show']);
+
         Route::put('/{course}', [\App\Http\Controllers\Api\Course\CourseController::class, 'update']);
         Route::delete('/{course}', [\App\Http\Controllers\Api\Course\CourseController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'lessons'], function () {
-        Route::get('/', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'index']);
+
         Route::post('/', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'store']);
-        Route::get('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'show']);
+
         Route::put('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'update']);
         Route::delete('/{lesson}', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'destroy']);
         Route::post('/{lesson}/get-test', [\App\Http\Controllers\Api\Lesson\LessonController::class, 'getTestForUser']);
     });
 
     Route::group(['prefix' => 'tests'], function () {
-        Route::get('/', [\App\Http\Controllers\Api\Test\TestController::class, 'index']);
+
         Route::post('/', [\App\Http\Controllers\Api\Test\TestController::class, 'store']);
-        Route::get('/{test}', [\App\Http\Controllers\Api\Test\TestController::class, 'show']);
+
         Route::put('/{test}', [\App\Http\Controllers\Api\Test\TestController::class, 'update']);
         Route::delete('{test}', [\App\Http\Controllers\Api\Test\TestController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'questions'], function () {
-        Route::get('/', [\App\Http\Controllers\Api\Test\QuestionController::class, 'index']);
+
         Route::post('/', [\App\Http\Controllers\Api\Test\QuestionController::class, 'store']);
-        Route::get('/{question}', [\App\Http\Controllers\Api\Test\QuestionController::class, 'show']);
+
         Route::put('/{question}', [\App\Http\Controllers\Api\Test\QuestionController::class, 'update']);
         Route::delete('{question}', [\App\Http\Controllers\Api\Test\QuestionController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'answers'], function () {
-        Route::get('/', [\App\Http\Controllers\Api\Test\AnswerController::class, 'index']);
+
         Route::post('/', [\App\Http\Controllers\Api\Test\AnswerController::class, 'store']);
-        Route::get('/{answer}', [\App\Http\Controllers\Api\Test\AnswerController::class, 'show']);
+
         Route::put('/{answer}', [\App\Http\Controllers\Api\Test\AnswerController::class, 'update']);
         Route::delete('/{answer}', [\App\Http\Controllers\Api\Test\AnswerController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'variants'], function () {
-        Route::get('/', [\App\Http\Controllers\Api\Test\VariantController::class, 'index']);
+
         Route::post('/', [\App\Http\Controllers\Api\Test\VariantController::class, 'store']);
-        Route::get('/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'show']);
+
         Route::put('/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'update']);
         Route::delete('/{variant}', [\App\Http\Controllers\Api\Test\VariantController::class, 'destroy']);
-        Route::get('/{variant}/is-correct', [\App\Http\Controllers\Api\Test\VariantController::class, 'isCorrect']);
+
     });
 
-    Route::group(['prefix' => 'adata'], function () {
+    Route::group(['prefix' => ''], function () {
         Route::get('/get-token/{user}',
             [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'getFreshAdataToken']);
-        Route::get('/fetch-user-data/{token}',
-            [\App\Http\Controllers\Api\AdataDetail\AdataDetailsController::class, 'fetchAdataInfoByToken']);
     });
 
     Route::group(['prefix' => 'admin'], function () {

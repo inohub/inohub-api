@@ -42,6 +42,10 @@ class StartupNews extends BaseModel
         'published_at',
     ];
 
+    protected $with = [
+        'texts'
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

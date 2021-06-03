@@ -33,8 +33,8 @@ class StartupController extends Controller
 
     public function approve(Startup $startup)
     {
-        $startup->is_approved = true;
-        $startup->approved_at = now();
+        $startup->status = 3;
+        $startup->status_changed = now();
         $startup->save();
 
         return $this->response($startup);
@@ -42,7 +42,9 @@ class StartupController extends Controller
 
     public function cancel(Startup $startup, Request $request)
     {
-        $startup->cancellation_reason = $request['cancellation_reason'];
+        $startup->block_reason = $request['cancellation_reason'];
+        $startup->status_changed = now();
+        $startup->status = 5;
         $startup->save();
 
         return $this->response($startup);
