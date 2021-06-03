@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Adata\AdataSeed;
 use Database\Seeders\Comment\CommentSeed;
 use Database\Seeders\Course\CourseSeed;
 use Database\Seeders\Donate\DonateSeed;
@@ -46,5 +47,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTestSeed::class);
 
         $this->call(TextSeed::class);
+        $this->call(AdataSeed::class);
     }
 }
