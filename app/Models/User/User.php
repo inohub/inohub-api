@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Models\AdataDetail\AdataDetail;
+use App\Models\Donate\Donate;
 use App\Models\Profile\Profile;
 use App\Traits\ScopePaginate\ScopePaginate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -68,5 +69,10 @@ class User extends Authenticatable implements JWTSubject
     public function profile()
     {
         return $this->hasOne(Profile::class);
+    }
+
+    public function donations()
+    {
+        return $this->hasMany(Donate::class, 'owner_id', 'id');
     }
 }
