@@ -145,7 +145,6 @@ class Startup extends Model implements OwnerInterface, HasMedia
      */
     public function scopeToApprove(Builder $query)
     {
-        return $query->where('is_publish', 1)
-            ->where('is_approved', 0);
+        return $query->where('status', 2);
     }
 }
