@@ -32,6 +32,7 @@ class CreateStartupsTable extends Migration
             $table->string('name');
             $table->string('subtitle');
             $table->integer('donation_amount');
+            $table->string('image_url')->nullable();
 
             $table->integer('status')->default(\App\StartupStatus\StartupStatus::DRAFT);
             $table->timestamp('status_changed')->nullable();
