@@ -54,8 +54,7 @@ class DonateController extends Controller
 
         try {
 
-            $user = \Auth::user();
-            $payment = $user->charge($request->post('amount'), $request->post('payment_method_id'));
+            $payment = \Auth::user()->charge($request->post('amount'), $request->post('payment_method_id'));
             $payment = $payment->asStripePaymentIntent();
 
             if ($payment->status == 'succeeded' &&
