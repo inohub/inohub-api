@@ -17,19 +17,23 @@ class DonateCreateRequest extends BaseRequest
     public function rules()
     {
         return [
-            'startup_id' => [
+            'startup_id'        => [
                 'bail',
                 'required',
                 'integer',
                 Rule::exists('startups', 'id'),
             ],
-            'amount' => [
+            'amount'            => [
                 'bail',
                 'required',
                 'integer',
                 'min:100',
                 'max:99999',
             ],
+            'payment_method_id' => [
+                'required',
+                'string',
+            ]
         ];
     }
 }

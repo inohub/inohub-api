@@ -36,6 +36,6 @@ class DonateCreateService
         $this->donate->startup_id = $this->request->post('startup_id');
         $this->donate->amount = $this->request->post('amount');
 
-        return $this->donate->save(); //TODO: нужно реализовать снятие денег с карты
+        return $this->donate->save();
     }
 }
